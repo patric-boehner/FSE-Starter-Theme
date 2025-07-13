@@ -1,7 +1,9 @@
 /* -- Navigation -- */
 .wp-block-navigation__responsive-container.is-menu-open {
-  padding: 0;
-  top: calc(46px + var(--wp-admin--admin-bar--height, 0px));
+  padding-block: var(--wp--preset--spacing--small);
+  padding-right: var(--wp--style--root--padding-right);
+  padding-left: var(--wp--style--root--padding-left);
+  top: calc(52px + var(--wp-admin--admin-bar--height, 0px));
   overflow: visible;
 }
 .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-dialog {

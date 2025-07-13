@@ -62,27 +62,3 @@ function cf_admin_bar_notice() {
 	$wp_admin_bar->add_menu( $admin_notice );
 
 }
-
-
-/**
- * Force different color scheme when user is developer on development server
- *
- * @since 1.0.0
- * @param string $color_scheme
- * @return string
- */
-
-add_filter( 'get_user_option_admin_color', 'cf_dev_color_scheme', 5 );
-function cf_dev_color_scheme( $color_scheme ) {
-
-	if ( cf_is_local_dev_site() ) {
-		$color_scheme = 'ocean';
-	} elseif ( cf_is_staging_site() || cf_is_development_staging_site() ) {
-		$color_scheme = 'coffee';
-	} else {
-		$color_scheme = 'default';
-	}
-
-	return $color_scheme;
-	
-}

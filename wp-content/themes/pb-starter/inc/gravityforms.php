@@ -2,7 +2,7 @@
 /**
  * GravityForms
  *
- * @package fse-stsrter
+ * @package fse-starter
  **/
 
 

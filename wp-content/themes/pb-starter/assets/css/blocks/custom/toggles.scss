@@ -1,0 +1,58 @@
+// Toggle Setup
+.toggle-container {
+    padding-left: 0;
+
+    & > * {
+        margin-block-start: var(--wp--preset--spacing--x-small);
+    }
+
+    .toggle-item {
+        list-style: none;
+        padding: var(--wp--preset--spacing--small);
+        background-color: var(--wp--preset--color--neutral);;
+    }
+        
+}
+    
+// Toogle Block
+.toggle-hidden {
+    display: none;
+}
+
+
+// Toggle Item
+.toggle-item {
+
+    &__header {
+        margin: 0 !important;
+    }
+}
+
+
+.toggle-item__header {
+    font-size: var(--wp--preset--font-size--small);
+}
+
+// Toggle Button
+.toggle__button {
+    all: inherit;
+}
+
+.toggle__button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.toggle__button[aria-expanded="true"] {
+    .button_icon {
+        transform: rotate(90deg);
+    }
+}
+
+.button_icon {
+    width: var(--wp--custom--icon--medium);
+    height: auto;
+}

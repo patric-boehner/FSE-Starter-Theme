@@ -27,8 +27,6 @@ $classes_inner = ['icon-container'];
 //     $classes_outter[] = 'items-justified-' . $block['align'];
 // }
 
-// var_dump($block);
-
 // Check to see if a custom class has been added
 if ( ! empty( $block['className'] ) ) {
     $classes_outter = array_merge( $classes_outter, explode( ' ', $block['className'] ) );
@@ -39,13 +37,13 @@ $block_classes_outter = esc_attr( join( ' ', $classes_outter ) );
 
 // Class names for text colors
 if ( ! empty( $block['textColor'] ) ) {
-    $classes_inner[] = 'has-text-color';
+    $classes_inner[] = 'has-icon-color';
     $classes_inner[] = 'has-' . $block['textColor'] . '-color';
 }
 
 // Class names for background colors
 if ( ! empty( $block['backgroundColor'] ) ) {
-    $classes_inner[] = 'has-background';
+    $classes_inner[] = 'has-icon-background-color';
     $classes_inner[] = 'has-' . $block['backgroundColor'] . '-background-color';
 }
 

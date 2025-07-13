@@ -10,6 +10,11 @@
       "text": "var(--wp--preset--color--base)"
     },
     "elements": {
+      "heading": {
+        "color": {
+          "text": "var(--wp--preset--color--base)"
+        }
+      },
       "link": {
         "color": {
           "text": "var(--wp--preset--color--base)"

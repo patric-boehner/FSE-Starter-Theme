@@ -77,6 +77,19 @@ function fse_remove_admin_wp_logo() {
 }
 
 
+/**
+ * Remove Comments from Admin Bar
+ *
+ * @param WP_Admin_Bar $wp_admin_bar The WP_Admin_Bar instance.
+ */
+add_action( 'admin_bar_menu', 'fse_remove_admin_bar_comments', 999 );
+function fse_remove_admin_bar_comments( $wp_admin_bar ) {
+
+    $wp_admin_bar->remove_node( 'comments' );
+
+}
+
+
 // Remove welcome dashboard
 remove_action( 'welcome_panel', 'wp_welcome_panel' );
 

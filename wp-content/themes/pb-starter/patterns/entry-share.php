@@ -9,7 +9,9 @@
 <section class="wp-block-group">
 
     <!-- wp:heading -->
-    <h2 class="wp-block-heading"><?php echo esc_html( 'Share this Post', 'pb-starter' ) ?></h2>
+    <h2 class="wp-block-heading">
+        <?php echo esc_html( 'Share this Post', 'pb-starter' ); ?>
+    </h2>
     <!-- /wp:heading -->
 
     <!-- wp:outermost/social-sharing {"layout":{"type":"flex","justifyContent":"left"}} -->

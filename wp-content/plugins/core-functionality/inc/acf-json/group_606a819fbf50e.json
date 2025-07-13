@@ -1,0 +1,68 @@
+{
+    "key": "group_606a819fbf50e",
+    "title": "Toggle Item Block Settings",
+    "fields": [
+        {
+            "key": "field_606a81e5da839",
+            "label": "Heading",
+            "name": "heading",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Add toggle heading",
+            "maxlength": "",
+            "placeholder": "Add toggle heading",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_668775b11474b",
+            "label": "Default Open",
+            "name": "default_open",
+            "aria-label": "",
+            "type": "button_group",
+            "instructions": "Set the content to be toggled open or closed by default",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "yes": "Yes",
+                "no": "No"
+            },
+            "default_value": "no",
+            "return_format": "value",
+            "allow_null": 0,
+            "layout": "horizontal"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "cf\/toggle"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1752363756
+}

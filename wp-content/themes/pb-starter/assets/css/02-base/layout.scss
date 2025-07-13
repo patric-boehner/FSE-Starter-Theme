@@ -9,10 +9,15 @@
     margin-block-start: var(--wp--preset--spacing--x-large);
 }
 
-.alignfull.has-background + .alignfull.has-background,
-.alignfull[class*="is-style-section"] + .alignfull[class*="is-style-section"] {
-    margin-block-start: 0;
+
+:is(.alignfull.has-background,
+.alignfull[class*="is-style-section"],
+.alignfull.wp-block-cover) + :is(.alignfull.has-background,
+.alignfull[class*="is-style-section"],
+.alignfull.wp-block-cover) {
+	margin-block-start: 0;
 }
+
 
 .site-header > *,
 .site-footer > *,
@@ -24,10 +29,18 @@
 /*
  * Block spacing
  */
+.wp-block-cover {
+	padding: inherit; //overrides the default padding
+}
+
 .wp-block-cover,
 .has-background,
 [class*="is-style-section"] {
-	padding: var(--wp--preset--spacing--small);
+
+	&:not(.alignfull) {
+		padding: var(--wp--preset--spacing--small);
+	}
+	
 
 	&.alignfull {
 		 padding-block: var(--wp--preset--spacing--x-large);
@@ -44,14 +57,6 @@
 article.type-post > *,
 article.type-page > *  {
     margin-block-start: var(--wp--preset--spacing--large)
-}
-
-
-/*
- * Archive spacing
- */
-.wp-block-query .is-layout-grid {
-    grid-row-gap: var(--wp--preset--spacing--large);
 }
 
 

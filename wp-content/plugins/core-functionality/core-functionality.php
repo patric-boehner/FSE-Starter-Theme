@@ -6,6 +6,7 @@
  * Version: 1.5.0
  * Author: Patrick Boehner
  * Author URI: https://patrickboehner.com
+ * Update URI: false
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
@@ -67,26 +68,24 @@ function cf_version_id() {
 //**********************
 
 // Admin
-// require_once( CORE_DIR . 'inc/admin/admin-bar-notice.php' );
+require_once( CORE_DIR . 'inc/admin/admin-bar-notice.php' );
 
 
 // Functions
-// require_once( CORE_DIR . 'inc/functions/dont-update.php' );
-// require_once( CORE_DIR . 'inc/functions/custom-meta.php' );
+require_once( CORE_DIR . 'inc/functions/custom-meta.php' );
 require_once( CORE_DIR . 'inc/functions/custom-functions.php' );
+require_once( CORE_DIR . 'inc/functions/user-profile.php' );
 require_once( CORE_DIR . 'inc/functions/acf.php' );
-// require_once( CORE_DIR . 'inc/functions/user-profile.php' );
 
 
 // Plugin
 require_once( CORE_DIR . 'inc/pluggable/content-areas/plugin.php' );
 require_once( CORE_DIR . 'inc/pluggable/related-posts/plugin.php' );
 require_once( CORE_DIR . 'inc/pluggable/icon-block/plugin.php' );
+require_once( CORE_DIR . 'inc/pluggable/toggles-block/plugin.php' );
+require_once( CORE_DIR . 'inc/pluggable/toggle-item-block/plugin.php' );
 // require_once( CORE_DIR . 'inc/pluggable/fatal-error-emails/plugin.php' );
-// require_once( CORE_DIR . 'inc/pluggable/social-share/plugin.php' );
-// require_once( CORE_DIR . 'inc/pluggable/email-testing/email-testing.php' );
-// require_once( CORE_DIR . 'inc/pluggable/banner/plugin.php' );
-// require_once( CORE_DIR . 'inc/pluggable/related-posts/plugin.php' );
+require_once( CORE_DIR . 'inc/pluggable/email-testing/plugin.php' );
 // require_once( CORE_DIR . 'inc/pluggable/email-template/plugin.php' );
 
 

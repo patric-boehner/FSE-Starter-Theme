@@ -6,7 +6,7 @@
 		padding-left: 0;
 	}
 
-	&[class*="is-style-"]:not(.is-style-no-bullets) {
+	&[class*="is-style-"]:not(.is-style-no-bullets):not(.is-style-default) {
 		li {
 			list-style: none;
 			position: relative;

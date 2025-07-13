@@ -1,9 +1,13 @@
+.wp-block-cf-icon,
 .wp-block-icon {
-  display: flex;
-  line-height: 0;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.wp-block-icon {
+  display: flex;
+  line-height: 0;
 }
 .wp-block-icon .icon-container {
   width: var(--icon-size);

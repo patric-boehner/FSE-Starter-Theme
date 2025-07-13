@@ -40,13 +40,47 @@ function fse_starter_enqueue_stylesheet() {
 add_action( 'enqueue_block_editor_assets', 'fse_enqueue_block_editor_customizations' );
 function fse_enqueue_block_editor_customizations() {
 
-	wp_enqueue_script( 
-		'theme-editor', 
-		THEME_URL . 'assets/js/editor.min.js', 
-		array( 'wp-blocks', 'wp-dom' ), 
-		cache_version_id(),
-		true 
-	);
+    // List of block styles you want to unregister
+    $hidden_styles = [
+        'core/social-links' => ['logos-only', 'pill-shape'],
+        'core/button'       => ['fill', 'squared', 'outline'],
+        'core/quote'        => ['default', 'plain'],
+        'core/image'        => ['rounded'],
+        'core/separator'    => ['wide', 'dots'],
+    ];
+
+    // Custom styles you want to register
+	$custom_styles = [
+		'core/button' => [
+			[ 'name' => 'primary', 'label' => 'Primary', 'isDefault' => true ],
+            [ 'name' => 'secondary', 'label' => 'Secondary' ],
+		],
+		'core/list' => [
+            [ 'name' => 'default', 'label' => 'Default', 'isDefault' => true ],
+            [ 'name' => 'no-bullets', 'label' => 'No Bullets' ],
+			[ 'name' => 'checkmarks', 'label' => 'Checkmarks' ],
+            [ 'name' => 'arrows', 'label' => 'Arrows' ],
+		],
+	];
+
+    // Enqueue your editor JS with dependencies
+    wp_enqueue_script(
+        'my-block-editor-js',
+        get_template_directory_uri() . '/assets/js/editor.js', // Adjust path as needed
+        [ 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ],
+        cache_version_id(),
+        true
+    );
+
+    // Pass the hidden styles list to JS as a global variable
+    wp_localize_script(
+        'my-block-editor-js',
+        'myEditorOptions',
+        [
+            'hiddenStyles' => $hidden_styles,
+            'registerStyles' => $custom_styles,
+        ]
+    );
 
 }
 

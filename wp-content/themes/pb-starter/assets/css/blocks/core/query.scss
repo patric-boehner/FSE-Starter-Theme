@@ -1,0 +1,15 @@
+/*
+ * Archive spacing
+ */
+.wp-block-query {
+
+    .is-layout-grid {
+        gap: var(--wp--custom--spacing--gap);
+        grid-row-gap: var(--wp--preset--spacing--large);
+    }
+
+    .is-layout-flow > .wp-block-post {
+        margin-block-start: var(--wp--preset--spacing--large);
+    }
+    
+}

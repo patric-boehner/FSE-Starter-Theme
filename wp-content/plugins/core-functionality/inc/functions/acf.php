@@ -22,6 +22,8 @@ function cf_selective_acf_save($path) {
         $plugin_field_groups = [
             'Block Area Block Settings',
             'Icon Block Settings',
+            'Toggles Block Settings',
+            'Toggle Item Block Settings'
         ];
         
         // Check if current field group belongs to your plugin
@@ -37,7 +39,6 @@ function cf_acf_json_load_point($paths) {
     $paths[] = CORE_DIR . 'inc/acf-json';
     return $paths;
 }
-
 
 // Post archive theme settings page
 // if( function_exists('acf_add_options_page') ) {

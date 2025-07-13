@@ -29,7 +29,9 @@ if ( !empty( $block['className'] ) ) {
 // Query the content_area post tied to the selected taxonomy term
 $query = new WP_Query([
     'post_type'      => 'content_area',
-    'posts_per_page' => 1,
+    'posts_per_page' => 10,
+    'orderby'       => 'menu_order',
+    'order'         => 'ASC',
     'tax_query'      => [[
         'taxonomy' => 'block_area_location',
         'field'    => 'term_id',

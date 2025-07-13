@@ -12,9 +12,11 @@ canvas {
 }
 
 
-// .wp-block-heading {
-//   margin-block-start: var(--wp--preset--spacing--medium);
-// }
+h2:not([style*="font-size"]), 
+h3:not([style*="font-size"]) {
+	margin-top: var(--wp--preset--spacing--small);
+}
+
 
 ul,
 ol {

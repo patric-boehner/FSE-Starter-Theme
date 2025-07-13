@@ -2,7 +2,7 @@
 /**
  * ACF Customizations
  *
- * @package fse-stsrter
+ * @package fse-starter
  **/
 
 

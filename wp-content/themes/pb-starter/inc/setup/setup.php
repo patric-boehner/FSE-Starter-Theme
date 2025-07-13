@@ -30,6 +30,9 @@ function fse_starter_setup() {
     // Remove core block patterns.
     remove_theme_support( 'core-block-patterns' );
 
+    // Disable the loading of remote patterns from the Dotorg pattern directory.
+    add_filter( 'should_load_remote_block_patterns', '__return_false' );
+
     /**
      * Enable editor styles and add theme editor stylesheet.
      * 
@@ -45,8 +48,5 @@ function fse_starter_setup() {
 
     // Add your editor stylesheet
     add_editor_style( '/assets/css/editor-base.min.css' );
-
-    // Disable the loading of remote patterns from the Dotorg pattern directory.
-    add_filter( 'should_load_remote_block_patterns', '__return_false' );
 
 }

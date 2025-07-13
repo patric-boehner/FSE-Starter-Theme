@@ -51,6 +51,7 @@ if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
    					'title',
    					'editor',
    					'revisions',
+                  'page-attributes'
    				),
           'hierarchical'        => false,
           'public'              => false,
