@@ -7,6 +7,9 @@
  * Inserter: no
  */
 ?>
+
+<!-- wp:cf/block-area {"name":"cf/block-area","data":{"field_68366e6dd7e7a":"17"},"mode":"preview"} /-->
+ 
 <!-- wp:group {"metadata":{"name":"Site Footer"},"align":"full","className":"footer-base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull footer-base">
 

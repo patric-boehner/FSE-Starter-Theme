@@ -34,8 +34,8 @@ function should_add_excerpt_screen_reader_text() {
 }
 
 /**
- * Add aria-hidden="true" to the first link in the Post Excerpt block
- * if the post title is not already linked.
+ * Add aria-hidden="true" and tabindex="-1" to the first link in the Post Excerpt block
+ * if the post title is already linked.
  *
  * This ensures that screen readers ignore the "Read More" link
  * when the post title is already linked.
@@ -61,6 +61,7 @@ function fse_add_aria_hidden_to_excerpt_link( $block_content, $block ) {
     // Look for the first <a> inside the excerpt
     if ( $processor->next_tag( 'a' ) ) {
         $processor->set_attribute( 'aria-hidden', 'true' );
+        $processor->set_attribute( 'tabindex', '-1' );
         return $processor->get_updated_html();
     }
 

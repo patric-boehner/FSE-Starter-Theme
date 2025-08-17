@@ -47,6 +47,6 @@ function fse_starter_setup() {
     add_theme_support( 'editor-styles' );
 
     // Add your editor stylesheet
-    add_editor_style( '/assets/css/editor-base.min.css' );
+    add_editor_style( '/assets/css/editor-min.css' );
 
 }

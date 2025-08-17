@@ -27,8 +27,8 @@ if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
           'menu_name'           => __( 'Content Areas', 'core-functionality' ),
           'name_admin_bar'      => __( 'Content Area', 'core-functionality' ),  // Singular
           'parent_item_colon'   => __( 'Parent Item:', 'core-functionality' ),
-          'add_new_item'        => __( 'Add New Content Area', 'core-functionality' ),
-          'add_new'             => __( 'Add New Content Area', 'core-functionality' ),
+          'add_new_item'        => __( 'Add Content Area', 'core-functionality' ),
+          'add_new'             => __( 'Add Content Area', 'core-functionality' ),
           'new_item'            => __( 'New Content Area', 'core-functionality' ),
           'edit_item'           => __( 'Edit Content Area', 'core-functionality' ),
           'update_item'         => __( 'Update Content Area', 'core-functionality' ),
@@ -48,11 +48,11 @@ if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
           'labels'              => $labels,
           'show_in_rest'        => true,
           'supports'            => array(
-   					'title',
-   					'editor',
-   					'revisions',
-                  'page-attributes'
-   				),
+            'title',
+            'editor',
+            'revisions',
+            'page-attributes'
+   		   ),
           'hierarchical'        => false,
           'public'              => false,
           'has_archive'         => false,
@@ -62,6 +62,7 @@ if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
           'can_export'          => true,
           'exclude_from_search' => true, // If set to true will remove the custom post type from search, but also from the main query on the taxonomy page
           'rewrite'             => false,
+          'taxonomies'          => array( 'category' ),
           'capabilities'        => array(
             'edit_post'          => 'manage_options',
             'read_post'          => 'manage_options',
@@ -106,8 +107,31 @@ function register_block_area_location_taxonomy() {
 			'show_in_rest'      => true,
 			'public'            => false,
 			'rewrite'           => array( 'slug' => 'block-area' ),
+         'sort'              => true,
 		)
 	);
+}
+
+
+add_filter( 'post_row_actions', 'cf_remove_view_link_for_template_parts', 10, 2 );
+function cf_remove_view_link_for_template_parts( $actions, $post ) {
+
+    if ( $post->post_type == 'content_area' ) {
+        unset($actions['view']);
+    }
+
+    return $actions;
+
+}
+
+
+// For WordPress core sitemaps (WP 5.5+)
+add_filter( 'wp_sitemaps_post_types', 'cf_exclude_template_parts_from_sitemap' );
+function cf_exclude_template_parts_from_sitemap( $post_types ) {
+
+    unset($post_types['content_area']);
+    return $post_types;
+
 }
 
 
@@ -127,5 +151,55 @@ function cf_change_placeholder_title_text( $title ){
 	}
 
 	return $title;
+
+}
+
+
+// Make the block_area_location taxonomy column sortable
+add_filter( 'manage_edit-content_area_sortable_columns', 'cf_make_location_column_sortable' );
+function cf_make_location_column_sortable( $columns ) {
+    $columns['taxonomy-block_area_location'] = 'taxonomy-block_area_location';
+    return $columns;
+}
+
+// Handle the sorting when clicked
+add_action( 'pre_get_posts', 'cf_handle_location_column_sorting' );
+function cf_handle_location_column_sorting( $query ) {
+
+    if ( ! is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+
+    if ( ! isset( $_GET['post_type'] ) || 'content_area' !== $_GET['post_type'] ) {
+        return;
+    }
+
+    $orderby = $query->get( 'orderby' );
+
+    if ( 'taxonomy-block_area_location' === $orderby ) {
+        $query->set( 'orderby', 'title' );
+        $query->set( 'meta_key', '' );
+    }
+
+}
+
+
+// Hide Categories from the content area post type admin menu
+add_action( 'admin_menu', 'cf_remove_content_area_taxonomy_menu' );
+function cf_remove_content_area_taxonomy_menu() {
+
+    // Hide the Categories submenu for content_area post type
+    global $submenu;
+    if ( isset( $submenu['edit.php?post_type=content_area'] ) ) {
+
+        foreach ( $submenu['edit.php?post_type=content_area'] as $key => $menu_item ) {
+
+            if ( strpos( $menu_item[2], 'taxonomy=category' ) !== false ) {
+                unset( $submenu['edit.php?post_type=content_area'][$key] );
+            }
+
+        }
+
+    }
 
 }

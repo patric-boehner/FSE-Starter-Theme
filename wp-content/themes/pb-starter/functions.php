@@ -30,7 +30,9 @@ define( 'THEME_INC', THEME_PATH . 'inc/' );
 // Functionality
 require_once THEME_INC . 'setup/setup.php';
 require_once THEME_INC . 'setup/scripts.php';
+require_once THEME_INC . 'setup/block-editor.php';
 require_once THEME_INC . 'blocks/excerpt.php';
+// require_once THEME_INC . 'blocks/navigation.php';
 require_once THEME_INC . 'security.php';
 require_once THEME_INC . 'wordpress-cleanup.php';
 require_once THEME_INC . 'editor.php';

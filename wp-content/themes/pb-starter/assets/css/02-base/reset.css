@@ -1,0 +1,89 @@
+/* -- Reset -- */
+
+/* Use a more-intuitive box-sizing model. */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+
+/* Allow percentage-based heights in the application */
+html,
+body,
+.wp-site-blocks {
+	min-height: 100%;
+}
+
+
+/* Remove height from the admin bar of the overall height */
+html {
+    scroll-behavior: smooth;
+	overflow-x: hidden;
+	height: calc(100% - var(--wp-admin--admin-bar--height, 0px));
+}
+
+/*
+ * Ensure best type rendering
+ */
+:root {
+	font-feature-settings: "kern";
+	font-kerning: normal;
+	text-rendering: optimizeLegibility;
+}
+
+
+/* Improve text rendering */
+body {
+	-webkit-font-smoothing: antialiased;
+}
+
+
+/* Remove built-in form typography styles */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+
+/* Correct the inability to style clickable types in iOS and Safari. */
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+-webkit-appearance: button;
+}
+
+
+/* Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
+	text-wrap: pretty; /* pretty is the nicer result but it isn't supported as well. So balance is here as a fallback */
+}
+
+p {
+	text-wrap: pretty;
+}
+
+
+/* Create a root stacking context */
+.wp-site-blocks {
+	isolation: isolate;
+}

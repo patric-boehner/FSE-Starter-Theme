@@ -68,11 +68,11 @@ function cf_version_id() {
 //**********************
 
 // Admin
+require_once( CORE_DIR . 'inc/admin/site-health.php' );
 require_once( CORE_DIR . 'inc/admin/admin-bar-notice.php' );
 
 
 // Functions
-require_once( CORE_DIR . 'inc/functions/custom-meta.php' );
 require_once( CORE_DIR . 'inc/functions/custom-functions.php' );
 require_once( CORE_DIR . 'inc/functions/user-profile.php' );
 require_once( CORE_DIR . 'inc/functions/acf.php' );
@@ -84,7 +84,7 @@ require_once( CORE_DIR . 'inc/pluggable/related-posts/plugin.php' );
 require_once( CORE_DIR . 'inc/pluggable/icon-block/plugin.php' );
 require_once( CORE_DIR . 'inc/pluggable/toggles-block/plugin.php' );
 require_once( CORE_DIR . 'inc/pluggable/toggle-item-block/plugin.php' );
-// require_once( CORE_DIR . 'inc/pluggable/fatal-error-emails/plugin.php' );
+require_once( CORE_DIR . 'inc/pluggable/recovery-mode-emails/plugin.php' );
 require_once( CORE_DIR . 'inc/pluggable/email-testing/plugin.php' );
 // require_once( CORE_DIR . 'inc/pluggable/email-template/plugin.php' );
 
@@ -95,7 +95,7 @@ register_activation_hook( __FILE__, 'cf_core_functionality_activate_hook' );
 function cf_core_functionality_activate_hook() {
 
 	// Add Cron Events
-	// cf_add_cron_event_email_test();
+	cf_add_cron_event_email_test();
 
 	// Clear the permalinks after the post type has been registered.
 	flush_rewrite_rules();
@@ -108,9 +108,18 @@ register_deactivation_hook(  __FILE__, 'cf_core_functionality_deactivation_hook'
 function cf_core_functionality_deactivation_hook() {
 
 	// Remove testing cron schedual
-	// wp_clear_scheduled_hook( 'cf_cron_email_test' );
+	wp_clear_scheduled_hook( 'cf_cron_email_test' );
 
 	// Clear the permalinks after the post type has been registered.
 	flush_rewrite_rules();
+
+}
+
+
+// Plugin Uninstall Hook
+register_uninstall_hook( __FILE__, 'cf_remove_core_functionality_hook' );
+function cf_remove_core_functionality_hook() {
+
+    wp_clear_scheduled_hook( 'cf_cron_email_test' );
 
 }

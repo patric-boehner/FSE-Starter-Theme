@@ -6,12 +6,12 @@
   "blockTypes": ["core/group"],
   "styles": {
     "color": {
-      "background": "var(--wp--preset--color--neutral)"
+      "background": "var(--wp--preset--color--primary-light)"
     },
     "elements": {
       "heading": {
         "color": {
-          "text": "var(--wp--preset--color--secondary)"
+          "text": "var(--wp--preset--color--primary-dark)"
         }
       }
     }

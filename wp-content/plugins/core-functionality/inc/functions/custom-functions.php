@@ -17,6 +17,29 @@ if( !defined( 'ABSPATH' ) ) exit;
 
 
 /**
+ * Get the current environment slug based on custom detection functions.
+ *
+ * @return string One of: 'local', 'development-staging', 'staging', 'production'
+ */
+function cf_get_environment_slug() {
+    
+	if ( cf_is_local_dev_site() ) {
+		return 'local';
+	}
+
+	if ( cf_is_development_staging_site() ) {
+		return 'development-staging';
+	}
+
+	if ( cf_is_staging_site() ) {
+		return 'staging';
+	}
+
+	return 'production';
+}
+
+
+/**
  * Check if current site is a local development site
  *
  * @since 1.2.0

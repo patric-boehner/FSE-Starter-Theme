@@ -13,7 +13,6 @@ function fes_taxonomy_archive_title( $title ) {
 
         $term = get_queried_object();
 
-        // Replace 'custom_meta_key' with your actual meta key
         $custom_title = get_term_meta( $term->term_id, 'tax_archive_heading', true );
 
         if ( ! empty( $custom_title ) ) {
@@ -21,6 +20,7 @@ function fes_taxonomy_archive_title( $title ) {
         }
 
         return $term->name; // fallback if meta not set
+
     }
 
     return $title;

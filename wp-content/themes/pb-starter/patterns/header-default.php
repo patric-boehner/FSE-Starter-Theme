@@ -6,6 +6,9 @@
  * Block Types: core/template-part/header
  */
 ?>
+
+<!-- wp:cf/block-area {"name":"cf/block-area","data":{"block_area_id":"16","_block_area_id":"field_68366e6dd7e7a"},"mode":"preview"} /-->
+
 <!-- wp:group {"align":"full","className":"header-base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull header-base">
 

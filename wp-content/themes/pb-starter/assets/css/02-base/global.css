@@ -1,0 +1,78 @@
+/* -- Defaults -- */
+
+
+/* Improve media defaults */
+img,
+picture,
+video,
+canvas {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+
+h2:not([style*="font-size"]), 
+h3:not([style*="font-size"]) {
+	margin-top: var(--wp--preset--spacing--small);
+}
+
+
+ul,
+ol {
+	padding-inline-start: var(--wp--custom--spacing--gap);
+
+	& > li + li {
+		margin-top: var(--wp--preset--spacing--x-small);
+	}
+
+	ul,
+	ol {
+		margin-top: var(--wp--preset--spacing--x-small);
+	}
+}
+
+
+a,
+button,
+input,
+textarea,
+.wp-block-button__link {
+	transition: var(--wp--custom--transition--default);
+}
+
+
+input:focus,
+select:focus,
+textarea:focus
+*:focus-visible {
+	outline: 2px solid;
+	outline-offset: 2px;
+	text-decoration: none;
+	opacity: 1;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+	*:focus,
+	*:focus-visible {
+	  transition: var(--wp--custom--transition--default);
+	}
+}
+
+b,
+strong,
+th {
+	font-weight: var(--wp--custom--font-weight--semi-bold);
+}
+
+
+sup {
+	color: var(--wp--preset--color--primary-500);
+	font-size: 0.75rem;
+
+	a {
+		color: var(--wp--preset--color--primary-500);
+		text-decoration: none;
+	}
+}

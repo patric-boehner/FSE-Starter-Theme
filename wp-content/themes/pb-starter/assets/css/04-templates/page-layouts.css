@@ -1,0 +1,13 @@
+/* -- No Title Template -- */
+
+/*
+ * Page Template spacing
+ */
+.page-template-no-title,
+.page-template-blank {
+
+    .site-content {
+        margin-block-start: 0;
+    }
+
+}

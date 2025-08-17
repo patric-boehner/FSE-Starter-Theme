@@ -20,12 +20,19 @@ wp.blocks.registerBlockVariation( 'core/query', {
     scope: [ 'inserter' ],
     allowedControls: [ ],
     innerBlocks: [
-		[
-			'core/post-template', { 'layout': { type: 'grid', columnCount: 3 } },
-			[
-				[ 'core/post-featured-image',{ aspectRation: 3/2, sizeSlug: large } ],
-				[ 'core/post-title', { level: 3, isLink: true } ]
-			],
-		]
-	]
+        [
+            'core/post-template',
+            { layout: { type: 'grid', columnCount: 3 } },
+            [
+                [
+                    'core/group',
+                    { tagName: 'article', layout: { type: 'constrained' } },
+                    [
+                        [ 'core/post-featured-image', { aspectRatio: '3/2', sizeSlug: 'large' } ],
+                        [ 'core/post-title', { level: 3, isLink: true } ]
+                    ]
+                ]
+            ]
+        ]
+    ]
 });

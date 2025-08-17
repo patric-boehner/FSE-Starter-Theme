@@ -1,0 +1,30 @@
+svg:not(body > svg),
+.icon {
+	width: 100%;
+	height: 100%;
+}
+
+/* a {
+
+	svg,
+	.icon {
+		fill: var(--wp--custom--color--link);
+	}
+
+	&:hover,
+	&:focus {
+		& > svg,
+		& > .icon {
+			fill: var(--wp--custom--color--link-hover);
+		}
+	}
+}
+
+
+.has-background,
+.has-text-color {
+	svg,
+	.icon {
+		fill: inherit;
+	}
+} */

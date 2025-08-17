@@ -26,7 +26,7 @@ function fse_starter_enqueue_stylesheet() {
 
 	wp_enqueue_style( 
 		'frontend-style',
-		THEME_URL . 'assets/css/frontend.min.css',
+		THEME_URL . 'assets/css/frontend-min.css',
 		array(),
 		cache_version_id() 
 	);
@@ -40,50 +40,41 @@ function fse_starter_enqueue_stylesheet() {
 add_action( 'enqueue_block_editor_assets', 'fse_enqueue_block_editor_customizations' );
 function fse_enqueue_block_editor_customizations() {
 
-    // List of block styles you want to unregister
-    $hidden_styles = [
-        'core/social-links' => ['logos-only', 'pill-shape'],
-        'core/button'       => ['fill', 'squared', 'outline'],
-        'core/quote'        => ['default', 'plain'],
-        'core/image'        => ['rounded'],
-        'core/separator'    => ['wide', 'dots'],
-    ];
-
-    // Custom styles you want to register
-	$custom_styles = [
-		'core/button' => [
-			[ 'name' => 'primary', 'label' => 'Primary', 'isDefault' => true ],
-            [ 'name' => 'secondary', 'label' => 'Secondary' ],
-		],
-		'core/list' => [
-            [ 'name' => 'default', 'label' => 'Default', 'isDefault' => true ],
-            [ 'name' => 'no-bullets', 'label' => 'No Bullets' ],
-			[ 'name' => 'checkmarks', 'label' => 'Checkmarks' ],
-            [ 'name' => 'arrows', 'label' => 'Arrows' ],
-		],
-	];
-
-    // Enqueue your editor JS with dependencies
+    $screen = get_current_screen();
+    $context = $screen ? $screen->id : '';
+    
+    // Get dependencies based on context
+    $dependencies = ['wp-blocks', 'wp-dom-ready'];
+    switch ($context) {
+        case 'site-editor':
+            $dependencies[] = 'wp-edit-site';
+            break;
+        default:
+            $dependencies[] = 'wp-edit-post';
+            break;
+    }
+    
     wp_enqueue_script(
         'my-block-editor-js',
-        get_template_directory_uri() . '/assets/js/editor.js', // Adjust path as needed
-        [ 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ],
+        get_template_directory_uri() . '/assets/js/editor.js',
+        $dependencies,
         cache_version_id(),
         true
     );
-
-    // Pass the hidden styles list to JS as a global variable
+    
+    // Pass configuration to JavaScript
     wp_localize_script(
         'my-block-editor-js',
         'myEditorOptions',
         [
-            'hiddenStyles' => $hidden_styles,
-            'registerStyles' => $custom_styles,
+            'hiddenStyles' => get_hidden_block_styles(),
+            'registerStyles' => get_custom_block_styles(),
+            'hiddenBlocks' => get_hidden_blocks(),
+            'context' => $context,
+            'postType' => get_post_type(),
         ]
     );
-
 }
-
 
 /**
  * Block Style Loader for Core and Custom Blocks
@@ -134,9 +125,10 @@ function fse_register_all_block_styles() {
  * @param string $version   Theme version string.
  */
 function fse_register_block_styles_from_dir( $namespace, $dir, $uri, $version ) {
-    foreach ( glob( $dir . '*.min.css' ) as $file_path ) {
+
+    foreach ( glob( $dir . '*-min.css' ) as $file_path ) {
         $filename = basename( $file_path );
-        $block_slug = basename( $file_path, '.min.css' );
+        $block_slug = basename( $file_path, '-min.css' );
         
         if ( $namespace === 'custom' ) {
             $potential_cf_block = 'cf/' . $block_slug;
@@ -165,6 +157,7 @@ function fse_register_block_styles_from_dir( $namespace, $dir, $uri, $version ) 
             'ver' => $version . '.' . filemtime( $file_path ),
         ) );
     }
+
 }
 
 /**
@@ -185,4 +178,5 @@ function fse_enqueue_editor_styles_for_registered_blocks() {
 			}
 		}
 	}
+    
 }

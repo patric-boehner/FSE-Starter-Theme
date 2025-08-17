@@ -6,7 +6,7 @@
   "blockTypes": ["core/group"],
   "styles": {
     "color": {
-      "background": "var(--wp--preset--color--secondary)",
+      "background": "var(--wp--preset--color--primary-dark)",
       "text": "var(--wp--preset--color--base)"
     },
     "elements": {

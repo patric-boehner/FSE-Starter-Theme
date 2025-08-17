@@ -2,16 +2,16 @@
 /**
  * Block template for: acf/block-area
  *
- * Dynamically pulls in a "content_area" post based on the selected block area location.
+ * Dynamically pulls in a "content_area" post based on the selected content area location.
  */
 
-// Get the selected taxonomy term (location) from ACF
-$term_id = get_field('block_area_id');
-$term = $term_id ? get_term($term_id, 'block_area_location') : null;
+// Get the location from ACF field
+$location_term_id = get_field('block_area_id');
+$term = $location_term_id ? get_term($location_term_id, 'block_area_location') : null;
 $term_slug = $term ? $term->slug : '';
 
 // Dynamic block ID
-$block_id = 'wp-block-area-' . $term_id;
+$block_id = 'wp-block-area-' . $location_term_id;
 if ( isset( $block['anchor'] ) ) {
     $block_id = $block['anchor'];
 }
@@ -25,20 +25,14 @@ if ( !empty( $block['className'] ) ) {
     $class_name .= ' ' . $block['className'];
 }
 
+// Check if we should show admin placeholder
+$show_admin_placeholder = is_admin() && empty($location_term_id);
 
-// Query the content_area post tied to the selected taxonomy term
-$query = new WP_Query([
-    'post_type'      => 'content_area',
-    'posts_per_page' => 10,
-    'orderby'       => 'menu_order',
-    'order'         => 'ASC',
-    'tax_query'      => [[
-        'taxonomy' => 'block_area_location',
-        'field'    => 'term_id',
-        'terms'    => $term_id,
-    ]],
-]);
-
+// Get rendered content if not showing placeholder
+$rendered_content = null;
+if (!$show_admin_placeholder) {
+    $rendered_content = get_rendered_content_area($location_term_id);
+}
 
 // Output template part
 include CORE_DIR . 'inc/pluggable/content-areas/block/template.php';
