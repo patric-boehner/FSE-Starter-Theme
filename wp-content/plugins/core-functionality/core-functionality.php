@@ -3,7 +3,7 @@
  * Plugin Name: Core Functionality
  * Plugin URI: https://example.com.com
  * Description: This custom plugin is a companion to your websites. It contains all your site's core functionality so that it is independent of your theme. For your site to have all its intended functionality, this plugin must be active.
- * Version: 1.5.0
+ * Version: 1.5.1
  * Author: Patrick Boehner
  * Author URI: https://patrickboehner.com
  * Update URI: false
@@ -45,7 +45,7 @@ if ( !defined( 'CORE_FILE' ) ) {
 
 // Plugin Version
 if ( !defined( 'CORE_VERSION' ) ) {
-	define( 'CORE_VERSION', '1.5.0' );
+	define( 'CORE_VERSION', '1.5.1' );
 }
 
 
@@ -70,6 +70,7 @@ function cf_version_id() {
 // Admin
 require_once( CORE_DIR . 'inc/admin/site-health.php' );
 require_once( CORE_DIR . 'inc/admin/admin-bar-notice.php' );
+require_once( CORE_DIR . 'inc/admin/last-login.php' );
 
 
 // Functions

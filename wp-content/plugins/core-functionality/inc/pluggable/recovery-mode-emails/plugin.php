@@ -31,6 +31,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 
+// Bring in related files
+require_once( CORE_DIR . 'inc/pluggable/recovery-mode-emails/site-health.php' );
+
+
 add_filter( 'recovery_mode_email', 'cf_add_recovery_email_recipients', 100, 2 );
 function cf_add_recovery_email_recipients( $email, $url ) {
 

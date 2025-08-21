@@ -24,6 +24,11 @@
 if( !defined( 'ABSPATH' ) ) exit;
 
 
+// Bring in related files
+require_once( CORE_DIR . 'inc/pluggable/email-testing/site-health.php' );
+
+
+
 // Cron action, ping URL
 add_action( 'cf_cron_email_test', 'cf_run_cron_email_test' );
 function cf_run_cron_email_test() {
