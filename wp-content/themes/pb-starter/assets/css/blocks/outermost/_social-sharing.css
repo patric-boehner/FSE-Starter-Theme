@@ -1,0 +1,17 @@
+.wp-block-outermost-social-sharing:not(.is-style-logos-only) {
+    .outermost-social-sharing-link {
+        background-color: transparent;
+        color: var(--wp--preset--color--primary);
+
+        a {
+            padding: 0;
+
+            &:hover,
+            &:focus {
+                color:var(--wp--preset--color--primary-light);
+            }
+
+        }
+        
+    }
+}

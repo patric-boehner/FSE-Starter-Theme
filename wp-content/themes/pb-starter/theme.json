@@ -270,6 +270,10 @@
 				"small": "1.2rem",
 				"medium": "1.8rem",
 				"large": "3.2rem"
+			},
+			"animation": {
+				"hover": "all .25s ease-in-out",
+				"focus": "outline-offset .25s ease"
 			}
 		},
 		"blocks": {
