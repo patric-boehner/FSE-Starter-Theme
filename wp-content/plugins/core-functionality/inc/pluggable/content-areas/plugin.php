@@ -1,12 +1,17 @@
 <?php
+
 /**
- * Register the Content Areas Post Type
+ * Feature: Content Areas
  *
- * @package    CoreFunctionality
- * @since      2.0.0
- * @copyright  Copyright (c) 2020, Patrick Boehner
- * @license    GPL-2.0+
- * 
+ * @package     Core Functionality
+ * @subpackage  Pluggable Features
+ * @author      Patrick Boehner
+ * @link        https://patrickboehner.com
+ * @copyright   Copyright (c) 2012-2025, Patrick Boehner
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+ *
+ * Description: A content area feature for managing custom block areas.
+ *
  * @link: https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/
  * @link: https://wpfieldwork.com/a-guide-to-registering-a-custom-acf-block-with-block-json/
  * @link: https://www.modernwpdev.co/acf-blocks/registering-blocks/#block-data
@@ -14,9 +19,9 @@
  */
 
 
- //* Block Acess
- //**********************
- if( !defined( 'ABSPATH' ) ) exit;
+//* Block Acess
+//**********************
+if( !defined( 'ABSPATH' ) ) exit;
 
 
 // Bring in related files

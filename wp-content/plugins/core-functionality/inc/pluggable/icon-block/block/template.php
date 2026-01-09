@@ -21,8 +21,8 @@ if( !defined( 'ABSPATH' ) ) exit;
 <?php endif; ?>
 
 <?php if( !empty( $data['icon_name'] ) ): ?>
-    <div<?php if( !empty($block_id) ): ?> id="<?php echo esc_attr( $block_id ); ?>"<?php endif; ?> class="<?php echo $block_classes_outter; ?>">
-        <div class="<?php echo $block_classes_inner; ?>">
+    <div<?php if( !empty($block_id) ): ?> id="<?php echo esc_attr( $block_id ); ?>"<?php endif; ?> class="<?php echo esc_attr( $block_classes_outter ); ?>">
+        <div class="<?php echo esc_attr( $block_classes_inner ); ?>">
             <?php echo $icon_svg; ?>
         </div>
     </div>

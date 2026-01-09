@@ -3,10 +3,11 @@
  * Plugin Name: Core Functionality
  * Plugin URI: https://example.com.com
  * Description: This custom plugin is a companion to your websites. It contains all your site's core functionality so that it is independent of your theme. For your site to have all its intended functionality, this plugin must be active.
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Patrick Boehner
  * Author URI: https://patrickboehner.com
  * Update URI: false
+ * License: @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
@@ -64,30 +65,60 @@ function cf_version_id() {
 }
 
 
+//* Load Languages
+//**********************
+
+add_action( 'init', 'cf_plugin_load_textdomain' );
+function cf_plugin_load_textdomain() {
+
+    load_plugin_textdomain(
+        'core-functionality',
+        false,
+        dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+    );
+
+}
+
+
 //* Include Plugin Files
 //**********************
 
-// Admin
-require_once( CORE_DIR . 'inc/admin/site-health.php' );
-require_once( CORE_DIR . 'inc/admin/admin-bar-notice.php' );
-require_once( CORE_DIR . 'inc/admin/last-login.php' );
-
-
 // Functions
-require_once( CORE_DIR . 'inc/functions/custom-functions.php' );
-require_once( CORE_DIR . 'inc/functions/user-profile.php' );
+require_once( CORE_DIR . 'inc/functions/helper-functions.php' );
+require_once( CORE_DIR . 'inc/functions/site-health.php' );
 require_once( CORE_DIR . 'inc/functions/acf.php' );
 
 
-// Plugin
-require_once( CORE_DIR . 'inc/pluggable/content-areas/plugin.php' );
-require_once( CORE_DIR . 'inc/pluggable/related-posts/plugin.php' );
-require_once( CORE_DIR . 'inc/pluggable/icon-block/plugin.php' );
-require_once( CORE_DIR . 'inc/pluggable/toggles-block/plugin.php' );
-require_once( CORE_DIR . 'inc/pluggable/toggle-item-block/plugin.php' );
-require_once( CORE_DIR . 'inc/pluggable/recovery-mode-emails/plugin.php' );
-require_once( CORE_DIR . 'inc/pluggable/email-testing/plugin.php' );
-// require_once( CORE_DIR . 'inc/pluggable/email-template/plugin.php' );
+/**
+ * Pluggable Features Registration Array
+ */
+$cf_features = [
+    'last-login-column',
+    'admin-bar-notice',
+    'content-areas',
+    'related-posts',
+    'icon-block',
+    // 'toggles-block',
+    // 'toggle-item-block',
+    'recovery-mode-emails',
+    'email-testing',
+    // 'email-template', // Uncomment to enable
+];
+
+/**
+ * Allow themes/plugins to modify the feature list
+ */
+$cf_features = apply_filters( 'core_functionality_features', $cf_features );
+
+foreach ( $cf_features as $feature ) {
+
+    $feature_file = CORE_DIR . "inc/pluggable/{$feature}/plugin.php";
+
+    if ( file_exists( $feature_file ) ) {
+        require_once $feature_file;
+    }
+
+}
 
 
 

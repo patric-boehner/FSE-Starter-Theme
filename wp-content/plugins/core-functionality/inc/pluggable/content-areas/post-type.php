@@ -9,9 +9,9 @@
  */
 
 
- //* Block Acess
- //**********************
- if( !defined( 'ABSPATH' ) ) exit;
+//* Block Acess
+//**********************
+if( !defined( 'ABSPATH' ) ) exit;
 
 
 if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
@@ -79,6 +79,7 @@ if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
 
     }
 }
+
 
 add_action( 'init', 'register_block_area_location_taxonomy' );
 function register_block_area_location_taxonomy() {
@@ -161,6 +162,7 @@ function cf_make_location_column_sortable( $columns ) {
     $columns['taxonomy-block_area_location'] = 'taxonomy-block_area_location';
     return $columns;
 }
+
 
 // Handle the sorting when clicked
 add_action( 'pre_get_posts', 'cf_handle_location_column_sorting' );

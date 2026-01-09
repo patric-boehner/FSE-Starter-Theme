@@ -17,7 +17,7 @@
 	<div class="wp-block-group alignwide">
 
 		<!-- wp:paragraph {"className":"copyright"} -->
-		<p class="copyright"><?php echo esc_html( get_fse_copyyright() ); ?></p>
+		<p class="copyright"><?php echo esc_html( fse_get_copyright() ); ?></p>
 		<!-- /wp:paragraph -->
 		<!-- wp:navigation {"ref":13,"overlayMenu":"never"} /-->
 		 

@@ -26,13 +26,14 @@ function get_hidden_blocks() {
         'core/table',
         'core/spacer',
         'core/media-text',
+        'core/math',
 
-        // Meida blocks
+        // Media blocks
         'core/audio',
         'core/video',
         'core/file',
 
-        // Desgin blocks
+        // Design blocks
         'core/more',
         'core/nextpage',
 
@@ -51,6 +52,10 @@ function get_hidden_blocks() {
 
         // Plugins
         // 'outermost/social-sharing',
+        
+        // Note: To disable "stretchy" fluid typography for headings/paragraphs,
+        // disable it in theme.json instead of hiding these blocks:
+        // Set "settings.typography.fluid" to false for core/heading and core/paragraph
     ];
 
 
@@ -87,6 +92,12 @@ function get_hidden_blocks() {
         'core/avatar',
         'core/term-description',
         'core/post-navigation-link',
+        'core/post-comments-count',
+        'core/post-comments-link',
+        'core/post-time-to-read',
+        'core/term-count',
+        'core/term-name',
+        'core/terms-query',
     ];
     
     $hidden_blocks = $universal_hidden;
@@ -114,6 +125,21 @@ function get_hidden_blocks() {
     }
     
     return $hidden_blocks;
+
+}
+
+
+/**
+ * Get block variations to unregister
+ */
+function get_unregistered_block_variations() {
+
+    $unregistered_variations = [
+        'core/heading' => ['stretchy-heading'],
+        'core/paragraph' => ['stretchy-paragraph'],
+    ];
+
+    return apply_filters('theme_unregistered_block_variations', $unregistered_variations);
 
 }
 

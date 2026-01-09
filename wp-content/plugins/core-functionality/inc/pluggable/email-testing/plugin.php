@@ -1,10 +1,18 @@
 <?php
+
 /**
- * Cron Email Testing
+ * Feature: Cron Email Testing
  *
- * Sets up a custom cron action that runs daily and sends an email
- * using the wp_mail function to an address defined via CRON_EMAIL.
- * The email goes to a ping testing service that notifies the developer
+ * @package     Core Functionality
+ * @subpackage  Pluggable Features
+ * @author      Patrick Boehner
+ * @link        https://patrickboehner.com
+ * @copyright   Copyright (c) 2012-2025, Patrick Boehner
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+ *
+ * Description: A custom cron job for testing email delivery.
+ * 
+ *  * The email goes to a ping testing service that notifies the developer
  * when delivery fails. This helps monitor the site's email sending ability
  * or connection to a transactional email provider.
  *
@@ -12,12 +20,9 @@
  * The cron will be removed when the plugin is deleted (but not deactivated).
  *
  * Add define( 'CRON_EMAIL', 'test@example.com' ); to your wp-config.php.
- *
- * @package    CoreFunctionality
- * @since      2.0.0
- * @copyright  Copyright (c) 2025, Patrick Boehner
- * @license    GPL-2.0+
  */
+
+
 
 //* Block Acess
 //**********************

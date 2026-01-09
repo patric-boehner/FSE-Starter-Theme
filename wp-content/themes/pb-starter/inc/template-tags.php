@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Template tags used through the theme
  *
@@ -20,7 +20,7 @@
 
 
 // Generate the copyright information.
-function get_fse_copyyright() {
+function fse_get_copyright() {
 
     $copyright_info = '&copy;' .  esc_attr( gmdate( 'Y' ) );
     $site_name = get_bloginfo( 'name' );

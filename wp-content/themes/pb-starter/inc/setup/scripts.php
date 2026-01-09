@@ -26,7 +26,7 @@ function fse_starter_enqueue_stylesheet() {
 
 	wp_enqueue_style( 
 		'frontend-style',
-		THEME_URL . 'assets/css/frontend-min.css',
+		THEME_URL . 'build/css/frontend.css',
 		array(),
 		cache_version_id() 
 	);
@@ -57,7 +57,7 @@ function fse_enqueue_block_editor_customizations() {
     
     wp_enqueue_script(
         'fse-block-editor-js',
-        get_template_directory_uri() . '/assets/js/editor.js',
+        get_template_directory_uri() . '/build/js/editor.js',
         $dependencies,
         cache_version_id(),
         true
@@ -71,6 +71,7 @@ function fse_enqueue_block_editor_customizations() {
             'hiddenStyles' => get_hidden_block_styles(),
             'registerStyles' => get_custom_block_styles(),
             'hiddenBlocks' => get_hidden_blocks(),
+            'unregisteredVariations' => get_unregistered_block_variations(),
             'context' => $context,
             'postType' => get_post_type(),
         ]
@@ -81,32 +82,32 @@ function fse_enqueue_block_editor_customizations() {
  * Block Style Loader for Multiple Namespaces
  *
  * This setup automatically registers and enqueues CSS styles for blocks from any namespace.
- * - Scans /assets/css/blocks/{namespace}/ folders for .css files.
+ * - Scans /build/css/blocks/{namespace}/ folders for .css files.
  * - Loads each file as a block style on the frontend via wp_enqueue_block_style().
  * - Ensures the same styles are enqueued in the block editor for visual consistency.
  * - Supports unlimited namespaces by simply adding new folders.
  *
  * Folder structure expected:
- * assets/
+ * build/
  * └── css/
  *     └── blocks/
  *         ├── core/
- *         │   ├── button-min.css → applies to core/button block
- *         │   └── image-min.css → applies to core/image block
+ *         │   ├── button.css → applies to core/button block
+ *         │   └── image.css → applies to core/image block
  *         ├── cf/
- *         │   ├── fancy-cta-min.css → applies to cf/fancy-cta block
- *         │   └── product-min.css → applies to cf/product block
+ *         │   ├── fancy-cta.css → applies to cf/fancy-cta block
+ *         │   └── product.css → applies to cf/product block
  *         ├── acf/
- *         │   └── custom-field-min.css → applies to acf/custom-field block
+ *         │   └── custom-field.css → applies to acf/custom-field block
  *         └── my-plugin/
- *             └── special-block-min.css → applies to my-plugin/special-block block
+ *             └── special-block.css → applies to my-plugin/special-block block
  */
 
 add_action( 'init', 'fse_register_all_block_styles' );
 function fse_register_all_block_styles() {
 
-    $blocks_base_dir = get_stylesheet_directory() . '/assets/css/blocks/';
-    $blocks_base_uri = get_stylesheet_directory_uri() . '/assets/css/blocks/';
+    $blocks_base_dir = get_stylesheet_directory() . '/build/css/blocks/';
+    $blocks_base_uri = get_stylesheet_directory_uri() . '/build/css/blocks/';
     
     // Get all namespace directories
     $namespace_dirs = glob( $blocks_base_dir . '*', GLOB_ONLYDIR );
@@ -143,10 +144,10 @@ function fse_register_all_block_styles() {
  */
 function fse_register_block_styles_from_dir( $namespace, $dir, $uri, $version ) {
 
-    foreach ( glob( $dir . '*-min.css' ) as $file_path ) {
+    foreach ( glob( $dir . '*.css' ) as $file_path ) {
 
         $filename = basename( $file_path );
-        $block_slug = basename( $file_path, '-min.css' );
+        $block_slug = basename( $file_path, '.css' );
         $block_name = $namespace . '/' . $block_slug;
         
         // Only proceed if the block is actually registered
@@ -194,7 +195,7 @@ function fse_enqueue_editor_styles_for_registered_blocks() {
             
             // Additional check to ensure this is one of our block styles
             // by verifying the file path contains our blocks directory
-            if ( isset( $style->src ) && strpos( $style->src, '/assets/css/blocks/' ) !== false ) {
+            if ( isset( $style->src ) && strpos( $style->src, '/build/css/blocks/' ) !== false ) {
                 wp_enqueue_style( $handle );
             }
 

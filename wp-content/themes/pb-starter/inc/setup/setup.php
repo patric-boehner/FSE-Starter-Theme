@@ -25,7 +25,7 @@ function fse_starter_setup() {
      * Make theme available for translation.
      * Translations can be filed in the /languages/ directory.
      */
-    load_theme_textdomain( 'pb-starter', THEME_PATH . 'languages' );
+    // load_theme_textdomain( 'pb-starter', THEME_PATH . 'languages' );
 
     // Remove core block patterns.
     remove_theme_support( 'core-block-patterns' );
@@ -47,6 +47,6 @@ function fse_starter_setup() {
     add_theme_support( 'editor-styles' );
 
     // Add your editor stylesheet
-    add_editor_style( '/assets/css/editor-min.css' );
+    add_editor_style( '/build/css/editor.css' );
 
 }

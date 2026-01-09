@@ -1,0 +1,133 @@
+/* -- Layout -- */
+/* https://gutenberg.10up.com/guides/handeling-block-spacing#providing-sensible-defaults */
+
+/* 
+ * Global layout spacing
+ */
+
+.wp-site-blocks > * {
+	margin-block-start: 0;
+}
+
+
+.alignfull {
+    margin-block-start: var(--wp--preset--spacing--x-large);
+}
+
+
+.alignfull:where(
+	.has-background,
+	[class*="is-style-section"],
+	.wp-block-cover
+) + .alignfull:where(
+	.has-background,
+	[class*="is-style-section"],
+	.wp-block-cover
+)  {
+	margin-block-start: 0;
+}
+
+
+.site-header > *,
+.site-footer > *,
+.wp-block-area > * {
+    margin-block-start: 0;
+}
+
+
+/*
+ * Block spacing
+ */
+.wp-block-cover {
+	padding: inherit; /*overrides the default padding*/
+}
+
+.wp-block-cover,
+.has-background,
+[class*="is-style-section"] {
+
+	&:not(.alignfull) {
+		padding: var(--wp--preset--spacing--small);
+	}
+	
+
+	&.alignfull {
+		 padding-block: var(--wp--preset--spacing--x-large);
+	}
+}
+
+
+/*
+ * Large container spacing
+ */
+.site-content,
+.site-content > *,
+article.type-post > *,
+article.type-page > *  {
+	margin-block-start: var(--wp--preset--spacing--large)
+}
+
+.site-content > .alignfull {
+	margin-block-start: var(--wp--preset--spacing--x-large)
+}
+
+
+/*
+ * Pagination spacing
+ */
+.archive-pagination,
+.adjacent-entry-pagination {
+    margin-block-start: var(--wp--preset--spacing--large);
+}
+
+
+/*
+ * Header Sapcing
+ */
+.header-base {
+    padding-block: var(--wp--preset--spacing--small);
+}
+
+
+/*
+ * Footer Sapcing
+ */
+
+.footer-details {
+    padding-top: var(--wp--preset--spacing--large);
+    padding-bottom: var(--wp--preset--spacing--small);
+}
+
+.footer-base {
+    padding-block: var(--wp--preset--spacing--small);
+}
+
+
+/*
+ * Selective Styles
+ */
+
+.is-style-large-gap {
+    gap: var(--wp--preset--spacing--large);
+}
+
+
+@media only screen and (max-width: 600px) {
+
+	/* -- Utility -- */
+
+	.is-style-hidden-mobile {
+		display: none !important;
+	}
+
+}
+
+@media only screen and (max-width: 782px) {
+
+	/* -- Columns -- */
+
+	.is-style-columns-reverse {
+		flex-direction: column-reverse;
+	}
+
+}

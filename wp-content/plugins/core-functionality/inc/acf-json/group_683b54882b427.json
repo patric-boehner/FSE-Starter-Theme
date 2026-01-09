@@ -18,9 +18,16 @@
             },
             "choices": {
                 "": "(None)",
+                "utility\/arrow-right": "Arrow Right",
+                "utility\/check": "Check",
                 "utility\/chevron-left": "Chevron Left",
                 "utility\/chevron-right": "Chevron Right",
-                "utility\/menu": "Menu"
+                "utility\/menu": "Menu",
+                "decorative\/fish": "Fish",
+                "decorative\/rat": "Rat",
+                "decorative\/snail": "Snail",
+                "decorative\/squirrel": "Squirrel",
+                "decorative\/turtle": "Turtle"
             },
             "default_value": false,
             "return_format": "value",
@@ -98,5 +105,6 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1748733766
+    "display_title": "",
+    "modified": 1767941658
 }
