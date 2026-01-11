@@ -1,0 +1,49 @@
+/* -- List Block -- */
+
+/* No Bullets Style */
+ol.is-style-no-bullets,
+ul.is-style-no-bullets {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+/* -- Icon Lists -- */
+
+ul.is-style-arrows,
+ul.is-style-checkmarks {
+    --icon-size: 1.5rem;
+
+    li {
+        list-style: none;
+        position: relative;
+
+        &:before {
+            background: currentColor;
+            content: "";
+            display: block;
+            height: var(--icon-size);
+            left: calc((var(--icon-size) + 0.3em) * -1);
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            pointer-events: none;
+            position: absolute;
+            top: 0.2rem;
+            width: var(--icon-size);
+        }
+    }
+}
+
+ul.is-style-arrows li:before {
+    -webkit-mask-image: url(/wp-content/themes/pb-starter/assets/svg/utility/arrow-right.svg);
+    mask-image: url(/wp-content/themes/pb-starter/assets/svg/utility/arrow-right.svg);
+}
+
+ul.is-style-checkmarks li:before {
+    -webkit-mask-image: url(/wp-content/themes/pb-starter/assets/svg/utility/check.svg);
+    mask-image: url(/wp-content/themes/pb-starter/assets/svg/utility/check.svg);
+}

@@ -2,7 +2,7 @@
 /**
  * Title: Entry Pagination
  * Slug: fse-starter/entry-pagination
- * Inserter: no
+ * Inserter: false
  */
 ?>
 

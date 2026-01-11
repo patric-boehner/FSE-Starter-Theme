@@ -1,2 +1,202 @@
-canvas,img,picture,video{display:block;height:auto;max-width:100%}h2:not([style*=font-size]),h3:not([style*=font-size]){margin-top:var(--wp--preset--spacing--small)}ol,ul{padding-inline-start:var(--wp--custom--spacing--gap)}:is(ul,ol)>li+li{margin-top:var(--wp--preset--spacing--x-small)}:is(ul,ol) ol,:is(ul,ol) ul{margin-top:var(--wp--preset--spacing--x-small)}.wp-block-button__link,a,button,input,textarea{transition:var(--wp--custom--transition--default)}input:focus,select:focus,textarea:focus
-:focus-visible{opacity:1;outline:2px solid;outline-offset:2px;text-decoration:none}@media (prefers-reduced-motion:no-preference){:focus,:focus-visible{transition:var(--wp--custom--transition--default)}}b,strong,th{font-weight:var(--wp--custom--font-weight--semi-bold)}sup{font-size:.75rem}sup,sup a{color:var(--wp--preset--color--primary-500)}sup a{text-decoration:none}.wp-site-blocks>*{margin-block-start:0}.alignfull{margin-block-start:var(--wp--preset--spacing--x-large)}.alignfull:where(.has-background,[class*=is-style-section],.wp-block-cover)+.alignfull:where(.has-background,[class*=is-style-section],.wp-block-cover){margin-block-start:0}.site-footer>*,.site-header>*,.wp-block-area>*{margin-block-start:0}.wp-block-cover{padding:inherit}:is(.wp-block-cover,.has-background,[class*=is-style-section]):not(.alignfull){padding:var(--wp--preset--spacing--small)}.alignfull:is(.wp-block-cover,.has-background,[class*=is-style-section]){padding-block:var(--wp--preset--spacing--x-large)}.site-content,.site-content>*,article.type-page>*,article.type-post>*{margin-block-start:var(--wp--preset--spacing--large)}.site-content>.alignfull{margin-block-start:var(--wp--preset--spacing--x-large)}.adjacent-entry-pagination,.archive-pagination{margin-block-start:var(--wp--preset--spacing--large)}.header-base{padding-block:var(--wp--preset--spacing--small)}.footer-details{padding-bottom:var(--wp--preset--spacing--small);padding-top:var(--wp--preset--spacing--large)}.footer-base{padding-block:var(--wp--preset--spacing--small)}.is-style-large-gap{gap:var(--wp--preset--spacing--large)}@media only screen and (max-width:600px){.is-style-hidden-mobile{display:none!important}}@media only screen and (max-width:782px){.is-style-columns-reverse{flex-direction:column-reverse}}
+/* -- Base editor styles -- */
+
+/* Settings */
+
+/* -- Helpers -- */
+
+/* Base */
+
+/* -- Defaults -- */
+
+/* Improve media defaults */
+
+img,
+picture,
+video,
+canvas {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+h2:not([style*="font-size"]), 
+h3:not([style*="font-size"]) {
+	margin-top: var(--wp--preset--spacing--small);
+}
+
+ul,
+ol {
+	padding-inline-start: var(--wp--custom--spacing--gap);
+}
+
+:is(ul,ol) > li + li {
+		margin-top: var(--wp--preset--spacing--x-small);
+	}
+
+:is(ul,ol) ul,:is(ul,ol) ol {
+		margin-top: var(--wp--preset--spacing--x-small);
+	}
+
+a,
+button,
+input,
+textarea,
+.wp-block-button__link {
+	transition: var(--wp--custom--transition--default);
+}
+
+input:focus,
+select:focus,
+textarea:focus
+*:focus-visible {
+	outline: 2px solid;
+	outline-offset: 2px;
+	text-decoration: none;
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	*:focus,
+	*:focus-visible {
+	  transition: var(--wp--custom--transition--default);
+	}
+}
+
+b,
+strong,
+th {
+	font-weight: var(--wp--custom--font-weight--semi-bold);
+}
+
+sup {
+	color: var(--wp--preset--color--primary-500);
+	font-size: 0.75rem;
+}
+
+sup a {
+		color: var(--wp--preset--color--primary-500);
+		text-decoration: none;
+	}
+
+/* -- Layout -- */
+
+/* https://gutenberg.10up.com/guides/handeling-block-spacing#providing-sensible-defaults */
+
+/* 
+ * Global layout spacing
+ */
+
+.wp-site-blocks > * {
+	margin-block-start: 0;
+}
+
+.alignfull {
+    margin-block-start: var(--wp--preset--spacing--x-large);
+}
+
+.alignfull:where(
+	.has-background,
+	[class*="is-style-section"],
+	.wp-block-cover
+) + .alignfull:where(
+	.has-background,
+	[class*="is-style-section"],
+	.wp-block-cover
+)  {
+	margin-block-start: 0;
+}
+
+.site-header > *,
+.site-footer > *,
+.wp-block-area > * {
+    margin-block-start: 0;
+}
+
+/*
+ * Block spacing
+ */
+
+.wp-block-cover {
+	padding: inherit; /*overrides the default padding*/
+}
+
+:is(.wp-block-cover,.has-background,[class*="is-style-section"]):not(.alignfull) {
+		padding: var(--wp--preset--spacing--small);
+	}
+
+.alignfull:is(.wp-block-cover,.has-background,[class*="is-style-section"]) {
+		 padding-block: var(--wp--preset--spacing--x-large);
+	}
+
+/*
+ * Large container spacing
+ */
+
+.site-content,
+.site-content > *,
+article.type-post > *,
+article.type-page > *  {
+	margin-block-start: var(--wp--preset--spacing--large)
+}
+
+.site-content > .alignfull {
+	margin-block-start: var(--wp--preset--spacing--x-large)
+}
+
+/*
+ * Pagination spacing
+ */
+
+.archive-pagination,
+.adjacent-entry-pagination {
+    margin-block-start: var(--wp--preset--spacing--large);
+}
+
+/*
+ * Header Sapcing
+ */
+
+.header-base {
+    padding-block: var(--wp--preset--spacing--small);
+}
+
+/*
+ * Footer Sapcing
+ */
+
+.footer-details {
+    padding-top: var(--wp--preset--spacing--large);
+    padding-bottom: var(--wp--preset--spacing--small);
+}
+
+.footer-base {
+    padding-block: var(--wp--preset--spacing--small);
+}
+
+/*
+ * Selective Styles
+ */
+
+.is-style-large-gap {
+    gap: var(--wp--preset--spacing--large);
+}
+
+@media only screen and (max-width: 600px) {
+
+	/* -- Utility -- */
+
+	.is-style-hidden-mobile {
+		display: none !important;
+	}
+
+}
+
+@media only screen and (max-width: 782px) {
+
+	/* -- Columns -- */
+
+	.is-style-columns-reverse {
+		flex-direction: column-reverse;
+	}
+
+}

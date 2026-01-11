@@ -2,7 +2,7 @@
 /**
  * Title: Archive Header
  * Slug: fse-starter/archive-header
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:group {"tagName":"header","metadata":{"name":"Archive Header"},"align":"wide","className":"archive-header","layout":{"type":"default"}} -->

@@ -2,7 +2,7 @@
 /**
  * Title: Author profile
  * Slug: fse-starter/entry-author-profile
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:group {"tagName":"section","metadata":{"name":"Author Profile"},"className":"author-profile","layout":{"type":"constrained"}} -->

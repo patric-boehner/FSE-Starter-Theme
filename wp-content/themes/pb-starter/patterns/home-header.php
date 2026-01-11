@@ -2,7 +2,7 @@
 /**
  * Title: Home Header
  * Slug: fse-starter/home-header
- * Inserter: no
+ * Inserter: false
  * 
  * In the future, this could be replaced with a dynamic title and description using block bindings
  */

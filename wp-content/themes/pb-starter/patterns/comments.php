@@ -2,7 +2,7 @@
 /**
  * Title: Comments section and form
  * Slug: fse-starter/comments
- * Inserter: no
+ * Inserter: false
  */
 
 if (post_password_required()) {

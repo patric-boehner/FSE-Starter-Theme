@@ -2,7 +2,7 @@
 /**
  * Title: List of posts
  * Slug: fse-starter/query-list
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:query {"queryId":1,"query":{"perPage":6,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"taxQuery":null,"parents":[],"format":[]}} -->

@@ -79,75 +79,56 @@ function fse_enqueue_block_editor_customizations() {
 }
 
 /**
- * Block Style Loader for Multiple Namespaces
+ * Block Style Loader
  *
  * This setup automatically registers and enqueues CSS styles for blocks from any namespace.
- * - Scans /build/css/blocks/{namespace}/ folders for .css files.
+ * - Scans /build/css/blocks/ folder for CSS files with {namespace}-{block-slug}.css naming.
  * - Loads each file as a block style on the frontend via wp_enqueue_block_style().
  * - Ensures the same styles are enqueued in the block editor for visual consistency.
- * - Supports unlimited namespaces by simply adding new folders.
+ * - Supports unlimited namespaces by using the naming convention.
  *
- * Folder structure expected:
- * build/
- * └── css/
- *     └── blocks/
- *         ├── core/
- *         │   ├── button.css → applies to core/button block
- *         │   └── image.css → applies to core/image block
- *         ├── cf/
- *         │   ├── fancy-cta.css → applies to cf/fancy-cta block
- *         │   └── product.css → applies to cf/product block
- *         ├── acf/
- *         │   └── custom-field.css → applies to acf/custom-field block
- *         └── my-plugin/
- *             └── special-block.css → applies to my-plugin/special-block block
+ * File naming convention:
+ * {namespace}-{block-slug}.css -> applies to {namespace}/{block-slug} block
+ *
+ * Example file structure:
+ * build/css/blocks/
+ *   core-button.css -> applies to core/button block
+ *   core-image.css -> applies to core/image block
+ *   cf-fancy-cta.css -> applies to cf/fancy-cta block
+ *   acf-custom-field.css -> applies to acf/custom-field block
+ *   my-plugin-special-block.css -> applies to my-plugin/special-block block
  */
 
 add_action( 'init', 'fse_register_all_block_styles' );
 function fse_register_all_block_styles() {
 
-    $blocks_base_dir = get_stylesheet_directory() . '/build/css/blocks/';
-    $blocks_base_uri = get_stylesheet_directory_uri() . '/build/css/blocks/';
+    $blocks_dir = get_stylesheet_directory() . '/build/css/blocks/';
+    $blocks_uri = get_stylesheet_directory_uri() . '/build/css/blocks/';
     
-    // Get all namespace directories
-    $namespace_dirs = glob( $blocks_base_dir . '*', GLOB_ONLYDIR );
+    // Get all CSS files in the blocks directory
+    $css_files = glob( $blocks_dir . '*.css' );
     
-    if ( empty( $namespace_dirs ) ) {
+    if ( empty( $css_files ) ) {
         return;
     }
     
-    foreach ( $namespace_dirs as $namespace_dir ) {
-        $namespace = basename( $namespace_dir );
+    foreach ( $css_files as $file_path ) {
+        $filename = basename( $file_path );
         
-        // Skip hidden directories or unwanted folders
-        if ( str_starts_with( $namespace, '.' ) ) {
+        // Parse filename to extract namespace and block slug
+        // Expected format: {namespace}-{block-slug}.css
+        // Example: core-button.css -> namespace: core, block: button
+        $name_without_extension = basename( $file_path, '.css' );
+        
+        // Split on first hyphen to separate namespace from block slug
+        $parts = explode( '-', $name_without_extension, 2 );
+        
+        if ( count( $parts ) !== 2 ) {
+            // Invalid filename format, skip
             continue;
         }
         
-        fse_register_block_styles_from_dir(
-            $namespace,
-            $namespace_dir . '/',
-            $blocks_base_uri . $namespace . '/',
-            cache_version_id()
-        );
-    }
-    
-}
-
-/**
- * Registers and enqueues block styles for all CSS files in the given directory.
- *
- * @param string $namespace Block namespace (e.g. 'core', 'cf', 'acf', etc.).
- * @param string $dir Absolute path to the CSS directory.
- * @param string $uri URI to the CSS directory.
- * @param string $version Theme version string.
- */
-function fse_register_block_styles_from_dir( $namespace, $dir, $uri, $version ) {
-
-    foreach ( glob( $dir . '*.css' ) as $file_path ) {
-
-        $filename = basename( $file_path );
-        $block_slug = basename( $file_path, '.css' );
+        list( $namespace, $block_slug ) = $parts;
         $block_name = $namespace . '/' . $block_slug;
         
         // Only proceed if the block is actually registered
@@ -159,19 +140,19 @@ function fse_register_block_styles_from_dir( $namespace, $dir, $uri, $version ) 
         
         wp_register_style(
             $handle,
-            $uri . $filename,
+            $blocks_uri . $filename,
             array(),
             cache_version_id()
         );
         
         wp_enqueue_block_style( $block_name, array(
             'handle' => $handle,
-            'src' => $uri . $filename,
+            'src' => $blocks_uri . $filename,
             'path' => $file_path,
             'ver' => cache_version_id(),
         ) );
     }
-
+    
 }
 
 /**

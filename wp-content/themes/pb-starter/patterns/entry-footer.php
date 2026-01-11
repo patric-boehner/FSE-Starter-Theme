@@ -2,7 +2,7 @@
 /**
  * Title: Entry Footer
  * Slug: fse-starter/entry-footer
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:group {"tagName":"footer","metadata":{"name":"Entry Footer"}, "className":"entry-footer","layout":{"type":"constrained"}} -->

@@ -2,7 +2,7 @@
 /**
  * Title: QueryPagination
  * Slug: fse-starter/query-pagination
- * Inserter: no
+ * Inserter: false
  */
 ?>
 

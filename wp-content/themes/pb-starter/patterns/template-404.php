@@ -2,10 +2,16 @@
 /**
  * Title: 404 error content.
  * Slug: fse-starter/template-404
- * Inserter: no
+ * Inserter: false
  */
 ?>
-<!-- wp:pattern {"slug":"fse-starter/404-header"} /-->
+<!-- wp:group {"tagName":"header","metadata":{"name":"Archive Header"},"className":"archive-header","layout":{"type":"constrained"}} -->
+<header class="wp-block-group archive-header">
+    <!-- wp:heading {"level":1} -->
+    <h1><?php echo esc_html__( 'Not found, error 404', 'pb-starter' ); ?></h1>
+    <!-- /wp:heading -->
+</header>
+<!-- /wp:group -->
 
 <!-- wp:group {"metadata":{"name":"Content"},"className":"entry-content","layout":{"type":"constrained"}} -->
 <div class="wp-block-group entry-content">

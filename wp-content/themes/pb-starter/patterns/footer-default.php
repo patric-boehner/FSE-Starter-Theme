@@ -4,7 +4,7 @@
  * Slug: fse-starter/footer-default
  * Categories: footer
  * Block Types: core/template-part/footer
- * Inserter: no
+ * Inserter: false
  */
 ?>
 

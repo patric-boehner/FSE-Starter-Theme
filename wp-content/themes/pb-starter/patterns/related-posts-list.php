@@ -2,7 +2,7 @@
 /**
  * Title: List of Related Posts
  * Slug: fse-starter/related-posts-list
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:group {"metadata":{"name":"Related Posts"},"align":"full","layout":{"type":"constrained"}} -->

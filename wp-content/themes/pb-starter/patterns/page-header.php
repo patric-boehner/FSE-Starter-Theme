@@ -2,7 +2,7 @@
 /**
  * Title: Page Header
  * Slug: fse-starter/page-header
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:group {"tagName":"header","metadata":{"name":"Entry Header"},"className":"entry-header","layout":{"type":"constrained"}} -->

@@ -61,8 +61,8 @@ function get_hidden_blocks() {
 
     // FSE blocks - only hide if NOT in site editor
     $fse_blocks = [
-        'core/site-logo',
-        'core/site-title',
+        // 'core/site-logo',
+        // 'core/site-title',
         'core/site-tagline',
         'core/navigation',
         'core/navigation-link',

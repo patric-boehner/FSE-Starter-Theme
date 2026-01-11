@@ -2,7 +2,7 @@
 /**
  * Title: Entry Share Links
  * Slug: fse-starter/entry-share
- * Inserter: no
+ * Inserter: false
  */
 ?>
 <!-- wp:group {"tagName":"section","metadata":{"name":"Social Share"},"layout":{"type":"constrained"}} -->
