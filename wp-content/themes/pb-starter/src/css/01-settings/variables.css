@@ -1,0 +1,33 @@
+/* -- PostCSS Variables -- */
+/*
+ * These variables use postcss-simple-vars ($variable syntax)
+ * They are compiled at build time and replaced with actual values
+ *
+ * Use these for:
+ * - Media query breakpoints
+ * - Any values that need to be computed at build time
+ *
+ * For runtime CSS custom properties, use theme.json instead
+ * (colors, spacing, typography, etc.)
+ */
+
+
+/* Breakpoints */
+/* Using common WordPress responsive breakpoints */
+$breakpoint-mobile: 600px;   /* Mobile devices */
+$breakpoint-tablet: 781px;   /* WordPress core column breakpoint */
+
+
+
+/* Usage Examples:
+ *
+ * Desktop-first (max-width):
+ * @media only screen and (max-width: $breakpoint-mobile) {
+ *     .mobile-only { display: block; }
+ * }
+ *
+ * Between breakpoints:
+ * @media only screen and (min-width: $breakpoint-tablet) and (max-width: $breakpoint-desktop) {
+ *     .tablet-only { display: block; }
+ * }
+ */

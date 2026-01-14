@@ -14,8 +14,8 @@ if( !defined( 'ABSPATH' ) ) exit;
 
 
 // Disable color options
-add_action( 'admin_init', 'cf_remove_user_profile_color_settings', 10 );
-function cf_remove_user_profile_color_settings() {
+add_action( 'admin_init', 'fse_remove_user_profile_color_settings', 10 );
+function fse_remove_user_profile_color_settings() {
 
 	remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 

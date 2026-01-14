@@ -7,7 +7,7 @@
 
 
 // Cache Busting
-function cache_version_id() {
+function fse_cache_version_id() {
 
 	if ( WP_DEBUG ) {
 		return time();
@@ -28,7 +28,7 @@ function fse_starter_enqueue_stylesheet() {
 		'frontend-style',
 		THEME_URL . 'build/css/frontend.css',
 		array(),
-		cache_version_id() 
+		fse_cache_version_id() 
 	);
 
 }
@@ -59,7 +59,7 @@ function fse_enqueue_block_editor_customizations() {
         'fse-block-editor-js',
         get_template_directory_uri() . '/build/js/editor.js',
         $dependencies,
-        cache_version_id(),
+        fse_cache_version_id(),
         true
     );
     
@@ -142,14 +142,14 @@ function fse_register_all_block_styles() {
             $handle,
             $blocks_uri . $filename,
             array(),
-            cache_version_id()
+            fse_cache_version_id()
         );
         
         wp_enqueue_block_style( $block_name, array(
             'handle' => $handle,
             'src' => $blocks_uri . $filename,
             'path' => $file_path,
-            'ver' => cache_version_id(),
+            'ver' => fse_cache_version_id(),
         ) );
     }
     

@@ -11,8 +11,8 @@ add_filter( 'feed_links_show_comments_feed', '__return_false' );
 
 
 // Remove comments from admin bar
-// add_action( 'wp_before_admin_bar_render', 'fes_remove_wp_before_admin_bar_render' );
-// function fes_remove_wp_before_admin_bar_render() {
+// add_action( 'wp_before_admin_bar_render', 'fse_remove_wp_before_admin_bar_render' );
+// function fse_remove_wp_before_admin_bar_render() {
 
 // 	global $wp_admin_bar;
 // 	$wp_admin_bar->remove_menu( 'comments' );

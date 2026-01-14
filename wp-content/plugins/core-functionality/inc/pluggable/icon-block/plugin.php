@@ -126,4 +126,4 @@ function cf_clear_icon_cache() {
 }
 
 // Uncomment the line below to clear cache on next page load (then comment it back out)
-add_action( 'init', 'cf_clear_icon_cache' );
+// add_action( 'init', 'cf_clear_icon_cache' );

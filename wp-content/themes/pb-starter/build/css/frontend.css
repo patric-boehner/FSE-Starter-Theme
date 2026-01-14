@@ -2,7 +2,40 @@
 
 /* Settings */
 
-/* -- Helpers -- */
+/* -- PostCSS Variables -- */
+
+/*
+ * These variables use postcss-simple-vars ($variable syntax)
+ * They are compiled at build time and replaced with actual values
+ *
+ * Use these for:
+ * - Media query breakpoints
+ * - Any values that need to be computed at build time
+ *
+ * For runtime CSS custom properties, use theme.json instead
+ * (colors, spacing, typography, etc.)
+ */
+
+/* Breakpoints */
+
+/* Using common WordPress responsive breakpoints */
+
+/* Mobile devices */
+
+/* WordPress core column breakpoint */
+
+/* Usage Examples:
+ *
+ * Desktop-first (max-width):
+ * @media only screen and (max-width: $breakpoint-mobile) {
+ *     .mobile-only { display: block; }
+ * }
+ *
+ * Between breakpoints:
+ * @media only screen and (min-width: $breakpoint-tablet) and (max-width: $breakpoint-desktop) {
+ *     .tablet-only { display: block; }
+ * }
+ */
 
 /* Base */
 
@@ -111,10 +144,10 @@ canvas {
 	max-width: 100%;
 }
 
-h2:not([style*="font-size"]), 
+/* h2:not([style*="font-size"]), 
 h3:not([style*="font-size"]) {
 	margin-top: var(--wp--preset--spacing--small);
-}
+} */
 
 ul,
 ol {
@@ -220,7 +253,7 @@ sup a {
 }
 
 :is(.wp-block-cover,.has-background,[class*="is-style-section"]):not(.alignfull) {
-		padding: var(--wp--preset--spacing--small);
+		padding: var(--wp--preset--spacing--medium);
 	}
 
 .alignfull:is(.wp-block-cover,.has-background,[class*="is-style-section"]) {
@@ -231,15 +264,18 @@ sup a {
  * Large container spacing
  */
 
-.site-content,
+.site-content {
+	margin-block: var(--wp--preset--spacing--xx-large);
+}
+
 .site-content > *,
 article.type-post > *,
 article.type-page > *  {
-	margin-block-start: var(--wp--preset--spacing--large)
+	margin-block-start: var(--wp--preset--spacing--large);
 }
 
 .site-content > .alignfull {
-	margin-block-start: var(--wp--preset--spacing--x-large)
+	margin-block-start: var(--wp--preset--spacing--x-large);
 }
 
 /*
@@ -252,7 +288,7 @@ article.type-page > *  {
 }
 
 /*
- * Header Sapcing
+ * Header Spacing
  */
 
 .header-base {
@@ -260,11 +296,11 @@ article.type-page > *  {
 }
 
 /*
- * Footer Sapcing
+ * Footer Spacing
  */
 
 .footer-details {
-    padding-top: var(--wp--preset--spacing--large);
+    padding-top: var(--wp--preset--spacing--xx-large);
     padding-bottom: var(--wp--preset--spacing--small);
 }
 
@@ -290,7 +326,7 @@ article.type-page > *  {
 
 }
 
-@media only screen and (max-width: 782px) {
+@media only screen and (max-width: 781px) {
 
 	/* -- Columns -- */
 
@@ -448,10 +484,10 @@ svg:not(body > svg),
 
 /* -- Footers -- */
 
-/* .footer-details,
+.footer-details,
 .footer-base {
-	font-size: var(--wp--preset--font-size--normal);
-} */
+	font-size: var(--wp--preset--font-size--small);
+}
 
 /* Templates */
 
@@ -462,5 +498,5 @@ svg:not(body > svg),
  */
 
 :is(.page-template-no-title,.page-template-blank) .site-content {
-        margin-block-start: 0;
+        margin-block: 0;
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: List of Related Posts
- * Slug: fse-starter/related-posts-list
+ * Slug: fse-starter/related-post-loop
  * Inserter: false
  */
 ?>
@@ -17,9 +17,8 @@
 
 		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
 
-			<!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
-			<!-- wp:post-title {"level":3,"isLink":true} /-->
-			 
+			 <!-- wp:pattern {"slug":"fse-starter/card-related-post"} /-->
+	 
 		<!-- /wp:post-template -->
 
 	</div>

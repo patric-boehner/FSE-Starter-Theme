@@ -1,8 +1,7 @@
 /* -- Base editor styles -- */
 
 /* Settings */
-@import './01-settings/helpers.css';
-
+@import './01-settings/variables.css';
 
 /* Base */
 @import './02-base/global.css';

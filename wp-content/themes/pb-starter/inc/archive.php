@@ -6,8 +6,8 @@
  **/
 
 
-add_filter( 'get_the_archive_title', 'fes_taxonomy_archive_title' );
-function fes_taxonomy_archive_title( $title ) {
+add_filter( 'get_the_archive_title', 'fse_taxonomy_archive_title' );
+function fse_taxonomy_archive_title( $title ) {
 
     if ( is_category() || is_tag() || is_tax() ) {
 

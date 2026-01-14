@@ -46,7 +46,7 @@ if ( !defined( 'CORE_FILE' ) ) {
 
 // Plugin Version
 if ( !defined( 'CORE_VERSION' ) ) {
-	define( 'CORE_VERSION', '1.5.1' );
+	define( 'CORE_VERSION', '1.5.2' );
 }
 
 
@@ -56,8 +56,8 @@ if ( !defined( 'CORE_VERSION' ) ) {
 //* Cache Busting
 function cf_version_id() {
 
-    if (defined('WP_DEBUG')) {
-        return current_time('timestamp');
+    if ( WP_DEBUG ) {
+        return time();
     } else {
         return CORE_VERSION;
     }
@@ -98,8 +98,6 @@ $cf_features = [
     'content-areas',
     'related-posts',
     'icon-block',
-    // 'toggles-block',
-    // 'toggle-item-block',
     'recovery-mode-emails',
     'email-testing',
     // 'email-template', // Uncomment to enable
@@ -127,7 +125,9 @@ register_activation_hook( __FILE__, 'cf_core_functionality_activate_hook' );
 function cf_core_functionality_activate_hook() {
 
 	// Add Cron Events
-	cf_add_cron_event_email_test();
+	if ( function_exists( 'cf_add_cron_event_email_test' ) ) {
+		cf_add_cron_event_email_test();
+	}
 
 	// Clear the permalinks after the post type has been registered.
 	flush_rewrite_rules();

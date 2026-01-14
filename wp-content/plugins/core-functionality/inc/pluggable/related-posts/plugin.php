@@ -62,25 +62,24 @@ function cf_related_posts_pre_render_block( $pre_render, $parsed_block ) {
             // Get current post ID
             $post_id = get_the_ID();
 
-            // Ge the current post category
+            // Get the current post category
             $categories = get_the_category( $post_id );
 
             if ( ! empty( $categories ) ) {
 
-                $query_args['tax_query'] = array(
+                $query['tax_query'] = array(
                     array(
                         'taxonomy' => 'category',
                         'field'    => 'term_id',
-                        'terms'    => array( $categories[0]->term_id ), // or more complex logic
+                        'terms'    => array( $categories[0]->term_id ),
                     ),
                 );
 
             }
 
-            $query_args['post__not_in'] = array( $post_id );
-            // $query_args['post_status'] = 'publish';
-        
-            return $query_args;
+            $query['post__not_in'] = array( $post_id );
+
+            return $query;
 
         }, 10, 2 );
   }

@@ -1,9 +1,10 @@
 # Dependencies
 node_modules/
-package-lock.json
 yarn.lock
 
-# Build output (regenerated from source)
+# Build output - COMMITTED FOR DEPLOYMENT
+# The /build/ directory IS committed to git for simple deployment.
+# DO NOT uncomment the line below.
 # build/
 
 # Build logs

@@ -29,7 +29,7 @@ function fse_track_linked_post_title_simple_flag( $block_content, $block ) {
  * Should we add screen reader text to the excerpt Read More link?
  * returns true if the post title is not linked.
  */
-function should_add_excerpt_screen_reader_text() {
+function fse_should_add_excerpt_screen_reader_text() {
     return empty( $GLOBALS['_excerpt_title_is_linked'] );
 }
 
@@ -52,7 +52,7 @@ function fse_add_aria_hidden_to_excerpt_link( $block_content, $block ) {
     }
 
     // If the post title is already linked, adding screen reader text
-    if ( should_add_excerpt_screen_reader_text() ) {
+    if ( fse_should_add_excerpt_screen_reader_text() ) {
         return $block_content;
     }
 
@@ -94,7 +94,7 @@ function fse_make_excerpt_read_more_accessible( $block_content, $block ) {
     }
 
     // If the post title is already linked, skip adding screen reader text
-    if ( ! should_add_excerpt_screen_reader_text() ) {
+    if ( ! fse_should_add_excerpt_screen_reader_text() ) {
         return $block_content;
     }
 

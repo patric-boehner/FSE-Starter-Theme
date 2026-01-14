@@ -11,9 +11,27 @@
  */
 
 
-//* Block Acess
+//* Block Access
 //**********************
 if( !defined( 'ABSPATH' ) ) exit;
+
+
+/**
+ * Check if the site URL contains any of the given patterns
+ *
+ * @since 1.5.2
+ * @param array $patterns Array of strings to search for in the URL
+ * @return boolean
+ */
+function cf_url_contains( $patterns ) {
+	$url = home_url();
+	foreach ( $patterns as $pattern ) {
+		if ( strpos( $url, $pattern ) !== false ) {
+			return true;
+		}
+	}
+	return false;
+}
 
 
 /**
@@ -22,7 +40,7 @@ if( !defined( 'ABSPATH' ) ) exit;
  * @return string One of: 'local', 'development-staging', 'staging', 'production'
  */
 function cf_get_environment_slug() {
-    
+
 	if ( cf_is_local_dev_site() ) {
 		return 'local';
 	}
@@ -47,23 +65,15 @@ function cf_get_environment_slug() {
  */
 function cf_is_local_dev_site() {
 
-	$url_strings = array( 'localdev', 'localhost', '.dev', '.local' );
-	$is_local_site = false;
-
-	foreach( $url_strings as $string ) {
-		// Add a check for the returned value from strpos()
-		if( strpos( home_url(), $string ) !== false ) {
-			$is_local_site = true;
-		}	
+	if ( cf_url_contains( array( 'localdev', 'localhost', '.dev', '.local' ) ) ) {
+		return true;
 	}
 
-	// Use the constant WP_ENVIRONMENT_TYPE instead of wp_get_environment_type() which is not available in older WordPress versions
-	if( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE === 'local' ) { 
-		$is_local_site = true;
+	if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE === 'local' ) {
+		return true;
 	}
 
-	// return $is_local_site;
-	return $is_local_site;
+	return false;
 
 }
 
@@ -76,22 +86,15 @@ function cf_is_local_dev_site() {
  */
 function cf_is_development_staging_site() {
 
-	$url_strings = array( 'wpclientstaging.com' );
-	$is_development_staging_site = false;
-
-	foreach( $url_strings as $string ) {
-		// Add a check for the returned value from strpos()
-		if( strpos( home_url(), $string ) !== false ) { 
-			$is_development_staging_site = true;
-		}	
+	if ( cf_url_contains( array( 'wpclientstaging.com' ) ) ) {
+		return true;
 	}
 
-	// Use the constant WP_ENVIRONMENT_TYPE instead of wp_get_environment_type() which is not available in older WordPress versions
-	if( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE === 'development' ) { 
-		$is_development_staging_site = true;
+	if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE === 'development' ) {
+		return true;
 	}
-	
-	return $is_development_staging_site;
+
+	return false;
 
 }
 
@@ -104,22 +107,15 @@ function cf_is_development_staging_site() {
  */
 function cf_is_staging_site() {
 
-	$url_strings = array( 'staging.', '.flywheelsites.com', '.wpengine.com', '.kinsta.cloud' );
-	$is_staging_site = false;
-
-	foreach( $url_strings as $string ) {
-		// Add a check for the returned value from strpos()
-		if( strpos( home_url(), $string ) !== false ) { 
-			$is_staging_site = true;
-		}
+	if ( cf_url_contains( array( 'staging.', '.flywheelsites.com', '.wpengine.com', '.kinsta.cloud' ) ) ) {
+		return true;
 	}
 
-	// Use the constant WP_ENVIRONMENT_TYPE instead of wp_get_environment_type() which is not available in older WordPress versions
-	if( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE === 'staging' ) { 
-		$is_staging_site = true;
+	if ( defined( 'WP_ENVIRONMENT_TYPE' ) && WP_ENVIRONMENT_TYPE === 'staging' ) {
+		return true;
 	}
-	
-	return $is_staging_site;
+
+	return false;
 
 }
 

@@ -25,8 +25,8 @@ remove_action ('wp_head', 'rsd_link');
  * @param array $classes The existing body classes.
  * @return array The modified body classes.
  */
-add_filter( 'body_class', 'add_archive_style_body_class' );
-function add_archive_style_body_class( $classes ) {
+add_filter( 'body_class', 'fse_add_archive_style_body_class' );
+function fse_add_archive_style_body_class( $classes ) {
 	
     if ( is_archive() || is_home() || is_search() ) {
         $classes[] = 'archive';

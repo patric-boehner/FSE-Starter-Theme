@@ -1,8 +1,7 @@
 /* -- Base front end styles -- */
 
 /* Settings */
-@import './01-settings/helpers.css';
-
+@import './01-settings/variables.css';
 
 /* Base */
 @import './02-base/reset.css';

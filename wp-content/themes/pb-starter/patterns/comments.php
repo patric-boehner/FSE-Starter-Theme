@@ -22,38 +22,34 @@ if (!have_comments() && !comments_open()) {
 		<h2><?php echo esc_html__( 'Comments', 'pb-starter' ); ?></h2>
 		<!-- /wp:heading -->
 		<!-- wp:comments-title {"level":3} /-->
-		<!-- wp:group -->
-		<div class="wp-block-group">
-			<!-- wp:comment-template -->
-			<!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
-			<article class="wp-block-group">
-				<!-- wp:group {"tagName":"header","layout":{"type":"flex","flexWrap":"nowrap"}} -->
-				<header class="wp-block-group">
-					<!-- wp:avatar {"size":48} /-->
-					<!-- wp:group {"className":"comment-meta","layout":{"type":"default"}} -->
-					<div class="wp-block-group comment-meta">
-						<!-- wp:comment-author-name /-->
-						<!-- wp:group {"className":"comment-date","layout":{"type":"flex"}} -->
-						<div class="wp-block-group comment-date">
-							<!-- wp:comment-date /-->
-							<!-- wp:comment-edit-link /-->
-						</div>
-						<!-- /wp:group -->
+		<!-- wp:comment-template -->
+		<!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
+		<article class="wp-block-group">
+			<!-- wp:group {"tagName":"header","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+			<header class="wp-block-group">
+				<!-- wp:avatar {"size":48} /-->
+				<!-- wp:group {"className":"comment-meta","layout":{"type":"default"}} -->
+				<div class="wp-block-group comment-meta">
+					<!-- wp:comment-author-name /-->
+					<!-- wp:group {"className":"comment-date","layout":{"type":"flex"}} -->
+					<div class="wp-block-group comment-date">
+						<!-- wp:comment-date /-->
+						<!-- wp:comment-edit-link /-->
 					</div>
 					<!-- /wp:group -->
-				</header>
+				</div>
 				<!-- /wp:group -->
-				<!-- wp:comment-content /-->
-				<!-- wp:comment-reply-link /-->
-			</article>
+			</header>
 			<!-- /wp:group -->
-			<!-- /wp:comment-template -->
-		</div>
+			<!-- wp:comment-content /-->
+			<!-- wp:comment-reply-link /-->
+		</article>
 		<!-- /wp:group -->
+		<!-- /wp:comment-template -->
 		<!-- wp:comments-pagination -->
-		<!-- wp:comments-pagination-previous /-->
-		<!-- wp:comments-pagination-numbers /-->
-		<!-- wp:comments-pagination-next /-->
+			<!-- wp:comments-pagination-previous /-->
+			<!-- wp:comments-pagination-numbers /-->
+			<!-- wp:comments-pagination-next /-->
 		<!-- /wp:comments-pagination -->
 		<!-- wp:post-comments-form /-->
 	</div>

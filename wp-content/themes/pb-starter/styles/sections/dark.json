@@ -18,6 +18,23 @@
       "link": {
         "color": {
           "text": "var(--wp--preset--color--base)"
+        },
+        ":hover": {
+          "color": {
+            "text": "var(--wp--preset--color--primary-light)"
+          }
+        }
+      },
+      "button": {
+        "color": {
+          "text": "var(--wp--preset--color--primary-dark)",
+          "background": "var(--wp--preset--color--base)"
+        },
+        ":hover": {
+          "color": {
+            "text": "var(--wp--preset--color--primary-dark)",
+            "background": "var(--wp--preset--color--primary-light)"
+          }
         }
       }
     }

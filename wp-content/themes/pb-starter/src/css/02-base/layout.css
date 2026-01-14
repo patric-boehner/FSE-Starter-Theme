@@ -47,7 +47,7 @@
 [class*="is-style-section"] {
 
 	&:not(.alignfull) {
-		padding: var(--wp--preset--spacing--small);
+		padding: var(--wp--preset--spacing--medium);
 	}
 	
 
@@ -60,15 +60,18 @@
 /*
  * Large container spacing
  */
-.site-content,
+.site-content {
+	margin-block: var(--wp--preset--spacing--xx-large);
+}
+
 .site-content > *,
 article.type-post > *,
 article.type-page > *  {
-	margin-block-start: var(--wp--preset--spacing--large)
+	margin-block-start: var(--wp--preset--spacing--large);
 }
 
 .site-content > .alignfull {
-	margin-block-start: var(--wp--preset--spacing--x-large)
+	margin-block-start: var(--wp--preset--spacing--x-large);
 }
 
 
@@ -82,7 +85,7 @@ article.type-page > *  {
 
 
 /*
- * Header Sapcing
+ * Header Spacing
  */
 .header-base {
     padding-block: var(--wp--preset--spacing--small);
@@ -90,11 +93,11 @@ article.type-page > *  {
 
 
 /*
- * Footer Sapcing
+ * Footer Spacing
  */
 
 .footer-details {
-    padding-top: var(--wp--preset--spacing--large);
+    padding-top: var(--wp--preset--spacing--xx-large);
     padding-bottom: var(--wp--preset--spacing--small);
 }
 
@@ -112,7 +115,7 @@ article.type-page > *  {
 }
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: $breakpoint-mobile) {
 
 	/* -- Utility -- */
 
@@ -122,7 +125,7 @@ article.type-page > *  {
 
 }
 
-@media only screen and (max-width: 782px) {
+@media only screen and (max-width: $breakpoint-tablet) {
 
 	/* -- Columns -- */
 
