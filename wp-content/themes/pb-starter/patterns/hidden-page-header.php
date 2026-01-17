@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Page Header
- * Slug: fse-starter/page-header
+ * Slug: fse-starter/hidden-page-header
  * Inserter: false
  */
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Header
- * Slug: fse-starter/header-default
+ * Slug: fse-starter/hidden-header-default
  * Categories: header
  * Block Types: core/template-part/header
  */

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Entry Header
- * Slug: fse-starter/entry-header
+ * Slug: fse-starter/hidden-entry-header
  * Inserter: false
  */
 ?>

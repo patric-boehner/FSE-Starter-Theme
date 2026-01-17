@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Footer
- * Slug: fse-starter/footer-default
+ * Slug: fse-starter/hidden-footer-default
  * Categories: footer
  * Block Types: core/template-part/footer
  * Inserter: false

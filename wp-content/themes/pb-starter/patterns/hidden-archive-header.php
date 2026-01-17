@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Archive Header
- * Slug: fse-starter/archive-header
+ * Slug: fse-starter/hidden-archive-header
  * Inserter: false
  */
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Footer details
- * Slug: fse-starter/footer-details
+ * Slug: fse-starter/hidden-footer-details
  * Categories: footer
  * Block Types: core/template-part/footer
  */

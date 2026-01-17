@@ -100,7 +100,6 @@ $cf_features = [
     'icon-block',
     'recovery-mode-emails',
     'email-testing',
-    // 'email-template', // Uncomment to enable
 ];
 
 /**

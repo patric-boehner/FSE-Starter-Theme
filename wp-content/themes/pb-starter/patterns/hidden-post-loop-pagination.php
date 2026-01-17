@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: QueryPagination
- * Slug: fse-starter/post-loop-pagination
+ * Slug: fse-starter/hidden-post-loop-pagination
  * Block Types: core/query
  * Inserter: false
  */

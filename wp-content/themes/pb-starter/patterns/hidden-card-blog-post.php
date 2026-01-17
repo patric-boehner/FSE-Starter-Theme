@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Card Blog Post
- * Slug: fse-starter/card-blog-post
+ * Slug: fse-starter/hidden-card-blog-post
  * Block Types: core/query
  * Inserter: false
  */

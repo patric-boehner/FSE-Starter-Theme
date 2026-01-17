@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Author profile
- * Slug: fse-starter/entry-author-profile
+ * Slug: fse-starter/hidden-entry-author-profile
  * Inserter: false
  */
 ?>

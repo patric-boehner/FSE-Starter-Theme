@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Grid of posts
- * Slug: fse-starter/post-loop-grid
+ * Slug: fse-starter/hidden-post-loop-grid
  * Block Types: core/query
  * Inserter: false
  */
@@ -11,11 +11,11 @@
 
 	<!-- wp:post-template {"layout":{"type":"grid","columnCount":2}} -->
 
-		<!-- wp:pattern {"slug":"fse-starter/card-blog-post"} /-->
+		<!-- wp:pattern {"slug":"fse-starter/hidden-card-blog-post"} /-->
 		 
 	<!-- /wp:post-template -->
 
-	<!-- wp:pattern {"slug":"fse-starter/post-loop-pagination"} /-->
+	<!-- wp:pattern {"slug":"fse-starter/hidden-post-loop-pagination"} /-->
 
 </div>
 <!-- /wp:query -->

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Header notification bar
- * Slug: fse-starter/header-notification-bar
+ * Slug: fse-starter/hidden-header-notification-bar
  * Categories: header
  * Block Types: core/template-part/header
  */

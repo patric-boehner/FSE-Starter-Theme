@@ -2,9 +2,9 @@
 /**
  * Add extra email addresses to recovery mode email.
  *
- * @param string $email The default recovery email.
- * @param string $url The recovery URL.
- * @return string Modified list of emails.
+ * @param array  $email The recovery email array with keys: to, subject, message, headers, attachments.
+ * @param string $url   The recovery URL.
+ * @return array Modified email array with updated 'to' recipients.
  *
  * Setup Instructions:
  *
@@ -40,33 +40,28 @@ function cf_add_recovery_email_recipients( $email, $url ) {
 
     if ( ! defined( 'RECOVERY_EMAILS' ) ) {
         error_log( '[RECOVERY EMAILS] RECOVERY_EMAILS is not defined, default email is being used.' );
-        return $email; // If the constant is not defined, return the original email.
+        return $email;
+    }
+
+    // Parse custom emails from constant
+    $custom_emails = array_filter( array_map( 'sanitize_email', array_map( 'trim', explode( ',', RECOVERY_EMAILS ) ) ) );
+
+    if ( empty( $custom_emails ) ) {
+        return $email;
     }
 
     // Check if we should only send to the constant emails
     $only_custom_emails = defined( 'RECOVERY_EMAILS_ONLY' ) && RECOVERY_EMAILS_ONLY === true;
 
     if ( $only_custom_emails ) {
-        
-        // Only send to emails defined in RECOVERY_EMAILS constant
-        $custom_emails = array_map( 'sanitize_email', array_filter( array_map( 'trim', explode( ',', RECOVERY_EMAILS ) ) ) );
-        return implode( ',', $custom_emails );
-
+        $email['to'] = $custom_emails;
     } else {
+        // Get existing recipients (can be string or array)
+        $existing = isset( $email['to'] ) ? (array) $email['to'] : array();
 
-	    // Split both the default and custom emails into arrays
-        $existing  = array_map( 'sanitize_email', array_filter( array_map( 'trim', explode( ',', $email ) ) ) );
-        $additional = array_map( 'sanitize_email', array_filter( array_map( 'trim', explode( ',', RECOVERY_EMAILS ) ) ) );
-    
         // Merge and deduplicate
-        $all = array_unique( array_merge( $existing, $additional ) );
-
+        $email['to'] = array_unique( array_merge( $existing, $custom_emails ) );
     }
 
-    // Merge and deduplicate
-    $all = array_unique( array_merge( $existing, $additional ) );
-
-    // Return as comma-separated list
-    return implode( ',', $all );
-
+    return $email;
 }
