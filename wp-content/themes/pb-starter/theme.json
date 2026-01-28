@@ -233,7 +233,7 @@
 			]
 		},
 		"position": {
-			"sticky": false
+			"sticky": true
 		},
 		"shadow": {
 			"defaultPresets": false,
@@ -464,6 +464,10 @@
 		{
 			"area": "footer",
 			"name": "Footer"
+		},
+		{
+			"area": "sidebar",
+			"name": "Sidebar"
 		}
 	],
 	"customTemplates": [
@@ -480,6 +484,13 @@
 				"page"
 			],
 			"title": "No Title"
+		},
+		{
+			"name": "post-with-sidebar",
+			"postTypes": [
+				"post"
+			],
+			"title": "With Sidebar"
 		}
 	]
 }

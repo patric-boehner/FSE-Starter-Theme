@@ -16,8 +16,16 @@
 <!-- wp:group {"align":"wide","layout":{"type":"flex","allowOrientation":false,"justifyContent":"space-between"}} -->
 	<div class="wp-block-group alignwide">
 
-		<!-- wp:paragraph {"className":"copyright"} -->
-		<p class="copyright"><?php echo esc_html( fse_get_copyright() ); ?></p>
+		<!-- wp:paragraph {"className":"copyright",
+		 "metadata":{
+			"name":"Copyright Text",
+			"bindings":{
+				"content":{
+					"source":"theme/copyright"}
+				}
+			}
+		} -->
+		<p class="copyright"></p>
 		<!-- /wp:paragraph -->
 		<!-- wp:navigation {"ref":13,"overlayMenu":"never"} /-->
 		 

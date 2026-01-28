@@ -24,7 +24,7 @@
 
 
 
-//* Block Acess
+//* Block Access
 //**********************
 if( !defined( 'ABSPATH' ) ) exit;
 
@@ -117,12 +117,15 @@ function cf_cron_email_test_admin_notice() {
         '_cf_nonce'
     );
 
-    $message = sprintf(
-        /* translators: %s is the URL to schedule the cron test */
-        __( '<strong>Email Cron Test Not Scheduled:</strong> The test email is enabled (CRON_EMAIL is defined), but the daily email check is not scheduled. <a href="%s">Click here to schedule it now</a>.', 'core-functionality' ),
-        esc_url( $url )
-    );
-    echo '<div class="notice notice-warning is-dismissible"><p>' . $message . '</p></div>';
+    ?>
+    <div class="notice notice-warning is-dismissible">
+        <p>
+            <strong><?php esc_html_e( 'Email Cron Test Not Scheduled:', 'core-functionality' ); ?></strong>
+            <?php esc_html_e( 'The test email is enabled (CRON_EMAIL is defined), but the daily email check is not scheduled.', 'core-functionality' ); ?>
+            <a href="<?php echo esc_url( $url ); ?>"><?php esc_html_e( 'Click here to schedule it now', 'core-functionality' ); ?></a>.
+        </p>
+    </div>
+    <?php
 }
 
 

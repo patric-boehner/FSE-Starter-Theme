@@ -1,6 +1,6 @@
 <?php
 /**
- * Add cotent area post type
+ * Add content area post type
  *
  * @package    CoreFunctionality
  * @since      2.0.0
@@ -9,7 +9,7 @@
  */
 
 
-//* Block Acess
+//* Block Access
 //**********************
 if( !defined( 'ABSPATH' ) ) exit;
 
@@ -172,7 +172,9 @@ function cf_handle_location_column_sorting( $query ) {
         return;
     }
 
-    if ( ! isset( $_GET['post_type'] ) || 'content_area' !== $_GET['post_type'] ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading query param for display purposes only
+    $post_type = isset( $_GET['post_type'] ) ? sanitize_key( $_GET['post_type'] ) : '';
+    if ( 'content_area' !== $post_type ) {
         return;
     }
 

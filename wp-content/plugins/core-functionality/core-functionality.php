@@ -21,7 +21,7 @@
  *
  */
 
-//* Block Acess
+//* Block Access
 //**********************
 if( !defined( 'ABSPATH' ) ) exit;
 

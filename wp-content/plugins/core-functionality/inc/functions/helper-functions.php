@@ -24,13 +24,17 @@ if( !defined( 'ABSPATH' ) ) exit;
  * @return boolean
  */
 function cf_url_contains( $patterns ) {
+
 	$url = home_url();
+
 	foreach ( $patterns as $pattern ) {
 		if ( strpos( $url, $pattern ) !== false ) {
 			return true;
 		}
 	}
+
 	return false;
+    
 }
 
 
@@ -126,10 +130,6 @@ function cf_is_staging_site() {
  *
  * Place each <svg> source in the /assets/svg/{group}/ directory.
  *
- * All icons are assumed to have equal width and height, hence the option
- * to only specify a `$size` parameter in the svg methods. For icons with
- * custom (non-square) sizes, set 'size' => false.
- *
  * Icons will be loaded once in the footer and referenced throughout document.
  *
  * @param array $atts Shortcode Attributes.
@@ -138,14 +138,11 @@ function cf_is_staging_site() {
 function cf_icon( $atts = array() ) {
     $atts = shortcode_atts(
         [
-            'icon' => false,
+            'icon'  => false,
             'group' => 'utility',
-            'size' => 24,
-            'width' => false,
-            'height' => false,
             'class' => false,
             'label' => false,
-            'defs' => false,
+            'defs'  => false,
             'force' => false,
         ],
         $atts
@@ -155,15 +152,18 @@ function cf_icon( $atts = array() ) {
         return;
     }
 
+    // Sanitize icon and group for use in file paths and IDs
+    $icon  = sanitize_file_name( $atts['icon'] );
+    $group = sanitize_file_name( $atts['group'] );
+
     if ( is_admin() ) {
         $atts['force'] = true;
     }
 
-    $icon_path = get_theme_file_path( '/build/svg/' . $atts['group'] . '/' . $atts['icon'] . '.svg' );
+    $icon_path = get_theme_file_path( '/build/svg/' . $group . '/' . $icon . '.svg' );
 
-    if ( 'images' === $atts['group'] ) {
-        $icon_path = get_theme_file_path( '/build/images/' . $atts['icon'] . '.svg' );
-        $atts['size'] = false;
+    if ( 'images' === $group ) {
+        $icon_path = get_theme_file_path( '/build/images/' . $icon . '.svg' );
     }
 
     if ( ! file_exists( $icon_path ) ) {
@@ -174,18 +174,18 @@ function cf_icon( $atts = array() ) {
     if ( true === $atts['force'] ) {
         ob_start();
         readfile( $icon_path );
-        $icon = ob_get_clean();
-        
+        $svg = ob_get_clean();
+
         // Preserve existing attributes and add accessibility attributes
-        $svg = preg_replace( 
-            '/^<svg([^>]*)/', 
-            '<svg$1 aria-hidden="true" role="img" focusable="false"', 
-            trim( $icon ) 
+        $svg = preg_replace(
+            '/^<svg([^>]*)/',
+            '<svg$1 aria-hidden="true" role="img" focusable="false"',
+            trim( $svg )
         );
-        
+
         $svg = preg_replace( "/([\n\t]+)/", ' ', $svg ); // Remove newlines & tabs.
         $svg = preg_replace( '/>\s*</', '><', $svg ); // Remove white space between SVG tags.
-        
+
         if ( ! empty( $atts['class'] ) ) {
             // Add class to existing attributes
             $svg = preg_replace( '/^<svg([^>]*class="[^"]*")([^>]*)/', '<svg$1 ' . esc_attr( $atts['class'] ) . '"$2', $svg );
@@ -199,10 +199,11 @@ function cf_icon( $atts = array() ) {
     } elseif ( true === $atts['defs'] ) {
         ob_start();
         readfile( $icon_path );
-        $icon = ob_get_clean();
-        
+        $svg = ob_get_clean();
+
         // Preserve viewBox and other attributes for symbols
-        $svg = preg_replace( '/^<svg([^>]*)/', '<svg$1 id="' . $atts['group'] . '-' . $atts['icon'] . '"', trim( $icon ) );
+        $symbol_id = esc_attr( $group . '-' . $icon );
+        $svg = preg_replace( '/^<svg([^>]*)/', '<svg$1 id="' . $symbol_id . '"', trim( $svg ) );
         $svg = str_replace( '<svg', '<symbol', $svg );
         $svg = str_replace( '</svg>', '</symbol>', $svg );
         $svg = preg_replace( "/([\n\t]+)/", ' ', $svg ); // Remove newlines & tabs.
@@ -214,24 +215,23 @@ function cf_icon( $atts = array() ) {
         global $cf_icons;
 
         // Create an empty array for the group of icons
-        if ( empty( $cf_icons[ $atts['group'] ] ) ) {
-            $cf_icons[ $atts['group'] ] = [];
+        if ( empty( $cf_icons[ $group ] ) ) {
+            $cf_icons[ $group ] = [];
         }
 
         // Track the icons being used
-        if ( empty( $cf_icons[ $atts['group'] ][ $atts['icon'] ] ) ) {
-            $cf_icons[ $atts['group'] ][ $atts['icon'] ] = 1;
+        if ( empty( $cf_icons[ $group ][ $icon ] ) ) {
+            $cf_icons[ $group ][ $icon ] = 1;
         } else {
-            $cf_icons[ $atts['group'] ][ $atts['icon'] ]++;
+            $cf_icons[ $group ][ $icon ]++;
         }
 
         // Extract viewBox from the original SVG file
         $viewbox = '';
-        if ( file_exists( $icon_path ) ) {
-            $svg_content = file_get_contents( $icon_path );
-            if ( preg_match( '/viewBox="([^"]*)"/', $svg_content, $matches ) ) {
-                $viewbox = ' viewBox="' . esc_attr( $matches[1] ) . '"';
-            }
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file read
+        $svg_content = file_get_contents( $icon_path );
+        if ( preg_match( '/viewBox="([^"]*)"/', $svg_content, $matches ) ) {
+            $viewbox = ' viewBox="' . esc_attr( $matches[1] ) . '"';
         }
 
         $attr = '';
@@ -243,8 +243,6 @@ function cf_icon( $atts = array() ) {
         // Add viewBox to the svg element
         $attr .= $viewbox;
 
-        // Don't add width/height attributes - let CSS handle sizing
-
         if ( ! empty( $atts['label'] ) ) {
             $attr .= ' aria-label="' . esc_attr( $atts['label'] ) . '"';
         } else {
@@ -252,7 +250,8 @@ function cf_icon( $atts = array() ) {
         }
 
         // Output the svg with the use reference
-        $svg = '<svg' . $attr . '><use href="#' . $atts['group'] . '-' . $atts['icon'] . '"></use></svg>';
+        $symbol_id = esc_attr( $group . '-' . $icon );
+        $svg = '<svg' . $attr . '><use href="#' . $symbol_id . '"></use></svg>';
     }
 
     return $svg;

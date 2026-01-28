@@ -21,36 +21,40 @@
  * @since 2.1.0
  */
 
-//* Block Acess
+//* Block Access
 //**********************
 if( !defined( 'ABSPATH' ) ) exit;
 
 
-// Only register if the recovery email filter exists (module is included)
-if ( function_exists( 'cf_add_recovery_email_recipients' ) ) {
-    
+add_action( 'init', 'cf_register_recovery_email_site_health_info' );
+function cf_register_recovery_email_site_health_info() {
+
+    // Only register if the recovery email filter exists (module is included)
+    if ( ! function_exists( 'cf_add_recovery_email_recipients' ) ) {
+        return;
+    }
+
     // Register info fields for recovery emails
     $recovery_info_fields = array();
-    
+
     $recovery_info_fields['recovery_emails_configured'] = array(
         'label' => __( 'Custom Recovery Emails Configured', 'core-functionality' ),
         'value' => defined( 'RECOVERY_EMAILS' ) ? __( 'Yes', 'core-functionality' ) : __( 'No', 'core-functionality' ),
     );
-    
+
     if ( defined( 'RECOVERY_EMAILS' ) ) {
         $recovery_emails = array_map( 'trim', explode( ',', RECOVERY_EMAILS ) );
         $recovery_info_fields['recovery_emails_list'] = array(
             'label' => 'RECOVERY_EMAILS',
             'value' => implode( ', ', $recovery_emails ),
         );
-        
+
         $only_custom = defined( 'RECOVERY_EMAILS_ONLY' ) && RECOVERY_EMAILS_ONLY === true;
         $recovery_info_fields['recovery_emails_admin_included'] = array(
             'label' => 'RECOVERY_EMAILS_ONLY',
             'value' => $only_custom ? __( 'true', 'core-functionality' ) : __( 'false', 'core-functionality' ),
         );
     }
-    
-    cf_register_site_health_info( $recovery_info_fields );
 
+    cf_register_site_health_info( $recovery_info_fields );
 }
