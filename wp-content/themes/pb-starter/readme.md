@@ -16,8 +16,8 @@ A WordPress Full Site Editing (FSE) theme built with a design system-first appro
 # Install dependencies
 npm install
 
-# Start development (watch mode)
-npm run watch
+# Start development (build + watch)
+npm run dev
 
 # Build for production
 npm run build
@@ -28,67 +28,79 @@ npm run build
 ## Build System
 
 ### Technology Stack
-- **CSS Processing**: PostCSS with plugins for variables, nesting, and autoprefixing
+- **CSS Processing**: Lightning CSS for bundling, nesting, and autoprefixing
 - **JavaScript**: esbuild for fast bundling
-- **Asset Copying**: Automated copying of fonts, images, and SVGs
+- **SVG Optimization**: SVGO for optimizing SVG files
+- **Asset Copying**: Automated copying of fonts and images
 
 ### Source & Output
 
 ```
 src/                          → build/
 ├── css/                      → css/
-│   ├── _variables.css       (SCSS-style variables)
 │   ├── frontend.css         → frontend.css
 │   ├── editor.css           → editor.css
 │   ├── 01-settings/
+│   │   └── variables.css    (@custom-media definitions)
 │   ├── 02-base/
 │   ├── 03-components/
 │   ├── 04-templates/
 │   └── blocks/
-│       └── core/
-│           └── button.css   → blocks/core/button.css
+│       └── core-button.css  → blocks/core-button.css
 ├── js/                      → js/
 │   └── editor.js            → editor.js
 ├── fonts/                   → fonts/
 ├── images/                  → images/
-└── svg/                     → svg/
+└── svg/                     → svg/ (optimized)
 ```
 
 ### NPM Commands
 
 ```bash
 # Development
-npm run watch          # Watch all files, auto-rebuild on save
+npm run dev            # Build once + watch for changes
+npm run build:dev      # Build without minification
 
 # Production
 npm run build          # Build minified/optimized files
 
+# Watch (individual)
+npm run watch          # Watch all files
+npm run watch:css      # Watch CSS only
+npm run watch:js       # Watch JS only
+npm run watch:svg      # Watch SVGs only
+
 # Cleanup
 npm run clean          # Delete build/ directory
-
-# Utilities
-npm audit              # Check for security vulnerabilities
 ```
 
 ### CSS Features
 
-**PostCSS Plugins:**
-- `postcss-simple-vars` - SCSS-style variables (`$variable`)
-- `postcss-nesting` - CSS nesting support
-- `postcss-import` - Combine CSS files
-- `autoprefixer` - Vendor prefixes
-- `cssnano` - Minification (production only)
+**Lightning CSS provides:**
+- CSS nesting (native syntax)
+- `@custom-media` queries (CSS Media Queries Level 5)
+- `@import` bundling
+- Automatic vendor prefixes
+- Minification (production only)
 
-**Variables for Media Queries:**
+**Custom Media Queries (Mobile-first):**
 
 ```css
-/* _variables.css */
-$breakpoint-mobile: 768px;
-$breakpoint-tablet: 1024px;
+/* 01-settings/variables.css */
+@custom-media --tablet (min-width: 600px);   /* Tablet and up */
+@custom-media --desktop (min-width: 782px);  /* Desktop and up */
 
-/* Use in your CSS */
-@media (max-width: $breakpoint-mobile) {
-    /* Mobile styles */
+/* Write base styles for mobile, then enhance for larger screens */
+.element {
+    padding: 1rem;
+}
+
+@media (--tablet) {
+    .element { padding: 2rem; }
+}
+
+@media (--desktop) {
+    .element { padding: 3rem; }
 }
 ```
 
@@ -97,10 +109,10 @@ $breakpoint-tablet: 1024px;
 ```css
 .site-header {
     background: var(--wp--preset--color--base);
-    
+
     & .logo {
         height: 60px;
-        
+
         &:hover {
             opacity: 0.8;
         }
@@ -135,6 +147,7 @@ When new design patterns or custom sections are needed beyond the current system
 
 **frontend.css** - Main stylesheet loaded on all pages
 ```css
+@import "01-settings/variables.css";
 @import "02-base/reset.css";
 @import "02-base/global.css";
 @import "02-base/layout.css";
@@ -156,13 +169,10 @@ When new design patterns or custom sections are needed beyond the current system
 Per-block CSS that loads only when the block is used:
 ```
 blocks/
-├── core/
-│   ├── button.css
-│   └── image.css
-├── cf/
-│   └── custom-block.css
-└── outermost/
-    └── plugin-block.css
+├── core-button.css
+├── core-list.css
+├── core-navigation.css
+└── ...
 ```
 
 ### Contextual Spacing Philosophy
@@ -218,7 +228,7 @@ pb-starter/
 ├── functions.php
 ├── theme.json
 ├── package.json
-├── postcss.config.js
+├── build.js                  # Build script
 └── .gitignore
 ```
 
@@ -226,18 +236,21 @@ pb-starter/
 
 ## Theme.json Integration
 
-CSS custom properties from `theme.json` work alongside SCSS-style variables:
+CSS custom properties from `theme.json` are the primary way to access design tokens:
 
 ```css
-/* Use theme.json variables (recommended) */
+/* Use theme.json variables for colors, spacing, typography */
 .element {
     color: var(--wp--preset--color--primary);
     padding: var(--wp--preset--spacing--medium);
+    font-size: var(--wp--preset--font-size--medium);
 }
 
-/* Use $ variables only for media queries */
-@media (max-width: $breakpoint-mobile) {
-    /* $ variables compile to actual values */
+/* Use @custom-media for responsive breakpoints */
+@media (--mobile) {
+    .element {
+        padding: var(--wp--preset--spacing--small);
+    }
 }
 ```
 
@@ -266,7 +279,7 @@ Semantic variations instead of custom blocks:
 Registered block styles for common layout needs:
 - `.is-style-large-gap` - Increase gap between elements
 - `.is-style-hidden-mobile` - Hide on mobile devices
-- `.is-style-reverse-mobile` - Reverse column order on mobile
+- `.is-style-columns-reverse` - Reverse column order on mobile
 
 ---
 
@@ -275,8 +288,8 @@ Registered block styles for common layout needs:
 ### Daily Development
 
 ```bash
-# Start watch mode
-npm run watch
+# Start dev mode (build + watch)
+npm run dev
 
 # Edit files in src/
 # - CSS in src/css/
@@ -312,7 +325,7 @@ The `/build/` directory is committed to git for simple deployment. Just push you
 - `/src/` - Source files
 - `/build/` - Built files (for deployment)
 - `package.json` - Dependencies
-- `postcss.config.js` - Build configuration
+- `build.js` - Build script
 
 **Ignored (in .gitignore):**
 - `node_modules/` - npm packages (too large)
@@ -338,7 +351,6 @@ All dependencies are kept up-to-date to avoid vulnerabilities.
 ```
 last 2 versions
 not dead
-not IE 11
 ```
 
 Configured in `package.json` → `browserslist`
@@ -371,11 +383,12 @@ This theme is designed to:
 
 - [WordPress Block Editor Handbook](https://developer.wordpress.org/block-editor/)
 - [theme.json Documentation](https://developer.wordpress.org/themes/global-settings-and-styles/theme-json/)
-- [PostCSS Documentation](https://postcss.org/)
+- [Lightning CSS Documentation](https://lightningcss.dev/)
 - [esbuild Documentation](https://esbuild.github.io/)
+- [SVGO Documentation](https://svgo.dev/)
 
 ---
 
-**Version:** 1.0.0  
-**Author:** Patrick Boehner  
+**Version:** 1.0.0
+**Author:** Patrick Boehner
 **License:** GNU General Public License v3

@@ -135,22 +135,27 @@ article.type-page > *  {
 }
 
 
-@media only screen and (max-width: $breakpoint-mobile) {
+/*
+ * Utility Styles (Mobile-first)
+ * Base styles apply to mobile, then override for larger screens
+ */
 
-	/* -- Utility -- */
-
-	.is-style-hidden-mobile {
-		display: none !important;
-	}
-
+.is-style-hidden-mobile {
+	display: none;
 }
 
-@media only screen and (max-width: $breakpoint-tablet) {
+.is-style-columns-reverse {
+	flex-direction: column-reverse;
+}
 
-	/* -- Columns -- */
+@media (--tablet) {
+
+	.is-style-hidden-mobile {
+		display: revert;
+	}
 
 	.is-style-columns-reverse {
-		flex-direction: column-reverse;
+		flex-direction: row;
 	}
 
 }

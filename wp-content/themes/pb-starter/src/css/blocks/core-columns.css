@@ -1,0 +1,92 @@
+@import "../01-settings/variables.css";
+
+/* -- Columns Block Breakpoint Override -- */
+/*
+ * WordPress core stacks columns at 600px (max-width: 599px)
+ *
+ * To change when columns stack, we need to:
+ * 1. Prevent the default stacking (keep columns side-by-side longer)
+ * 2. Apply our own stacking at our chosen breakpoint
+ *
+ * Note: This uses mobile-first approach
+ * - Base styles = stacked (mobile)
+ * - @media (--tablet) = side-by-side
+ */
+
+
+/*
+ * Force columns to stack on mobile (override core's flex-wrap)
+ * Core uses `flex-wrap: wrap` which we keep, but we control
+ * when children go full-width
+ *
+ * Uncomment to activate:
+ */
+
+/*
+.wp-block-columns {
+	flex-direction: column;
+
+	@media (--tablet) {
+		flex-direction: row;
+	}
+}
+
+.wp-block-column {
+	flex-basis: 100% !important;
+
+	@media (--tablet) {
+		flex-basis: 0 !important;
+		flex-grow: 1;
+	}
+}
+*/
+
+
+/*
+ * ALTERNATIVE: Keep core behavior but change the breakpoint
+ * Use this if you prefer to just shift when stacking happens
+ * rather than rewriting the flex logic
+ *
+ * Uncomment to activate:
+ */
+
+/*
+.wp-block-columns:not(.is-not-stacked-on-mobile) {
+	flex-wrap: nowrap;
+
+	@media (--tablet) {
+		flex-wrap: wrap;
+	}
+}
+
+.wp-block-columns:not(.is-not-stacked-on-mobile) > .wp-block-column {
+	flex-basis: 0;
+
+	@media (--tablet) {
+		flex-basis: 100% !important;
+	}
+}
+*/
+
+
+/*
+ * Two-column specific adjustments
+ * Use when you want 2 columns to stack at a different point than 3+
+ *
+ * Uncomment to activate:
+ */
+
+/*
+.wp-block-columns.has-2-columns {
+
+	@media (--desktop) {
+		flex-direction: row;
+	}
+
+	> .wp-block-column {
+		@media (--desktop) {
+			flex-basis: 0 !important;
+		}
+	}
+}
+*/

@@ -3,6 +3,63 @@
     --header-height: 50px;
 }
 
+
+/* -- Navigation Breakpoint Override -- */
+/*
+ * WordPress shows the mobile menu (hamburger) based on the
+ * `overlayMenu` block attribute: "never", "mobile", or "always"
+ *
+ * When set to "mobile", it shows hamburger at 600px.
+ * To change this breakpoint, we override the responsive container visibility.
+ *
+ * Note: The block attribute must be set to "mobile" for these overrides to work.
+ * This CSS just shifts WHEN the mobile/desktop views appear.
+ */
+
+
+/*
+ * Mobile menu button (hamburger) - show/hide at custom breakpoint
+ * Core uses CSS variable: --navigation-layout-respond-to-position
+ */
+
+/*
+.wp-block-navigation__responsive-container-open:not(.always-shown) {
+	display: flex;
+
+	@media (--tablet) {
+		display: none;
+	}
+}
+*/
+
+
+/*
+ * Desktop navigation - show/hide at custom breakpoint
+ */
+
+/*
+.wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+	display: none;
+
+	@media (--tablet) {
+		display: flex;
+	}
+}
+*/
+
+
+/*
+ * ALTERNATIVE: Use CSS custom property override
+ * WordPress uses --navigation-layout-respond-to-position to control this
+ * Setting it might be cleaner than overriding display properties
+ */
+
+/*
+.wp-block-navigation {
+	--navigation-layout-respond-to-position: 600px;
+}
+*/
+
 .wp-block-navigation__container {
     gap: var(--wp--preset--spacing--small);
 

@@ -1,13 +1,1 @@
-
-    .wp-block-outermost-social-sharing:not(.is-style-logos-only) .outermost-social-sharing-link {
-        background-color: transparent;
-        color: var(--wp--preset--color--primary);
-        
-    }
-:is(.wp-block-outermost-social-sharing:not(.is-style-logos-only) .outermost-social-sharing-link) a {
-            padding: 0;
-
-        }
-:is(:is(.wp-block-outermost-social-sharing:not(.is-style-logos-only) .outermost-social-sharing-link) a):hover,:is(:is(.wp-block-outermost-social-sharing:not(.is-style-logos-only) .outermost-social-sharing-link) a):focus {
-                color:var(--wp--preset--color--primary-light);
-            }
+.wp-block-outermost-social-sharing:not(.is-style-logos-only){& .outermost-social-sharing-link{color:var(--wp--preset--color--primary);background-color:#0000;& a{padding:0;&:hover,&:focus{color:var(--wp--preset--color--primary-light)}}}}

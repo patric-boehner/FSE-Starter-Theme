@@ -4,35 +4,25 @@
   "description": "Build tools for PB Starter WordPress theme",
   "private": true,
   "scripts": {
-    "watch": "concurrently \"npm:watch:*\"",
-    "watch:css:frontend": "onchange --initial \"src/css/frontend.css\" \"src/css/**/*.css\" -i \"src/css/blocks/**\" -i \"src/css/editor.css\" -- postcss src/css/frontend.css -o build/css/frontend.css",
-    "watch:css:editor": "onchange --initial \"src/css/editor.css\" \"src/css/**/*.css\" -i \"src/css/blocks/**\" -i \"src/css/frontend.css\" -- postcss src/css/editor.css -o build/css/editor.css",
-    "watch:css:blocks": "onchange --initial \"src/css/blocks/*.css\" -- postcss \"src/css/blocks/*.css\" --dir build/css/blocks",
-    "watch:assets": "onchange \"src/fonts/**/*\" \"src/images/**/*\" \"src/svg/**/*\" -- npm run build:assets",
-    "build": "npm run build:css:frontend && npm run build:css:editor && npm run build:css:blocks && npm run build:js && npm run build:assets",
-    "build:css:frontend": "NODE_ENV=production postcss src/css/frontend.css -o build/css/frontend.css",
-    "build:css:editor": "NODE_ENV=production postcss src/css/editor.css -o build/css/editor.css",
-    "build:css:blocks": "NODE_ENV=production postcss \"src/css/blocks/*.css\" --dir build/css/blocks",
-    "build:js": "NODE_ENV=production esbuild src/js/*.js --outdir=build/js --bundle --minify",
-    "build:assets": "cpy 'src/fonts/**' build/fonts --parents && cpy 'src/images/**' build/images --parents && cpy 'src/svg/**' build/svg --parents",
+    "dev": "npm run build:dev && npm run watch",
+    "build": "npm run clean && node build.js --production",
+    "build:dev": "npm run clean && node build.js",
+    "watch": "concurrently -n css,js,svg,assets -c blue,yellow,magenta,green npm:watch:*",
+    "watch:css": "onchange \"src/css/**/*.css\" -- node build.js css",
+    "watch:js": "onchange \"src/js/**/*.js\" -- node build.js js",
+    "watch:svg": "onchange \"src/svg/**/*.svg\" -- node build.js svg",
+    "watch:assets": "onchange \"src/fonts/**/*\" \"src/images/**/*\" -- node build.js assets",
     "clean": "rm -rf build"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
     "concurrently": "^8.2.2",
-    "cpy-cli": "^5.0.0",
-    "cssnano": "^6.0.3",
     "esbuild": "^0.27.2",
+    "lightningcss": "^1.28.0",
     "onchange": "^7.1.0",
-    "postcss": "^8.4.33",
-    "postcss-cli": "^11.0.0",
-    "postcss-import": "^16.0.0",
-    "postcss-nesting": "^13.0.0",
-    "postcss-simple-vars": "^7.0.1"
+    "svgo": "^3.2.0"
   },
   "browserslist": [
     "last 2 versions",
-    "not dead",
-    "not IE 11"
+    "not dead"
   ]
 }

@@ -1,33 +1,22 @@
-/* -- PostCSS Variables -- */
+/* -- Custom Media Queries -- */
 /*
- * These variables use postcss-simple-vars ($variable syntax)
- * They are compiled at build time and replaced with actual values
+ * Mobile-first breakpoints (min-width)
+ * Matches WordPress core Gutenberg approach
  *
- * Use these for:
- * - Media query breakpoints
- * - Any values that need to be computed at build time
+ * Write base styles for mobile, then enhance for larger screens:
  *
- * For runtime CSS custom properties, use theme.json instead
- * (colors, spacing, typography, etc.)
- */
-
-
-/* Breakpoints */
-/* Using common WordPress responsive breakpoints */
-$breakpoint-mobile: 600px;   /* Mobile devices */
-$breakpoint-tablet: 781px;   /* WordPress core column breakpoint */
-
-
-
-/* Usage Examples:
+ * .element { padding: 1rem; }
  *
- * Desktop-first (max-width):
- * @media only screen and (max-width: $breakpoint-mobile) {
- *     .mobile-only { display: block; }
+ * @media (--tablet) {
+ *     .element { padding: 2rem; }
  * }
  *
- * Between breakpoints:
- * @media only screen and (min-width: $breakpoint-tablet) and (max-width: $breakpoint-desktop) {
- *     .tablet-only { display: block; }
+ * @media (--desktop) {
+ *     .element { padding: 3rem; }
  * }
  */
+
+
+/* Breakpoints - mobile-first (min-width) */
+@custom-media --tablet (min-width: 600px);   /* Tablet and up */
+@custom-media --desktop (min-width: 782px);  /* Desktop and up */
