@@ -43,7 +43,7 @@
 }
 
 .wp-block-cover,
-.has-background,
+.wp-block-group,
 [class*="is-style-section"] {
 
 	&:not(.alignfull) {
@@ -55,6 +55,16 @@
 		 padding-block: var(--wp--preset--spacing--x-large);
 	}
 }
+
+/* Auto padding when a GROUP has a background */
+.wp-block-group, 
+.wp-block-cover {
+	
+	&.has-background:not(.alignfull) {
+		padding: var(--wp--preset--spacing--medium);
+	}
+}
+
 
 /*
  * Large container spacing
@@ -132,6 +142,10 @@ article.type-page > *  {
 
 .is-style-large-gap {
     gap: var(--wp--preset--spacing--large);
+}
+
+.is-style-card > * {
+	margin-block-start: 0;
 }
 
 

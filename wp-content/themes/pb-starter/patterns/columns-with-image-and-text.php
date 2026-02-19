@@ -1,7 +1,7 @@
 <?php
 /**
- * Title: Text and Image Columns
- * Slug: fse-starter/text-and-image-columns-with-icons
+ * Title: Columns with image and text
+ * Slug: fse-starter/columns-with-image-and-text
  * Description: A two column layout with text and an image.
  * Categories:
  * Keywords: columns, text

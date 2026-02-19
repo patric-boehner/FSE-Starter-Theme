@@ -43,7 +43,7 @@ if ( ! empty( $block['textColor'] ) ) {
 
 // Class names for background colors
 if ( ! empty( $block['backgroundColor'] ) ) {
-    $classes_inner[] = 'has-icon-background-color';
+    $classes_inner[] = 'has-background';
     $classes_inner[] = 'has-' . $block['backgroundColor'] . '-background-color';
 }
 
@@ -91,6 +91,7 @@ if( ! empty( $data['icon_size'] ) ) {
 }
 
 // Join the classes together into one variable
+$block_classes_outter = esc_attr( join( ' ', $classes_outter ) );
 $block_classes_inner = esc_attr( join( ' ', $classes_inner ) );
 
 // Setup SVG

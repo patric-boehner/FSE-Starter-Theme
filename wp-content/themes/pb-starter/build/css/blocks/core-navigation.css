@@ -1,1 +1,104 @@
-.wp-block-navigation{--header-height:50px}.wp-block-navigation__container{gap:var(--wp--preset--spacing--small);& li{margin-top:0}}.wp-block-navigation-item__content,button.wp-block-navigation-item__content{font-size:var(--wp--preset--font-size--small)}.wp-block-navigation-item.current-menu-item .wp-block-navigation-item__content{color:var(--wp--preset--color--secondary);text-decoration:underline}.wp-block-navigation__responsive-container.is-menu-open{padding-block:var(--wp--preset--spacing--small);padding-left:var(--wp--style--root--padding-left);padding-right:var(--wp--style--root--padding-right);top:calc(var(--header-height) + var(--wp-admin--admin-bar--height,0px));overflow:visible;& .wp-block-navigation__responsive-dialog{margin-top:0!important}& .wp-block-navigation__responsive-container-content{padding-top:var(--wp--custom--spacing--gap);& .wp-block-navigation__container{gap:0;width:100%;line-height:1}& .has-child .wp-block-navigation__submenu-container{width:100%;padding-top:0;padding-right:0;display:none}& .wp-block-navigation-submenu__toggle[aria-expanded=true]~.wp-block-navigation-submenu{display:flex}& .wp-block-navigation__submenu-icon{width:1rem;height:auto;margin:0;padding:14px 0;display:block;position:absolute;right:0}}& .wp-block-navigation-item{width:100%;margin:0;& .wp-block-navigation-item__content{width:100%;padding:15px 24px 15px 15px;&:focus,&:hover{color:var(--wp--preset--color--secondary);text-decoration:underline}}}& .wp-block-navigastion__responsive-container-close{position:fixed;top:-30px;right:15px}}.wp-block-navigation__responsive-container:not(.is-menu-open){& .wp-block-navigation-item{align-items:center;gap:5px;display:flex}& .wp-block-navigation__submenu-container{& .wp-block-navigation-item__content{&:focus,&:hover{text-decoration:underline}}}}.home .wp-block-home-link{display:none!important}
+.wp-block-navigation {
+  --header-height: 50px;
+}
+
+.wp-block-navigation__container {
+  gap: var(--wp--preset--spacing--small);
+
+  & li {
+    margin-top: 0;
+  }
+}
+
+.wp-block-navigation-item__content, button.wp-block-navigation-item__content {
+  font-size: var(--wp--preset--font-size--small);
+}
+
+.wp-block-navigation-item.current-menu-item .wp-block-navigation-item__content {
+  color: var(--wp--preset--color--secondary);
+  text-decoration: underline;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open {
+  padding-block: var(--wp--preset--spacing--small);
+  padding-left: var(--wp--style--root--padding-left);
+  padding-right: var(--wp--style--root--padding-right);
+  top: calc(var(--header-height) + var(--wp-admin--admin-bar--height, 0px));
+  overflow: visible;
+
+  & .wp-block-navigation__responsive-dialog {
+    margin-top: 0 !important;
+  }
+
+  & .wp-block-navigation__responsive-container-content {
+    padding-top: var(--wp--custom--spacing--gap);
+
+    & .wp-block-navigation__container {
+      gap: 0;
+      width: 100%;
+      line-height: 1;
+    }
+
+    & .has-child .wp-block-navigation__submenu-container {
+      width: 100%;
+      padding-top: 0;
+      padding-right: 0;
+      display: none;
+    }
+
+    & .wp-block-navigation-submenu__toggle[aria-expanded="true"] ~ .wp-block-navigation-submenu {
+      display: flex;
+    }
+
+    & .wp-block-navigation__submenu-icon {
+      width: 1rem;
+      height: auto;
+      margin: 0;
+      padding: 14px 0;
+      display: block;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  & .wp-block-navigation-item {
+    width: 100%;
+    margin: 0;
+
+    & .wp-block-navigation-item__content {
+      width: 100%;
+      padding: 15px 24px 15px 15px;
+
+      &:focus, &:hover {
+        color: var(--wp--preset--color--secondary);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  & .wp-block-navigastion__responsive-container-close {
+    position: fixed;
+    top: -30px;
+    right: 15px;
+  }
+}
+
+.wp-block-navigation__responsive-container:not(.is-menu-open) {
+  & .wp-block-navigation-item {
+    align-items: center;
+    gap: 5px;
+    display: flex;
+  }
+
+  & .wp-block-navigation__submenu-container {
+    & .wp-block-navigation-item__content {
+      &:focus, &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.home .wp-block-home-link {
+  display: none !important;
+}

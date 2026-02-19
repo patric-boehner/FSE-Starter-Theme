@@ -1,1 +1,14 @@
-.wp-block-outermost-social-sharing:not(.is-style-logos-only){& .outermost-social-sharing-link{color:var(--wp--preset--color--primary);background-color:#0000;& a{padding:0;&:hover,&:focus{color:var(--wp--preset--color--primary-light)}}}}
+.wp-block-outermost-social-sharing:not(.is-style-logos-only) {
+  & .outermost-social-sharing-link {
+    color: var(--wp--preset--color--primary);
+    background-color: #0000;
+
+    & a {
+      padding: 0;
+
+      &:hover, &:focus {
+        color: var(--wp--preset--color--primary-light);
+      }
+    }
+  }
+}

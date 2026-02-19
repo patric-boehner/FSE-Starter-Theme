@@ -1,18 +1,55 @@
 /* -- Forms -- */
 
 input,
-select,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+input[type="button"],
+input[type="email"],
+input[type="search"],
+input[type="submit"],
+input[type="text"],
 textarea {
+	-webkit-appearance: none;
+    appearance: none;
+}
+
+input:not([type="submit"]),
+select,
+textarea,
+.wp-block-post-comments-form input:not([type="submit"]):not([type="checkbox"]),
+.wp-block-post-comments-form textarea {
 	background-color: var(--wp--preset--color--base);
 	border: 1px solid var(--wp--preset--color--contrast);
 	border-radius: 0;
 	color: var(--wp--preset--color--contrast);
-	font-family: var(--wp--preset--font-family--primary);
-	/* font-size: var(--wp--preset--font-size--x-large); */
-	font-weight: var(--wp--custom--font-weight--light);
-	line-height: var(--wp--custom--line-height--body);
-	padding: 10px 20px;
+	padding: .5em 1em;
+}
+
+input:focus-visible,
+textarea:focus-visible {
+	outline: auto;
+	outline-color: var(--wp--preset--color--secondary);;
+}
+
+input[type="checkbox"],
+input[type="image"],
+input[type="radio"] {
+	width: auto;
+}
+
+label {
 	width: 100%;
+	display: block;
+}
+
+::placeholder {
+	color: var(--wp--preset--color--secondary);
+	font-size: var(--wp--preset--font-size--small);
+	opacity: 0.75;
 }
 
 /* select {
@@ -34,44 +71,3 @@ textarea {
 		color: inherit;
 	}
 } */
-
-input:focus,
-textarea:focus {
-	background-color: var(--wp--preset--color--neutral);
-	border-color: var(--wp--preset--color--secondary);
-	outline: none;
-}
-
-input:focus-visible,
-textarea:focus-visible {
-	outline: auto;
-}
-
-input[type="checkbox"],
-input[type="image"],
-input[type="radio"] {
-	width: auto;
-}
-
-input[type="button"],
-input[type="email"],
-input[type="search"],
-input[type="submit"],
-input[type="text"],
-textarea {
-	-webkit-appearance: none;
-    appearance: none;
-}
-
-input[type='submit'] {}
-
-::placeholder {
-	color: var(--wp--preset--color--contrast);
-}
-
-label {
-	color: var(--wp--preset--color--black);
-	display: inline-block;
-	font-weight: 700;
-	letter-spacing: 0.032px;
-}
