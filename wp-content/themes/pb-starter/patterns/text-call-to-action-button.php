@@ -1,13 +1,11 @@
 <?php
 /**
  * Title: Text Call To Action Button
- * Slug: fse-starter/text-call-to-action-button
+ * Slug: pb-starter/text-call-to-action-button
  * Description: A call to action with text and a button.
- * Categories:
+ * Categories: call-to-action
  * Keywords: cta, call to action, buttons, heading
  * Viewport Width: 1700
- * Block Types:
- * Post Types:
  * Inserter: true
  */
 ?>

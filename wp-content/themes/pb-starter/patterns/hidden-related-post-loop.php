@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: List of Related Posts
- * Slug: fse-starter/hidden-related-post-loop
+ * Slug: pb-starter/hidden-related-post-loop
  * Inserter: false
  */
 ?>
@@ -17,7 +17,7 @@
 
 		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
 
-			 <!-- wp:pattern {"slug":"fse-starter/hidden-card-related-post"} /-->
+			 <!-- wp:pattern {"slug":"pb-starter/hidden-card-related-post"} /-->
 	 
 		<!-- /wp:post-template -->
 

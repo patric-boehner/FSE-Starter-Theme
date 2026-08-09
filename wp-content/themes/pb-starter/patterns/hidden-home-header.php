@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Home Header
- * Slug: fse-starter/hidden-home-header
+ * Slug: pb-starter/hidden-home-header
  * Inserter: false
  * 
  * In the future, this could be replaced with a dynamic title and description using block bindings

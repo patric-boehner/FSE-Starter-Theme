@@ -2,7 +2,7 @@
 /**
  * WordPress Media Customizations
  *
- * @package fse-starter
+ * @package pb-starter
  **/
 
 // Set medium size to theme.json content width

@@ -2,7 +2,7 @@
 /**
  * Filter the Navigation Block
  *
- * @package fse-starter
+ * @package pb-starter
  **/
 
 

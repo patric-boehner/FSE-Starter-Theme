@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Entry Footer
- * Slug: fse-starter/hidden-entry-footer
+ * Slug: pb-starter/hidden-entry-footer
  * Inserter: false
  */
 ?>

@@ -2,7 +2,7 @@
 /**
  * Wordpress Archive
  *
- * @package fse-starter
+ * @package pb-starter
  **/
 
 

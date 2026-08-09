@@ -2,7 +2,7 @@
 /**
  * WordPress Comments
  *
- * @package fse-starter
+ * @package pb-starter
  **/
 
  

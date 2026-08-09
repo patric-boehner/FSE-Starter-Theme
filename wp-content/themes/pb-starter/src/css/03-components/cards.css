@@ -1,0 +1,55 @@
+/* -- Cards -- */
+
+/*
+ * Card surface. A utility applied by patterns, not a registered block style —
+ * editors get cards from the pattern rather than from a style picker.
+ *
+ * theme.json disables the border and shadow *controls* so they can't be applied
+ * ad hoc; the appearance is owned here instead. Applies to core/group and
+ * core/column, so it can't live in a per-block stylesheet.
+ */
+
+.is-style-card {
+	background-color: var(--wp--preset--color--base);
+	border: var(--wp--custom--border--width) solid var(--wp--preset--color--border-light);
+	border-radius: var(--wp--custom--border--radius);
+	overflow: hidden; /* clips flush media to the rounded corners */
+	padding: var(--wp--preset--spacing--medium);
+}
+
+/*
+ * A card using a constrained layout picks up .has-global-padding, and core
+ * zeroes the inline padding of nested constrained containers at (0,1,0) — an
+ * exact tie with the rule above, so source order decides and it flips between
+ * the front end and the editor. One more class settles it. See the matching
+ * note in 02-base/layout.css.
+ */
+.has-global-padding.is-style-card {
+	padding-inline: var(--wp--preset--spacing--medium);
+}
+
+/*
+ * A card owns its internal rhythm here rather than carrying blockGap in the
+ * pattern, so editors never see a spacing control on a card's contents.
+ */
+.is-style-card > * {
+	margin-block-start: 0;
+}
+
+.is-style-card > * + * {
+	margin-block-start: var(--wp--preset--spacing--medium);
+}
+
+/* Media leading a card sits flush to the edge, and flush against the body below. */
+.is-style-card > figure.wp-block-image:first-child + * {
+	margin-block-start: 0;
+}
+
+/*
+ * A card that leads with media sits the media flush against the card edge.
+ * The body below it supplies its own padding, either from a background
+ * (see the auto-padding rule in 02-base/layout.css) or from a nested group.
+ */
+.is-style-card:has(> figure.wp-block-image:first-child) {
+	padding: 0;
+}

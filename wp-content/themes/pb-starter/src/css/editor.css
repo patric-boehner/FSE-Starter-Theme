@@ -7,3 +7,6 @@
 @import './02-base/global.css';
 @import './02-base/layout.css';
 
+/* Components — shared with the front end to keep the editor WYSIWYG */
+@import './03-components/cards.css';
+

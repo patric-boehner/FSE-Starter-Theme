@@ -6,23 +6,44 @@
  * Usage:
  *   node build.js              Build all (development)
  *   node build.js --production Build all (minified)
+ *   node build.js --watch      Build all, then rebuild on change
  *   node build.js css          Build CSS only
  *   node build.js js           Build JS only
  *   node build.js svg          Build SVG only
  *   node build.js assets       Copy fonts/images only
  */
 
-const { bundle, browserslistToTargets } = require('lightningcss');
+const { bundle, browserslistToTargets, Features } = require('lightningcss');
 const esbuild = require('esbuild');
 const { optimize } = require('svgo');
 const fs = require('fs');
 const path = require('path');
 
-const isProduction = process.argv.includes('--production');
-const task = process.argv[2];
+const flags = process.argv.slice(2).filter(arg => arg.startsWith('--'));
+const isProduction = flags.includes('--production');
+const isWatch = flags.includes('--watch');
+const task = process.argv.slice(2).find(arg => !arg.startsWith('--'));
+
+// Debounce window for file events. Editors and asset tools often emit several
+// writes per save; without this a single save triggers duplicate rebuilds.
+const WATCH_DEBOUNCE_MS = 50;
 
 // Browser targets from browserslist
 const targets = browserslistToTargets(['last 2 versions', 'not dead']);
+
+/**
+ * Features always compiled away, regardless of browser support.
+ *
+ * Nesting: WordPress runs editor styles through postcss-prefix-selector to
+ * scope them to .editor-styles-wrapper. Its selector tokenizer does not
+ * understand the `&` nesting selector, and transformStyles discards the
+ * ENTIRE stylesheet on any error (returning null and logging
+ * "wp.blockEditor.transformStyles Failed to transform CSS." to the console).
+ *
+ * The browsers we target support nesting fine — this exists purely so authors
+ * can keep writing nested CSS without silently killing every editor style.
+ */
+const include = Features.Nesting;
 
 /**
  * Ensure directory exists
@@ -57,6 +78,7 @@ function buildCSS() {
             filename: inputPath,
             minify: isProduction,
             targets,
+            include,
             drafts: {
                 customMedia: true
             }
@@ -82,6 +104,7 @@ function buildCSS() {
                 filename: inputPath,
                 minify: isProduction,
                 targets,
+                include,
                 drafts: {
                     customMedia: true
                 }
@@ -251,33 +274,96 @@ function copyDirRecursive(src, dest) {
 }
 
 /**
+ * Task table
+ *
+ * `dirs` and `ext` describe what each task watches, so build and watch stay
+ * driven by the same definitions.
+ */
+const TASKS = [
+    { name: 'css', run: buildCSS, dirs: ['src/css'], ext: '.css' },
+    { name: 'js', run: buildJS, dirs: ['src/js'], ext: '.js' },
+    { name: 'svg', run: buildSVG, dirs: ['src/svg'], ext: '.svg' },
+    { name: 'assets', run: buildAssets, dirs: ['src/fonts', 'src/images'] }
+];
+
+/**
+ * Run a task, converting a thrown error into a logged failure
+ *
+ * Used in watch mode only: a CSS syntax error should print and leave the
+ * watcher running, not kill the dev process. One-shot builds let the error
+ * propagate so `npm run build` exits non-zero.
+ */
+function runSafely(taskDef) {
+    try {
+        taskDef.run();
+    } catch (error) {
+        console.error(`\n${taskDef.name} build failed:`);
+        console.error(`  ${error.message}\n`);
+    }
+}
+
+/**
+ * Watch source directories and rebuild the affected task
+ *
+ * Uses Node's built-in recursive fs.watch (FSEvents on macOS) rather than a
+ * watcher dependency.
+ */
+function watch(taskDefs) {
+    console.log('Watching for changes (Ctrl-C to stop)...\n');
+
+    taskDefs.forEach(taskDef => {
+        let timer = null;
+
+        const queueRebuild = () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => runSafely(taskDef), WATCH_DEBOUNCE_MS);
+        };
+
+        taskDef.dirs.forEach(dir => {
+            if (!fs.existsSync(dir)) {
+                return;
+            }
+
+            fs.watch(dir, { recursive: true }, (event, filename) => {
+                // Ignore unrelated files (editor swap files, .DS_Store, etc.)
+                if (taskDef.ext && filename && !filename.endsWith(taskDef.ext)) {
+                    return;
+                }
+
+                queueRebuild();
+            });
+
+            console.log(`  watching ${dir}`);
+        });
+    });
+
+    console.log('');
+}
+
+/**
  * Run build tasks
  */
 function build() {
-    console.log(`\nBuilding theme (${isProduction ? 'production' : 'development'})...\n`);
+    let selected = TASKS;
 
-    // Run specific task or all tasks
-    switch (task) {
-        case 'css':
-            buildCSS();
-            break;
-        case 'js':
-            buildJS();
-            break;
-        case 'svg':
-            buildSVG();
-            break;
-        case 'assets':
-            buildAssets();
-            break;
-        default:
-            buildCSS();
-            buildJS();
-            buildSVG();
-            buildAssets();
+    if (task) {
+        selected = TASKS.filter(taskDef => taskDef.name === task);
+
+        if (selected.length === 0) {
+            console.error(`Unknown task "${task}". Expected: ${TASKS.map(t => t.name).join(', ')}`);
+            process.exit(1);
+        }
     }
 
-    console.log('Build complete.');
+    console.log(`\nBuilding theme (${isProduction ? 'production' : 'development'})...\n`);
+
+    selected.forEach(taskDef => isWatch ? runSafely(taskDef) : taskDef.run());
+
+    console.log('Build complete.\n');
+
+    if (isWatch) {
+        watch(selected);
+    }
 }
 
 build();

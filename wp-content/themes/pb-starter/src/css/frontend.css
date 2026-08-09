@@ -12,6 +12,7 @@
 
 
 /* Components */
+@import './03-components/cards.css';
 @import './03-components/icons.css';
 @import './03-components/headers.css';
 @import './03-components/pagination.css';

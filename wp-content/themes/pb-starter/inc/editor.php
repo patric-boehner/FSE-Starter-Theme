@@ -2,7 +2,7 @@
 /**
  * WordPress Editor Customizations
  *
- * @package fse-starter
+ * @package pb-starter
  **/
 
 

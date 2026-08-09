@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Entry Pagination
- * Slug: fse-starter/hidden-entry-pagination
+ * Slug: pb-starter/hidden-entry-pagination
  * Inserter: false
  */
 ?>

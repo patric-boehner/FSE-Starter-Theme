@@ -23,12 +23,12 @@ ol {
 	padding-inline-start: var(--wp--custom--spacing--gap);
 
 	& > li + li {
-		margin-top: var(--wp--preset--spacing--x-small);
+		margin-top: var(--wp--preset--spacing--small);
 	}
 
 	ul,
 	ol {
-		margin-top: var(--wp--preset--spacing--x-small);
+		margin-top: var(--wp--preset--spacing--small);
 	}
 }
 
@@ -68,11 +68,11 @@ th {
 
 
 sup {
-	color: var(--wp--preset--color--primary-500);
+	color: var(--wp--preset--color--primary);
 	font-size: 0.75rem;
 
 	a {
-		color: var(--wp--preset--color--primary-500);
+		color: var(--wp--preset--color--primary);
 		text-decoration: none;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Filter the Excerpt Block
  *
- * @package fse-starter
+ * @package pb-starter
  **/
 
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Entry Share Links
- * Slug: fse-starter/hidden-entry-share
+ * Slug: pb-starter/hidden-entry-share
  * Inserter: false
  */
 ?>

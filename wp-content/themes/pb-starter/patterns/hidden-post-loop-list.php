@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: List of posts
- * Slug: fse-starter/hidden-post-loop-list
+ * Slug: pb-starter/hidden-post-loop-list
  * Block Types: core/query
  * Inserter: false
  */
@@ -23,7 +23,7 @@
 
 	<!-- /wp:post-template -->
 
-	<!-- wp:pattern {"slug":"fse-starter/hidden-post-loop-pagination"} /-->
+	<!-- wp:pattern {"slug":"pb-starter/hidden-post-loop-pagination"} /-->
 
 </div>
 <!-- /wp:query -->

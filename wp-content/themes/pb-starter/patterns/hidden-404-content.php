@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: 404 error content.
- * Slug: fse-starter/hidden-404-content
+ * Slug: pb-starter/hidden-404-content
  * Inserter: false
  */
 ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Search Header
- * Slug: fse-starter/hidden-search-header
+ * Slug: pb-starter/hidden-search-header
  * Inserter: false
  */
 ?>

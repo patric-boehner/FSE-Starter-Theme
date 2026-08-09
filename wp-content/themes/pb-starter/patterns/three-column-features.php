@@ -3,12 +3,10 @@
  * Title: Three Column Features
  * Slug: pb-starter/three-column-features
  * Description: A centered heading with description followed by three equal columns of text content
- * Categories:
+ * Categories: pb-starter/features, columns
  * Keywords: columns, features
  * Viewport Width: 1700
- * Block Types:
- * Post Types:
- * Inserter: true 
+ * Inserter: true
 */
 ?>
 <!-- wp:group {"align":"full","layout":{"type":"constrained","justifyContent":"center"}} -->

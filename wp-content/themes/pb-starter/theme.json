@@ -267,6 +267,10 @@
 			"transition": {
 				"default": "all 0.2s ease-in-out"
 			},
+			"border": {
+				"width": "1px",
+				"radius": "5px"
+			},
 			"spacing": {
 				"gap": "1.875rem"
 			},

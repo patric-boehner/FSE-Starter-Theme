@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Comments section and form
- * Slug: fse-starter/hidden-comments
+ * Slug: pb-starter/hidden-comments
  * Inserter: false
  */
 

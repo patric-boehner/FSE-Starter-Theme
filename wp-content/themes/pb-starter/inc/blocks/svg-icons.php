@@ -7,7 +7,7 @@
  *
  * Icons are stored in: /build/svg/blocks/
  *
- * @package fse-starter
+ * @package pb-starter
  */
 
 

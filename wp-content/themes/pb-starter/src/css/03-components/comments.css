@@ -9,7 +9,7 @@
 }
 
 .comment-meta > * {
-	margin-block-start: var(--wp--preset--spacing--x-small);
+	margin-block-start: var(--wp--preset--spacing--small);
 }
 
 :where(.wp-block-post-comments-form) input:not([type="submit"]), 

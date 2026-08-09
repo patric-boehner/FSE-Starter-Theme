@@ -1,0 +1,19 @@
+/* -- Core Separator -- */
+
+/*
+ * Core's separator styles (default, wide, dots) are unregistered in
+ * inc/setup/block-editor.php, so the theme owns the appearance. A thin rule in
+ * the border colour is the only variant the design system uses.
+ */
+
+.wp-block-separator {
+	border: 0;
+	border-top: var(--wp--custom--border--width) solid var(--wp--preset--color--border-light);
+	opacity: 1;
+
+	/* Core sets a narrow default width; a separator here spans its container. */
+	&:not(.is-style-wide) {
+		width: 100%;
+		max-width: none;
+	}
+}

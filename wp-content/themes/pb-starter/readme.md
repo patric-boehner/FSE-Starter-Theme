@@ -177,7 +177,34 @@ blocks/
 
 ### Contextual Spacing Philosophy
 
-CSS handles spacing automatically based on context - editors don't need to adjust spacing controls:
+CSS handles spacing automatically based on context - editors don't need to adjust spacing controls.
+
+#### The rhythm scale
+
+Spacing steps up as the relationship between two blocks gets looser. **Text and heading spacing
+is the base rhythm** - that is why the root `blockGap` is `small` rather than the `large` that
+content sections use:
+
+| Step | Sits between | Set by |
+|---|---|---|
+| `small` | paragraph to paragraph - the base prose rhythm | `theme.json` root `blockGap` |
+| `medium` | a **container** following a sibling, at any depth - plus a heading or image interrupting prose | the structural and prose rules |
+| `large` | top-level blocks in the content area | `.site-content > *`, `article.type-* > *` |
+| `x-large` | full-width sections | the section rule below |
+
+The `medium` step splits along **containers vs. elements**. A `group`, `columns`, `cover` or
+`query` is a structural boundary wherever it sits, so it steps up at any depth - inside a section,
+a column, a card or a grid cell. A heading or image only steps up when it is breaking up prose in
+an article; inside a service card an image and its heading are one unit and stay tight.
+
+The container rule is deliberately loose - no depth limit, no list of parent contexts - so nesting
+a pattern one level deeper never silently loses its rhythm. Tighten it by excluding a specific
+case, not by enumerating the allowed ones.
+
+Paragraph-to-paragraph inside `core/post-content` therefore sits at `small`. That is the intended
+base, not drift - the looser relationships step up from it rather than the base stepping down.
+
+**A full-width block sitting directly in the content area is a section.** That is the whole model:
 
 ```css
 /* Standard spacing between content blocks */
@@ -185,16 +212,57 @@ CSS handles spacing automatically based on context - editors don't need to adjus
     margin-block-start: var(--wp--preset--spacing--large);
 }
 
-/* Full-width blocks get extra breathing room */
-.site-content > .alignfull {
+/* A section - a full-width container, scoped to the content area,
+   so headers and footers never match and need no reset */
+:where(
+    .site-content,
+    .entry-content,
+    .is-root-container:not(.wp-site-blocks)
+) > :where(.wp-block-group, .wp-block-cover).alignfull {
     margin-block-start: var(--wp--preset--spacing--x-large);
 }
 
 /* When sections with backgrounds touch, remove gap */
-.alignfull.has-background + .alignfull.has-background {
+.alignfull:where(.has-background, [class*="is-style-section"], .wp-block-cover)
++ .alignfull:where(.has-background, [class*="is-style-section"], .wp-block-cover) {
     margin-block-start: 0;
 }
 ```
+
+Padding follows the surface, not the tag. A container insets its contents only when it has a
+background, a cover image, or a section style variation. A plain group is a grouping device,
+not a box, so it stays flush and padding never compounds however deeply blocks nest.
+
+#### The three-layer cascade
+
+Spacing resolves in a deliberate order, and the order is enforced by specificity:
+
+| Layer | Form | Specificity |
+|---|---|---|
+| 1. Automatic defaults | `:where(context) > .thing:where(qualifier)` | (0,1,0) |
+| 2. Component / chrome | `.header-base`, `.footer-base`, `.is-style-card` | (0,1,0), declared later |
+| 3. Editor controls | inline `style=""` from the spacing panel | inline |
+
+> **Invariant: a default rule never exceeds (0,1,0).** Put contexts and qualifiers inside
+> `:where()`, which contributes nothing, and leave a single class on the thing being styled.
+>
+> This is not stylistic. A default that reaches (0,2,0) silently outranks the component rule
+> meant to override it, and no amount of source reordering will fix it. A nested
+> `.wp-block-group { &.alignfull { padding-block: x-large } }` compiles to (0,2,0) and once gave
+> every header and footer roughly six times the padding they asked for.
+
+There are two documented exceptions, both marked in the CSS. Each exists because a **core** rule
+sits at the same specificity, and a tie is decided by source order — which inverts between the
+front end and the editor, so matching specificity is not enough:
+
+- **Section rhythm in the post editor.** Core scopes its editor blockGap to
+  `.block-editor-block-list__layout.is-root-container` (two classes).
+- **Inline padding on nested surfaces.** Core zeroes it on nested constrained containers to stop
+  root padding compounding; a surfaced box owns its own inset, so the theme restores it at
+  `.has-global-padding.has-background` and friends.
+
+Before adding a third, check that the thing you are fighting really is a core rule at equal
+specificity — the fix for a theme-vs-theme conflict is source order, not more classes.
 
 ---
 
