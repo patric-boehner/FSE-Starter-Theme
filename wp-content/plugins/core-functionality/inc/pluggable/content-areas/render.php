@@ -161,7 +161,7 @@ function cf_render_content_item( $post_id, $slug ) {
  */
 function cf_slot_classes( $config ) {
 
-	$classes = array( 'cf-content-slot', 'cf-content-slot--' . $config['slug'] );
+	$classes = array( 'content-slot', 'content-slot-' . $config['slug'] );
 
 	if ( ! empty( $config['class'] ) ) {
 		$classes = array_merge( $classes, explode( ' ', $config['class'] ) );
