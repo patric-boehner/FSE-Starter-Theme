@@ -1,13 +1,14 @@
 <?php
 /**
  * Title: Header
- * Slug: fse-starter/hidden-header-default
+ * Slug: pb-starter/hidden-header-default
  * Categories: header
  * Block Types: core/template-part/header
+ * Inserter: false
  */
 ?>
 
-<!-- wp:cf/block-area {"name":"cf/block-area","data":{"block_area_id":"16","_block_area_id":"field_68366e6dd7e7a"},"mode":"preview"} /-->
+<!-- wp:cf/content-slot {"slot":"header"} /-->
 
 <!-- wp:group {"align":"full","className":"header-base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull header-base">

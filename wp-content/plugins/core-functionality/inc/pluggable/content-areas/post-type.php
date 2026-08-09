@@ -63,54 +63,15 @@ if ( ! function_exists( 'cf_register_content_areas_post_type' ) ) {
           'exclude_from_search' => true, // If set to true will remove the custom post type from search, but also from the main query on the taxonomy page
           'rewrite'             => false,
           'taxonomies'          => array( 'category' ),
-          'capabilities'        => array(
-            'edit_post'          => 'manage_options',
-            'read_post'          => 'manage_options',
-            'delete_post'        => 'manage_options',
-            'edit_posts'         => 'manage_options',
-            'edit_others_posts'  => 'manage_options',
-            'delete_posts'       => 'manage_options',
-            'publish_posts'      => 'manage_options',
-            'read_private_posts' => 'manage_options'
-         )
+          // Editors write CTA copy; placement stays admin-only via the _cf_slot
+          // meta auth_callback in meta.php. Authors and Contributors stay out.
+          'capability_type'     => 'page',
+          'map_meta_cap'        => true,
        );
 
        register_post_type( 'content_area', $args );
 
     }
-}
-
-
-add_action( 'init', 'register_block_area_location_taxonomy' );
-function register_block_area_location_taxonomy() {
-	register_taxonomy(
-		'block_area_location',
-		'content_area',
-		array(
-			'labels' => array(
-				'name'                       => __( 'Locations', 'core-functionality' ),
-				'singular_name'              => __( 'Location', 'core-functionality' ),
-				'search_items'               => __( 'Search Locations', 'core-functionality' ),
-				'all_items'                  => __( 'All Locations', 'core-functionality' ),
-				'parent_item'                => __( 'Parent Location', 'core-functionality' ),
-				'parent_item_colon'          => __( 'Parent Location:', 'core-functionality' ),
-				'edit_item'                  => __( 'Edit Location', 'core-functionality' ),
-				'update_item'                => __( 'Update Location', 'core-functionality' ),
-				'add_new_item'               => __( 'Add New Location', 'core-functionality' ),
-				'new_item_name'              => __( 'New Location Name', 'core-functionality' ),
-				'menu_name'                  => __( 'Locations', 'core-functionality' ),
-				'not_found'                  => __( 'No Locations found', 'core-functionality' ),
-			),
-			'hierarchical'      => true,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-         'show_in_menu'      => false,
-			'show_in_rest'      => true,
-			'public'            => false,
-			'rewrite'           => array( 'slug' => 'block-area' ),
-         'sort'              => true,
-		)
-	);
 }
 
 
@@ -152,38 +113,6 @@ function cf_change_placeholder_title_text( $title ){
 	}
 
 	return $title;
-
-}
-
-
-// Make the block_area_location taxonomy column sortable
-add_filter( 'manage_edit-content_area_sortable_columns', 'cf_make_location_column_sortable' );
-function cf_make_location_column_sortable( $columns ) {
-    $columns['taxonomy-block_area_location'] = 'taxonomy-block_area_location';
-    return $columns;
-}
-
-
-// Handle the sorting when clicked
-add_action( 'pre_get_posts', 'cf_handle_location_column_sorting' );
-function cf_handle_location_column_sorting( $query ) {
-
-    if ( ! is_admin() || ! $query->is_main_query() ) {
-        return;
-    }
-
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading query param for display purposes only
-    $post_type = isset( $_GET['post_type'] ) ? sanitize_key( $_GET['post_type'] ) : '';
-    if ( 'content_area' !== $post_type ) {
-        return;
-    }
-
-    $orderby = $query->get( 'orderby' );
-
-    if ( 'taxonomy-block_area_location' === $orderby ) {
-        $query->set( 'orderby', 'title' );
-        $query->set( 'meta_key', '' );
-    }
 
 }
 

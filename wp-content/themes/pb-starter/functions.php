@@ -2,7 +2,7 @@
 /**
  * This file adds functions to the FSE Starter Theme WordPress theme.
  *
- * @package FSE Starter Theme
+ * @package pb-starter
  * @author  Patrick Boehner
  * @license GNU General Public License v3
  * @link    https://example.com/
@@ -26,12 +26,20 @@ define( 'THEME_PATH', get_template_directory() . '/' );
 define( 'THEME_URL', get_template_directory_uri() . '/' );
 define( 'THEME_INC', THEME_PATH . 'inc/' );
 
+// Opt-in section pattern library. Off by default; pattern-driven builds turn it
+// on here or, per environment, in wp-config.php.
+if ( ! defined( 'FSE_PATTERN_LIBRARY' ) ) {
+	define( 'FSE_PATTERN_LIBRARY', false );
+}
+
 
 // Functionality
 require_once THEME_INC . 'setup/setup.php';
 require_once THEME_INC . 'setup/scripts.php';
 require_once THEME_INC . 'setup/block-editor.php';
 require_once THEME_INC . 'setup/block-bindings.php';
+require_once THEME_INC . 'setup/patterns.php';
+require_once THEME_INC . 'content-slots.php';
 require_once THEME_INC . 'blocks/excerpt.php';
 // require_once THEME_INC . 'blocks/navigation.php';
 require_once THEME_INC . 'blocks/svg-icons.php';

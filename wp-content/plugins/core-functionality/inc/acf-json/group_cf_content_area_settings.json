@@ -1,0 +1,102 @@
+{
+    "key": "group_cf_content_area_settings",
+    "title": "Content Area Settings",
+    "fields": [
+        {
+            "key": "field_cf_content_area_slot",
+            "label": "Slot",
+            "name": "cf_slot_choice",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Where this content area appears. Pick an existing slot, or choose Custom to create a new one.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 1,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_cf_content_area_slot_custom",
+            "label": "New slot name",
+            "name": "cf_slot_custom",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Lowercase, hyphens instead of spaces. Must match the slot name used in the template, e.g. middle-of-content.",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_cf_content_area_slot",
+                        "operator": "==",
+                        "value": "__custom__"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_cf_content_area_post_types",
+            "label": "Limit to post types",
+            "name": "_cf_post_types",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "Optional. Leave empty to allow any post type. Combined with categories using AND.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": false,
+            "return_format": "value",
+            "multiple": 1,
+            "allow_null": 1,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "allow_in_bindings": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "content_area"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Placement and display conditions for a Content Area.",
+    "show_in_rest": 0,
+    "modified": 1786240000
+}

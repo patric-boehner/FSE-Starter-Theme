@@ -1,38 +1,63 @@
 <?php
 /**
- * Block template for: acf/block-area
+ * Content Slot block - server render.
  *
- * Dynamically pulls in a "content_area" post based on the selected content area location.
+ * Thin on purpose: a block is only one way a slot gets delivered, so the work
+ * lives in the shared renderer.
+ *
+ * @package CoreFunctionality
+ *
+ * @var array    $attributes Block attributes.
+ * @var string   $content    Block inner content.
+ * @var WP_Block $block      Block instance.
  */
 
-// Get the location from ACF field
-$location_term_id = get_field('block_area_id');
-$term = $location_term_id ? get_term($location_term_id, 'block_area_location') : null;
-$term_slug = $term ? $term->slug : '';
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Dynamic block ID
-$block_id = 'wp-block-area-' . $location_term_id;
-if ( isset( $block['anchor'] ) ) {
-    $block_id = $block['anchor'];
+$cf_slug      = isset( $attributes['slot'] ) ? sanitize_key( $attributes['slot'] ) : '';
+$cf_in_editor = defined( 'REST_REQUEST' ) && REST_REQUEST;
+
+// Unconfigured block: show a placeholder in the editor, nothing on the front end.
+if ( empty( $cf_slug ) ) {
+
+	if ( $cf_in_editor ) {
+		printf(
+			'<div class="components-placeholder"><div class="components-placeholder__label">%s</div><div class="components-placeholder__instructions">%s</div></div>',
+			esc_html__( 'Content Slot', 'core-functionality' ),
+			esc_html__( 'Choose a slot in the block settings sidebar.', 'core-functionality' )
+		);
+	}
+
+	return;
 }
 
-// Classes
-$class_name = 'wp-block-area';
-if ( $term_slug ) {
-    $class_name .= ' wp-block-area-' . $term_slug;
-}
-if ( !empty( $block['className'] ) ) {
-    $class_name .= ' ' . $block['className'];
+$cf_items = cf_resolve_slot( $cf_slug );
+
+// An empty slot is legitimate on the front end, but looks broken in the editor.
+if ( empty( $cf_items ) ) {
+
+	if ( $cf_in_editor ) {
+		$cf_candidates = cf_count_slot_candidates( $cf_slug );
+
+		printf(
+			'<div class="components-placeholder"><div class="components-placeholder__label">%s</div><div class="components-placeholder__instructions">%s</div></div>',
+			esc_html( sprintf( /* translators: %s: slot name */ __( 'Content Slot: %s', 'core-functionality' ), $cf_slug ) ),
+			esc_html(
+				$cf_candidates
+					? __( 'No Content Area matches this page yet. Publish one with no conditions to act as the default.', 'core-functionality' )
+					: __( 'No Content Area is assigned to this slot yet.', 'core-functionality' )
+			)
+		);
+	}
+
+	return;
 }
 
-// Check if we should show admin placeholder
-$show_admin_placeholder = is_admin() && empty($location_term_id);
-
-// Get rendered content if not showing placeholder
-$rendered_content = null;
-if (!$show_admin_placeholder) {
-    $rendered_content = get_rendered_content_area($location_term_id);
-}
-
-// Output template part
-include CORE_DIR . 'inc/pluggable/content-areas/block/template.php';
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block HTML; wrapper attributes are escaped in cf_wrap_slot_html().
+echo cf_get_slot_html(
+	$cf_slug,
+	array(
+		'id'    => isset( $attributes['anchor'] ) ? $attributes['anchor'] : '',
+		'class' => isset( $attributes['className'] ) ? $attributes['className'] : '',
+	)
+);

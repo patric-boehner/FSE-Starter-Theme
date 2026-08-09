@@ -30,8 +30,19 @@
 
 .site-header > *,
 .site-footer > *,
-.wp-block-area > * {
+.cf-content-slot > * {
     margin-block-start: 0;
+}
+
+
+/*
+ * Content slots delivered by a hook (wp_body_open, wp_footer) land OUTSIDE
+ * .wp-site-blocks, so the contextual spacing above never reaches them. Give them
+ * the constrained width explicitly rather than discovering the gap in the browser.
+ */
+body > .cf-content-slot {
+    margin-inline: auto;
+    max-width: var(--wp--style--global--wide-size);
 }
 
 
@@ -57,12 +68,25 @@
 }
 
 /* Auto padding when a GROUP has a background */
-.wp-block-group, 
+.wp-block-group,
 .wp-block-cover {
-	
+
 	&.has-background:not(.alignfull) {
 		padding: var(--wp--preset--spacing--medium);
 	}
+}
+
+/*
+ * Escape hatch for the automatic padding above.
+ *
+ * The padding rule is unconditional by design — it is what lets editors nest
+ * groups without touching a spacing control. Layout-only wrappers (a grid that
+ * holds cards, a flex row) want no inset of their own, so they opt out rather
+ * than every consumer opting in.
+ */
+.wp-block-group.is-style-flush,
+.wp-block-cover.is-style-flush {
+	padding: 0;
 }
 
 
@@ -144,9 +168,7 @@ article.type-page > *  {
     gap: var(--wp--preset--spacing--large);
 }
 
-.is-style-card > * {
-	margin-block-start: 0;
-}
+/* Card appearance lives in 03-components/cards.css */
 
 
 /*

@@ -26,7 +26,7 @@ function cf_selective_acf_save( $path ) {
 
     // Define your plugin's field groups by title
     $plugin_field_groups = [
-        'Block Area Block Settings',
+        'Content Area Settings',
         'Icon Block Settings',
         'Toggles Block Settings',
         'Toggle Item Block Settings'
