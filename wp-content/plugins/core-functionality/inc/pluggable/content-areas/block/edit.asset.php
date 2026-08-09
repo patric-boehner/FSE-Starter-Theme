@@ -15,6 +15,7 @@ return array(
 		'wp-server-side-render',
 		'wp-data',
 		'wp-i18n',
+		'wp-api-fetch',
 	),
 	// From the file itself, so editing edit.js always busts the browser cache.
 	'version'      => (string) filemtime( __DIR__ . '/edit.js' ),

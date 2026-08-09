@@ -22,17 +22,40 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
- * Get a slot's full HTML, wrapper included.
+ * Render a slot's content, without any wrapper.
  *
- * Resolves ANY slug, registered or not - registration is optional by design.
+ * @param string $slug Slot slug.
+ * @return array { debug, inner } - both empty strings when nothing resolves.
+ */
+function cf_render_slot_parts( $slug ) {
+
+	$items = cf_resolve_slot( $slug );
+	$inner = '';
+
+	foreach ( $items as $item ) {
+		$inner .= cf_render_content_item( $item['id'], $slug );
+	}
+
+	return array(
+		'debug' => cf_slot_debug_comment( $slug, $items, cf_get_request_context() ),
+		'inner' => trim( $inner ),
+	);
+
+}
+
+
+/**
+ * Get a slot's HTML for hook delivery, wrapper included.
  *
- * @param string $slug  Slot slug.
- * @param array  $extra Optional wrapper additions: 'id' and 'class'. The block
- *                      passes its anchor and custom class through here so there
- *                      is one wrapper rather than a block wrapper around ours.
+ * Hook-delivered slots have no block, so get_block_wrapper_attributes() cannot
+ * be used here - it reads WP_Block_Supports::$block_to_render, which only exists
+ * during a block render. The block path uses core's builder instead; see
+ * cf_get_slot_block_html().
+ *
+ * @param string $slug Slot slug.
  * @return string Empty string when nothing resolves.
  */
-function cf_get_slot_html( $slug, $extra = array() ) {
+function cf_get_slot_html( $slug ) {
 
 	$slug = sanitize_key( $slug );
 
@@ -40,22 +63,61 @@ function cf_get_slot_html( $slug, $extra = array() ) {
 		return '';
 	}
 
+	$parts = cf_render_slot_parts( $slug );
+
+	if ( '' === $parts['inner'] ) {
+		return $parts['debug'];
+	}
+
 	$config  = cf_get_slot_config( $slug );
-	$items   = cf_resolve_slot( $slug );
-	$context = cf_get_request_context();
-	$inner   = '';
+	$classes = cf_slot_classes( $config );
 
-	foreach ( $items as $item ) {
-		$inner .= cf_render_content_item( $item['id'], $slug );
+	return $parts['debug'] . sprintf(
+		'<%1$s class="%2$s">%3$s</%1$s>',
+		tag_escape( $config['tag'] ),
+		esc_attr( implode( ' ', $classes ) ),
+		$parts['inner'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block HTML.
+	);
+
+}
+
+
+/**
+ * Get a slot's HTML for the block, letting core build the wrapper.
+ *
+ * get_block_wrapper_attributes() handles anchor, custom class and every other
+ * enabled block support, so turning on spacing or colour later needs no changes
+ * here.
+ *
+ * @param string $slug Slot slug.
+ * @return string Empty string when nothing resolves.
+ */
+function cf_get_slot_block_html( $slug ) {
+
+	$slug = sanitize_key( $slug );
+
+	if ( empty( $slug ) ) {
+		return '';
 	}
 
-	$debug = cf_slot_debug_comment( $slug, $items, $context );
+	$parts = cf_render_slot_parts( $slug );
 
-	if ( '' === trim( $inner ) ) {
-		return $debug;
+	if ( '' === $parts['inner'] ) {
+		return $parts['debug'];
 	}
 
-	return $debug . cf_wrap_slot_html( $inner, $config, $extra );
+	$config = cf_get_slot_config( $slug );
+
+	$attributes = get_block_wrapper_attributes(
+		array( 'class' => implode( ' ', cf_slot_classes( $config ) ) )
+	);
+
+	return $parts['debug'] . sprintf(
+		'<%1$s %2$s>%3$s</%1$s>',
+		tag_escape( $config['tag'] ),
+		$attributes, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by core.
+		$parts['inner'] // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block HTML.
+	);
 
 }
 
@@ -92,14 +154,12 @@ function cf_render_content_item( $post_id, $slug ) {
 
 
 /**
- * Wrap rendered content in the slot's element.
+ * The slot's own classes, shared by both wrappers.
  *
- * @param string $inner  Rendered inner HTML.
- * @param array  $config Slot config.
- * @param array  $extra  Optional 'id' and 'class' additions.
- * @return string
+ * @param array $config Slot config.
+ * @return array
  */
-function cf_wrap_slot_html( $inner, $config, $extra = array() ) {
+function cf_slot_classes( $config ) {
 
 	$classes = array( 'cf-content-slot', 'cf-content-slot--' . $config['slug'] );
 
@@ -107,21 +167,7 @@ function cf_wrap_slot_html( $inner, $config, $extra = array() ) {
 		$classes = array_merge( $classes, explode( ' ', $config['class'] ) );
 	}
 
-	if ( ! empty( $extra['class'] ) ) {
-		$classes = array_merge( $classes, explode( ' ', $extra['class'] ) );
-	}
-
-	$classes = array_filter( array_map( 'sanitize_html_class', $classes ) );
-	$tag     = tag_escape( $config['tag'] );
-	$id      = ! empty( $extra['id'] ) ? sprintf( ' id="%s"', esc_attr( $extra['id'] ) ) : '';
-
-	return sprintf(
-		'<%1$s%2$s class="%3$s">%4$s</%1$s>',
-		$tag,
-		$id, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above.
-		esc_attr( implode( ' ', array_unique( $classes ) ) ),
-		$inner // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block HTML.
-	);
+	return array_unique( array_filter( array_map( 'sanitize_html_class', $classes ) ) );
 
 }
 

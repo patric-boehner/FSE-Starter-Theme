@@ -53,11 +53,5 @@ if ( empty( $cf_items ) ) {
 	return;
 }
 
-// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block HTML; wrapper attributes are escaped in cf_wrap_slot_html().
-echo cf_get_slot_html(
-	$cf_slug,
-	array(
-		'id'    => isset( $attributes['anchor'] ) ? $attributes['anchor'] : '',
-		'class' => isset( $attributes['className'] ) ? $attributes['className'] : '',
-	)
-);
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered block HTML; wrapper attributes come from get_block_wrapper_attributes().
+echo cf_get_slot_block_html( $cf_slug );

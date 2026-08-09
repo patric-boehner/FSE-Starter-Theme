@@ -6,13 +6,15 @@
  * The slot field is a quick-pick of known slugs plus free text: any slug works
  * whether or not it was registered, so the select is a convenience, not a gate.
  */
-( function ( blocks, element, blockEditor, components, ServerSideRender, i18n ) {
+( function ( blocks, element, blockEditor, components, ServerSideRender, i18n, apiFetch ) {
 	'use strict';
 
 	var el = element.createElement;
 	var Fragment = element.Fragment;
 	var useState = element.useState;
+	var useEffect = element.useEffect;
 	var __ = i18n.__;
+	var sprintf = i18n.sprintf;
 
 	var CUSTOM = '__custom__';
 	var known = window.cfContentSlots || [];
@@ -41,6 +43,53 @@
 		return known.some( function ( option ) {
 			return option.value === slug;
 		} );
+	}
+
+	/**
+	 * Ask the server which content area this slot currently resolves to, so the
+	 * toolbar can offer "Edit Content Area" the way template parts offer
+	 * "Edit Original". Only the server can answer - resolution depends on
+	 * conditions, priority and the post being viewed.
+	 */
+	function useResolvedContentArea( slot, postId ) {
+		var state = useState( null );
+		var resolved = state[ 0 ];
+		var setResolved = state[ 1 ];
+
+		useEffect(
+			function () {
+				if ( ! slot ) {
+					setResolved( null );
+					return;
+				}
+
+				var stale = false;
+				var path = '/cf/v1/slot/' + encodeURIComponent( slot );
+
+				if ( postId ) {
+					path += '?post_id=' + postId;
+				}
+
+				apiFetch( { path: path } )
+					.then( function ( data ) {
+						if ( ! stale ) {
+							setResolved( data );
+						}
+					} )
+					.catch( function () {
+						if ( ! stale ) {
+							setResolved( null );
+						}
+					} );
+
+				return function () {
+					stale = true;
+				};
+			},
+			[ slot, postId ]
+		);
+
+		return resolved;
 	}
 
 	function SlotControls( props ) {
@@ -108,10 +157,35 @@
 			var currentId = editor ? editor.getCurrentPostId() : 0;
 			var postId = typeof currentId === 'number' && currentId > 0 ? currentId : 0;
 
+			var resolved = useResolvedContentArea( props.attributes.slot, postId );
+
 			return el(
 				Fragment,
 				null,
 				el( blockEditor.InspectorControls, null, el( SlotControls, props ) ),
+				resolved &&
+					resolved.editLink &&
+					el(
+						blockEditor.BlockControls,
+						{ group: 'other' },
+						el(
+							components.ToolbarButton,
+							{
+								// New tab, because this leaves the editor for a
+								// different admin screen entirely.
+								href: resolved.editLink,
+								target: '_blank',
+								rel: 'noopener',
+								label: sprintf(
+									/* translators: %s: content area title */
+									__( 'Edit “%s”', 'core-functionality' ),
+									resolved.title
+								),
+								showTooltip: true,
+							},
+							__( 'Edit Content Area', 'core-functionality' )
+						)
+					),
 				el(
 					'div',
 					blockProps,
@@ -134,5 +208,6 @@
 	window.wp.blockEditor,
 	window.wp.components,
 	window.wp.serverSideRender,
-	window.wp.i18n
+	window.wp.i18n,
+	window.wp.apiFetch
 );
