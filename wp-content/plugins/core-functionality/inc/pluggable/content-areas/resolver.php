@@ -24,12 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Resolve a slot to its winning content area(s).
  *
- * @param string     $slug    Slot slug.
- * @param array|null $context Resolve against this context instead of the
- *                            current request. Used by the REST route.
+ * @param string $slug Slot slug.
  * @return array List of index items. Empty when nothing matches.
  */
-function cf_resolve_slot( $slug, $context = null ) {
+function cf_resolve_slot( $slug ) {
 
 	$slug  = sanitize_key( $slug );
 	$index = cf_get_content_index();
@@ -39,7 +37,7 @@ function cf_resolve_slot( $slug, $context = null ) {
 	}
 
 	$config  = cf_get_slot_config( $slug );
-	$context = null === $context ? cf_get_request_context() : $context;
+	$context = cf_get_request_context();
 	$matched = array();
 
 	foreach ( $index[ $slug ] as $item ) {

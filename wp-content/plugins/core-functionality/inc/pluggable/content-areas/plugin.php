@@ -19,7 +19,6 @@
  *   render.php    do_blocks() and the wrapper
  *   hooks.php     slots that render at a hook, with no block
  *   block.php     the cf/content-slot block
- *   rest.php      tells the editor which content area a slot resolved to
  *   admin/        authoring fields, list table, cache control
  *
  * Why a CPT and not template parts or synced patterns: core binds template
@@ -70,7 +69,6 @@ require_once CORE_DIR . 'inc/pluggable/content-areas/resolver.php';
 require_once CORE_DIR . 'inc/pluggable/content-areas/render.php';
 require_once CORE_DIR . 'inc/pluggable/content-areas/hooks.php';
 require_once CORE_DIR . 'inc/pluggable/content-areas/block.php';
-require_once CORE_DIR . 'inc/pluggable/content-areas/rest.php';
 
 // Front end too - the admin bar node appears there.
 require_once CORE_DIR . 'inc/pluggable/content-areas/admin/cache.php';
