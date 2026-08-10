@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Call to action, centered heading
- * Slug: pb-starter/lib-cta-centered
+ * Slug: pb-starter/cta-centered
  * Description: A centered heading, paragraph and button on a plain background.
  * Categories: call-to-action
  * Keywords: cta, call to action, button, heading, centered
@@ -11,7 +11,7 @@
  * Adapted from the Twenty Twenty-Five theme (GPLv2 or later). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Call to action","categories":["call-to-action"],"patternName":"pb-starter/lib-cta-centered"},"align":"full","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Call to action","categories":["call-to-action"],"patternName":"pb-starter/cta-centered"},"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull">
 
 	<!-- wp:heading {"textAlign":"center","fontSize":"large"} -->

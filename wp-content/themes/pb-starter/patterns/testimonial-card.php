@@ -1,9 +1,9 @@
 <?php
 /**
  * Title: Testimonial card
- * Slug: pb-starter/lib-testimonial-card
+ * Slug: pb-starter/testimonial-card
  * Description: A single testimonial card with a quote, avatar, name and role.
- * Categories: testimonials
+ * Categories: text
  * Keywords: testimonial, card, avatar, quote, review
  * Viewport Width: 600
  * Inserter: true
@@ -12,7 +12,7 @@
  * Adapted from the Ollie theme (GPLv3). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Testimonial card","categories":["testimonials"],"patternName":"pb-starter/lib-testimonial-card"},"className":"is-style-card","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Testimonial card","categories":["text"],"patternName":"pb-starter/testimonial-card"},"className":"is-style-card","layout":{"type":"constrained"}} -->
 <div class="wp-block-group is-style-card">
 
 	<!-- wp:paragraph -->

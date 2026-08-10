@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Hero, centered text with buttons
- * Slug: pb-starter/lib-hero-buttons
+ * Slug: pb-starter/hero-buttons
  * Description: A centered hero with an eyebrow, heading, short paragraph and two buttons.
  * Categories: banner, call-to-action
  * Keywords: hero, banner, cta, call to action, buttons, heading, homepage
@@ -11,7 +11,7 @@
  * Adapted from the Ollie theme (GPLv3). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Hero","categories":["banner"],"patternName":"pb-starter/lib-hero-buttons"},"align":"full","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Hero","categories":["banner"],"patternName":"pb-starter/hero-buttons"},"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull">
 
 	<!-- wp:paragraph {"align":"center","textColor":"primary","fontSize":"small"} -->

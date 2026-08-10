@@ -26,12 +26,6 @@ define( 'THEME_PATH', get_template_directory() . '/' );
 define( 'THEME_URL', get_template_directory_uri() . '/' );
 define( 'THEME_INC', THEME_PATH . 'inc/' );
 
-// Opt-in section pattern library. Off by default; pattern-driven builds turn it
-// on here or, per environment, in wp-config.php.
-if ( ! defined( 'FSE_PATTERN_LIBRARY' ) ) {
-	define( 'FSE_PATTERN_LIBRARY', false );
-}
-
 
 // Functionality
 require_once THEME_INC . 'setup/setup.php';

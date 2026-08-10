@@ -1,157 +1,126 @@
 /* -- Layout -- */
-/* https://gutenberg.10up.com/guides/handeling-block-spacing#providing-sensible-defaults */
 
 /*
- * Spacing system — three layers, in this order:
+ * Spacing model. Rationale and core source refs: docs/spacing.md
  *
- *   1. Defaults   — the rules below, capped at one class of specificity
- *   2. Components — .header-base, .footer-base, .is-style-card and friends,
- *                   declared further down so they win on source order
- *   3. Editors    — the spacing controls emit inline styles, which always win
+ * theme.json points blockGap at a variable chain, so core's own layout rule does
+ * the work — front end and editor, at every depth. The theme sets properties,
+ * never rhythm margins.
  *
- * INVARIANT: a default rule never exceeds (0,1,0). Put contexts and qualifiers
- * inside :where(), which contributes nothing, and leave a single class on the
- * thing being styled. A default that reaches (0,2,0) silently outranks the
- * component rule meant to override it — that is how .header-base ended up with
- * 5rem of padding it never asked for.
+ *   --space-above    the gap above one element    does not inherit
+ *   --space-between  the gap a container gives    inherits
+ *                    its children
+ *
+ * Tiers are chosen by depth: each structural level names one, and a container
+ * below the last named level still reads as a break rather than prose.
+ *
+ * ⚠️ settings.spacing.blockGap must be `false`, not `null`. Core gates it with
+ *    isset(), so `false` keeps the rule and hides the control while `null`
+ *    deletes the whole system — every gap on the site collapses at once, with
+ *    nothing in this file to explain it. A Site Editor save or a style variation
+ *    can rewrite that key, so check it first if spacing vanishes wholesale.
  */
 
 
-/*
- * Global layout spacing
- */
+/* No initial-value: leaves it guaranteed-invalid, which is what makes var()
+   fall through. `initial-value: 0` would break the fallback. */
+@property --space-above {
+	syntax: "*";
+	inherits: false;
+}
 
-.wp-site-blocks > * {
-	margin-block-start: 0;
+
+/* Reset at every container so an ancestor's value never leaks past one level.
+   The chain in theme.json supplies the actual default. */
+:where(.is-layout-flow, .is-layout-constrained, .is-layout-flex, .is-layout-grid) {
+	--space-between: var(--wp--preset--spacing--small);
 }
 
 
 /*
- * A section is a full-width *container* sitting directly in the content area.
+ * The levels
  *
- * Scoping to the content area keeps the header, footer and any other chrome
- * out — they never match, so they need no reset. Capping to group and cover
- * keeps a full-bleed image, heading or separator out: those are content that
- * happens to be wide, not a band, and they keep the normal content rhythm.
+ *   main > *                     top-level content
+ *   article > *                  entry header, post content, comments
+ *   .wp-block-post-content > *   blocks inside post or page content
+ *   anything deeper              a container reads as a break, text as prose
  *
- * Three containers, because the same content is wrapped differently in each
- * place it renders:
+ * These share a tier — they are the same level, reached differently depending
+ * on whether the template wraps content in an article and routes it through
+ * core/post-content.
  *
- *   .site-content       front end and site editor
- *   .entry-content      core/post-content's rendered output — PHP only, so it
- *                       never exists in the post editor
- *   .is-root-container  the post editor canvas, which renders neither of the
- *                       above. Excluded when it is the site editor's whole
- *                       template, where .site-content already matches.
- *
- * Drop the third and sections lose their spacing in the post editor only,
- * which is a WYSIWYG break that does not show up on the front end.
+ * Specificity climbs with each rule below, so the cascade resolves this on its
+ * own and the order of the file does not matter.
  */
-:where(
-	.site-content,
-	.entry-content,
-	.is-root-container:not(.wp-site-blocks)
-) > :where(.wp-block-group, .wp-block-cover).alignfull,
+
+/* The floor. Below the named levels, a container is still a bigger break than a
+   sentence — four Q&A groups in a column shouldn't sit at prose spacing.
+   :where() keeps this at zero specificity, so every rule below simply wins. */
+:where(.wp-block-group, .wp-block-columns, .wp-block-cover, .wp-block-query) {
+	--space-above: var(--wp--preset--spacing--medium);
+}
+
+.site-content {
+	--space-above: var(--wp--preset--spacing--x-large);
+}
+
+.site-footer {
+	--space-above: 0;
+}
+
+/* ⚠️ Add a selector here when a template introduces a new wrapper around the
+   content. A container child still gets the floor above, but a non-container one
+   — core/post-content most of all — drops to the base rhythm, quietly. If a new
+   template's content looks cramped, this list is why. */
+:is(main, article.type-post, article.type-page, .wp-block-post-content) > * {
+	--space-above: var(--wp--preset--spacing--large);
+}
+
+/* Full-width containers are bands and step up regardless of level. */
+:is(.site-content, .wp-block-post-content) > :is(.wp-block-group, .wp-block-cover).alignfull {
+	--space-above: var(--wp--preset--spacing--x-large);
+}
+
+/* Two surfaced bands in a row read as one band. */
+.alignfull:is(.has-background, [class*="is-style-section"], .wp-block-cover)
++ .alignfull:is(.has-background, [class*="is-style-section"], .wp-block-cover) {
+	--space-above: 0;
+}
 
 /*
- * The post editor is the one place the (0,1,0) cap is not enough. It emits its
- * own layout blockGap scoped to `.block-editor-block-list__layout.is-root-container`
- * — two classes — which outranks the default above and drops sections back to
- * the base rhythm. Matching that selector is the only way to win, and it costs
- * nothing elsewhere because it never matches outside the editor.
+ * Flex and grid map blockGap to `gap`, so --space-above would space the items
+ * rather than the block. Still needed here: a columns block at top level picks
+ * up --space-above from the level rule above, and columns is a flex layout.
  */
-.block-editor-block-list__layout.is-root-container > :where(.wp-block-group, .wp-block-cover).alignfull {
-	margin-block-start: var(--wp--preset--spacing--x-large);
+:is(.is-layout-flex, .is-layout-grid) {
+	gap: var(--space-between, var(--wp--preset--spacing--small));
 }
 
 
-/* Two surfaced sections in a row read as one band, so the gap collapses. */
-.alignfull:where(
-	.has-background,
-	[class*="is-style-section"],
-	.wp-block-cover
-) + .alignfull:where(
-	.has-background,
-	[class*="is-style-section"],
-	.wp-block-cover
-) {
-	margin-block-start: 0;
-}
-
-
-.site-header > *,
-.site-footer > *,
-.cf-content-slot > * {
-    margin-block-start: 0;
-}
-
-
-/*
- * Content slots delivered by a hook (wp_body_open, wp_footer) land OUTSIDE
- * .wp-site-blocks, so the contextual spacing above never reaches them. Give them
- * the constrained width explicitly rather than discovering the gap in the browser.
- */
-body > .cf-content-slot {
-    margin-inline: auto;
-    max-width: var(--wp--style--global--wide-size);
+/* Hook-delivered slots land outside .wp-site-blocks, so they get no layout
+   class and no owl. */
+body > .content-slot {
+	margin-inline: auto;
+	max-width: var(--wp--style--global--wide-size);
 }
 
 
 /*
- * Block spacing
- *
- * A container insets its contents only when it has a surface of its own — a
- * background, a cover image, or a section style variation (which paints its
- * background through generated CSS rather than .has-background).
- *
- * A plain group is a grouping device, not a box, so it stays flush and the
- * padding never compounds however deeply patterns nest.
- *
- * .wp-block-cover carries the class itself rather than sitting in :where()
- * because this has to outrank core's own `.wp-block-cover { padding: 1em }`.
+ * Padding — not rhythm, so ordinary rules
  */
+
 .wp-block-group:where(.has-background, [class*="is-style-section"]),
 .wp-block-cover {
 	padding: var(--wp--preset--spacing--medium);
 }
 
-/*
- * Documented exception to the (0,1,0) cap.
- *
- * Core stops root padding compounding by zeroing the inline padding of nested
- * constrained containers:
- *
- *   .has-global-padding :where(:not(.alignfull.is-layout-flow) >
- *     .has-global-padding:not(.wp-block-block, .alignfull))
- *     { padding-right: 0; padding-left: 0 }
- *
- * That is right for a plain container and wrong for a surfaced box, which owns
- * its own inset. Core's selector is also (0,1,0), so it is an exact tie with
- * the rule above and the winner comes down to source order — which inverts
- * between contexts: theme styles load after core's on the front end and before
- * them in the editor. Matching specificity cannot fix a tie, so this needs one
- * more class.
- *
- * Only inline padding is restored; padding-block stays with the rules above so
- * a full-width section still wins its deeper inset.
- */
 .has-global-padding.has-background,
 .has-global-padding[class*="is-style-section"],
 .has-global-padding.wp-block-cover {
 	padding-inline: var(--wp--preset--spacing--medium);
 }
 
-
-/*
- * A surfaced section is a full-bleed band, so it needs a deeper block inset.
- * Same container list as the margin rule above, so the two always agree on
- * what a section is, and the same surface test as the box rule above.
- */
-:where(
-	.site-content,
-	.entry-content,
-	.is-root-container:not(.wp-site-blocks)
-) > :where(
+:is(.site-content, .wp-block-post-content) > :is(
 	.wp-block-group:where(.has-background, [class*="is-style-section"]),
 	.wp-block-cover
 ).alignfull {
@@ -160,154 +129,51 @@ body > .cf-content-slot {
 
 
 /*
- * Structural rhythm
- *
- * A container following a sibling is a structural break wherever it sits —
- * directly in a section, inside a column, inside a card, inside a grid cell.
- * Containers are the boundary. A heading or image is only an interruption when
- * it is breaking up prose, which the rule further down handles separately;
- * inside a service card an image and heading are one unit and stay tight.
- *
- * Deliberately loose: no depth limit and no list of parent contexts, so nesting
- * a pattern one level deeper never silently loses its rhythm. Tighten by
- * excluding a specific case, not by enumerating the allowed ones.
- *
- * Full-width sections are excluded — they carry their own larger step. The
- * flow/constrained guard keeps this from doubling up on a flex or grid parent,
- * where gap already spaces the children.
+ * Containers
  */
-:where(.is-layout-flow, .is-layout-constrained) > :where(
-	.wp-block-group,
-	.wp-block-columns,
-	.wp-block-cover,
-	.wp-block-query
-):where(:not(.alignfull)):not(:first-child),
 
-/* Same editor-specificity exception as the section rule above. */
-.block-editor-block-list__layout.is-root-container > :where(
-	.wp-block-group,
-	.wp-block-columns,
-	.wp-block-cover,
-	.wp-block-query
-):where(:not(.alignfull)):not(:first-child) {
-	margin-block-start: var(--wp--preset--spacing--medium);
-}
-
-
-/*
- * Large container spacing
- *
- * Declared after the structural rule so a top-level block in the content area
- * takes the larger step rather than the general one.
- */
-.site-content {
-	margin-block: var(--wp--preset--spacing--x-large);
-}
-
-.site-content > *,
-article.type-post > *,
-article.type-page > *  {
-	margin-block-start: var(--wp--preset--spacing--large);
-}
-
-
-/*
- * Prose interruptions
- *
- * Root blockGap (small) is the rhythm between text and headings. A heading
- * opening a new passage, or a big element dropped into the middle of an
- * article, is a looser relationship than paragraph-to-paragraph.
- *
- * Elements only — containers are handled at any depth by the structural rule
- * above. These are scoped to an article because the same blocks inside a card
- * or a service column are part of one unit and should stay tight.
- *
- * .entry-content is core/post-content's rendered output, so the post editor
- * canvas is listed alongside it for parity (see the section rules above).
- */
-:where(
-	.entry-content,
-	.is-root-container:not(.wp-site-blocks)
-) > :where(
-	.wp-block-heading,
-	.wp-block-image,
-	.wp-block-gallery,
-	.wp-block-quote,
-	.wp-block-embed,
-	.wp-block-buttons
-):where(:not(.alignfull)):not(:first-child),
-
-/* Same editor-specificity exception as the section rule above. */
-.block-editor-block-list__layout.is-root-container > :where(
-	.wp-block-heading,
-	.wp-block-image,
-	.wp-block-gallery,
-	.wp-block-quote,
-	.wp-block-embed,
-	.wp-block-buttons
-):where(:not(.alignfull)):not(:first-child) {
-	margin-block-start: var(--wp--preset--spacing--medium);
-}
-
-
-/*
- * Sidebar Layout
- */
 .content-sidebar {
-	gap: var(--wp--preset--spacing--x-large);
+	--space-between: var(--wp--preset--spacing--x-large);
 }
 
 .sidebar.is-position-sticky {
 	top: var(--wp--preset--spacing--large);
 }
 
-
-/*
- * Pagination spacing
- */
 .archive-pagination,
 .adjacent-entry-pagination {
-    margin-block-start: var(--wp--preset--spacing--large);
+	--space-above: var(--wp--preset--spacing--large);
 }
 
-
-/*
- * Header Spacing
- */
 .header-base {
-    padding-block: var(--wp--preset--spacing--small);
+	padding-block: var(--wp--preset--spacing--small);
 }
-
-
-/*
- * Footer Spacing
- */
 
 .footer-details {
-    padding-top: var(--wp--preset--spacing--x-large);
-    padding-bottom: var(--wp--preset--spacing--small);
+	padding-top: var(--wp--preset--spacing--x-large);
+	padding-bottom: var(--wp--preset--spacing--small);
 }
 
 .footer-base {
-    padding-block: var(--wp--preset--spacing--small);
+	padding-block: var(--wp--preset--spacing--small);
 }
 
 
 /*
- * Selective Styles
+ * Utilities
  */
 
-.is-style-large-gap {
-    gap: var(--wp--preset--spacing--large);
+.is-style-tight {
+	--space-between: var(--wp--preset--spacing--small);
 }
 
-/* Card appearance lives in 03-components/cards.css */
+.is-style-loose {
+	--space-between: var(--wp--preset--spacing--large);
+}
 
-
-/*
- * Utility Styles (Mobile-first)
- * Base styles apply to mobile, then override for larger screens
- */
+.is-style-flush {
+	--space-above: 0;
+}
 
 .is-style-hidden-mobile {
 	display: none;

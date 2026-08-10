@@ -177,92 +177,77 @@ blocks/
 
 ### Contextual Spacing Philosophy
 
-CSS handles spacing automatically based on context - editors don't need to adjust spacing controls.
+CSS handles spacing automatically based on context - editors never open a spacing control.
+The full design rationale and core source references are in [docs/spacing.md](docs/spacing.md).
 
-#### The rhythm scale
+**The theme does not write vertical rhythm.** WordPress already emits a lobotomised owl for
+every flow and constrained container, at every nesting depth, into both the front end and the
+editor canvas. `theme.json` points its `blockGap` at a variable chain rather than a length, so
+core's rule becomes a lookup:
 
-Spacing steps up as the relationship between two blocks gets looser. **Text and heading spacing
-is the base rhythm** - that is why the root `blockGap` is `small` rather than the `large` that
-content sections use:
-
-| Step | Sits between | Set by |
-|---|---|---|
-| `small` | paragraph to paragraph - the base prose rhythm | `theme.json` root `blockGap` |
-| `medium` | a **container** following a sibling, at any depth - plus a heading or image interrupting prose | the structural and prose rules |
-| `large` | top-level blocks in the content area | `.site-content > *`, `article.type-* > *` |
-| `x-large` | full-width sections | the section rule below |
-
-The `medium` step splits along **containers vs. elements**. A `group`, `columns`, `cover` or
-`query` is a structural boundary wherever it sits, so it steps up at any depth - inside a section,
-a column, a card or a grid cell. A heading or image only steps up when it is breaking up prose in
-an article; inside a service card an image and its heading are one unit and stay tight.
-
-The container rule is deliberately loose - no depth limit, no list of parent contexts - so nesting
-a pattern one level deeper never silently loses its rhythm. Tighten it by excluding a specific
-case, not by enumerating the allowed ones.
-
-Paragraph-to-paragraph inside `core/post-content` therefore sits at `small`. That is the intended
-base, not drift - the looser relationships step up from it rather than the base stepping down.
-
-**A full-width block sitting directly in the content area is a section.** That is the whole model:
-
-```css
-/* Standard spacing between content blocks */
-.site-content > * {
-    margin-block-start: var(--wp--preset--spacing--large);
-}
-
-/* A section - a full-width container, scoped to the content area,
-   so headers and footers never match and need no reset */
-:where(
-    .site-content,
-    .entry-content,
-    .is-root-container:not(.wp-site-blocks)
-) > :where(.wp-block-group, .wp-block-cover).alignfull {
-    margin-block-start: var(--wp--preset--spacing--x-large);
-}
-
-/* When sections with backgrounds touch, remove gap */
-.alignfull:where(.has-background, [class*="is-style-section"], .wp-block-cover)
-+ .alignfull:where(.has-background, [class*="is-style-section"], .wp-block-cover) {
-    margin-block-start: 0;
+```jsonc
+"styles": {
+  "spacing": {
+    "blockGap": "var(--space-above, var(--space-between, var(--wp--preset--spacing--small)))"
+  }
 }
 ```
 
-Padding follows the surface, not the tag. A container insets its contents only when it has a
-background, a cover image, or a section style variation. A plain group is a grouping device,
-not a box, so it stays flush and padding never compounds however deeply blocks nest.
+Two knobs, and deliberately only two:
 
-#### The three-layer cascade
+| Property | Inherits | Means | Set on |
+|---|---|---|---|
+| `--space-between` | yes | the default rhythm inside this container | a container |
+| `--space-above` | **no** | the space above this one element | an element |
 
-Spacing resolves in a deliberate order, and the order is enforced by specificity:
+`--space-above` is registered with `@property { syntax: "*"; inherits: false }` so an element can
+override the space above *itself* without that value leaking to its children. The missing
+`initial-value` is load-bearing - it leaves the property guaranteed-invalid, which is exactly
+what makes the `var()` fallback fire.
 
-| Layer | Form | Specificity |
-|---|---|---|
-| 1. Automatic defaults | `:where(context) > .thing:where(qualifier)` | (0,1,0) |
-| 2. Component / chrome | `.header-base`, `.footer-base`, `.is-style-card` | (0,1,0), declared later |
-| 3. Editor controls | inline `style=""` from the spacing panel | inline |
+#### Reading it
 
-> **Invariant: a default rule never exceeds (0,1,0).** Put contexts and qualifiers inside
-> `:where()`, which contributes nothing, and leave a single class on the thing being styled.
->
-> This is not stylistic. A default that reaches (0,2,0) silently outranks the component rule
-> meant to override it, and no amount of source reordering will fix it. A nested
-> `.wp-block-group { &.alignfull { padding-block: x-large } }` compiles to (0,2,0) and once gave
-> every header and footer roughly six times the padding they asked for.
+Two questions answer any spacing behaviour, both by inspection:
 
-There are two documented exceptions, both marked in the CSS. Each exists because a **core** rule
-sits at the same specificity, and a tie is decided by source order — which inverts between the
-front end and the editor, so matching specificity is not enough:
+1. *What is the nearest ancestor that sets `--space-between`?* That is the default gap.
+2. *Does this element set `--space-above`?* If so, that wins, for this element only.
 
-- **Section rhythm in the post editor.** Core scopes its editor blockGap to
-  `.block-editor-block-list__layout.is-root-container` (two classes).
-- **Inline padding on nested surfaces.** Core zeroes it on nested constrained containers to stop
-  root padding compounding; a surfaced box owns its own inset, so the theme restores it at
-  `.has-global-padding.has-background` and friends.
+The rhythm scale itself is unchanged - `small` between text, `medium` for a structural break,
+`large` at the top level of the content area, `x-large` between full-width sections.
 
-Before adding a third, check that the thing you are fighting really is a core rule at equal
-specificity — the fix for a theme-vs-theme conflict is source order, not more classes.
+#### Two things that will bite
+
+> ⚠️ **`settings.spacing.blockGap` must be `false`, never `null`.** Core gates the entire
+> mechanism with `isset()`, and `isset(false)` is `true` - so `false` emits the owl and hides
+> the control, while `null` deletes the system and every gap on the site silently collapses.
+> `null` is the obvious-looking way to hide a control, so check this first whenever spacing
+> disappears wholesale.
+
+> ⚠️ **A container reads `--space-between` for its own top margin as well as its children's.**
+> Any declaration on an element is part of that element's own computed value, so "receive
+> rhythm from above" and "declare different rhythm below" cannot be separated by inheritance
+> alone. In practice it is harmless because every container is already covered by an explicit
+> `--space-above` rule, but it is the one place the model does something other than what it looks
+> like it does.
+
+Flex and grid map `blockGap` to `gap` on the container rather than a margin on the child, so
+they take `--space-between` only — otherwise a `--space-above` meaning "space above me" would be
+used as the gutter *between* a block's children.
+
+> ⚠️ **The theme writes `gap` in exactly one place**, and that rule needs `(0,2,0)` to beat
+> core's own `:root :where(.is-layout-flex)`. Anything else that wants to change a gap must
+> re-point `--space-between` instead. A `gap` declaration on a single class is `(0,1,0)` and
+> loses to it silently — that is how `is-style-loose` stopped working.
+
+Padding is not rhythm and stays as ordinary CSS - four rules, two of which legitimately need
+`(0,2,0)` to beat a core rule at equal specificity.
+
+#### The escape hatch
+
+Spacing controls are hidden, so a pattern-specific tweak comes from a registered block style
+that re-points one of the two properties, not from an editor control. `is-style-tight`,
+`is-style-loose` and `is-style-flush` are offered on Group, Columns and Cover. If they prove
+too few, add another - do not open a control.
 
 ---
 
@@ -345,7 +330,7 @@ Semantic variations instead of custom blocks:
 
 ### Utility Block Styles
 Registered block styles for common layout needs:
-- `.is-style-large-gap` - Increase gap between elements
+- `.is-style-loose` - Increase gap between elements
 - `.is-style-hidden-mobile` - Hide on mobile devices
 - `.is-style-columns-reverse` - Reverse column order on mobile
 

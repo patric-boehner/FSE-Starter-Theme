@@ -1,12 +1,12 @@
 /* -- Query Block -- */
 
-.wp-block-query {
-    .is-layout-grid {
-        gap: var(--wp--custom--spacing--gap);
-        grid-row-gap: var(--wp--preset--spacing--large);
-    }
+/* A post loop is a looser stack than prose. */
+.wp-block-query .wp-block-post-template {
+	--space-between: var(--wp--preset--spacing--large);
+}
 
-    .is-layout-flow > .wp-block-post {
-        margin-block-start: var(--wp--preset--spacing--large);
-    }
+/* Asymmetric gaps, and --space-between must stay a single length: a shorthand
+   inherits through li.wp-block-post and invalidates every margin below it. */
+.wp-block-query .wp-block-post-template.is-layout-grid {
+	column-gap: var(--wp--custom--spacing--gap);
 }

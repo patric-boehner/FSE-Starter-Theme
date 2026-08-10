@@ -26,8 +26,8 @@
     </div>
     <!-- /wp:group -->
     
-    <!-- wp:columns {"verticalAlignment":"center","align":"wide","className":"is-style-large-gap"} -->
-    <div class="wp-block-columns alignwide are-vertically-aligned-center is-style-large-gap">
+    <!-- wp:columns {"verticalAlignment":"center","align":"wide","className":"is-style-loose"} -->
+    <div class="wp-block-columns alignwide are-vertically-aligned-center is-style-loose">
         
         <!-- wp:column {"verticalAlignment":"center"} -->
         <div class="wp-block-column is-vertically-aligned-center">

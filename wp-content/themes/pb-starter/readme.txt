@@ -43,18 +43,9 @@ All bundled pattern imagery in /src/images/patterns is licensed
 Creative Commons Zero (CC0), https://creativecommons.org/publicdomain/zero/1.0/
 
 avatar-1.webp    - via Ollie, CC0, https://stocksnap.io
-avatar-2.webp    - via Ollie, CC0, https://stocksnap.io
-avatar-3.webp    - via Ollie, CC0, https://stocksnap.io
-avatar-4.webp    - via Ollie, CC0, https://stocksnap.io
 landscape-1.webp - via Ollie, CC0, https://stocksnap.io
 landscape-2.webp - via Ollie, CC0, https://stocksnap.io
 landscape-3.webp - via Ollie, CC0, https://startupstockphotos.com
-logo-1.webp      - created by Mike McAlister, available via CC0
-logo-2.webp      - created by Mike McAlister, available via CC0
-logo-3.webp      - created by Mike McAlister, available via CC0
-logo-4.webp      - created by Mike McAlister, available via CC0
-logo-5.webp      - created by Mike McAlister, available via CC0
-portrait-1.webp  - via Twenty Twenty-Five, CC0, https://www.rawpixel.com
 square-1.webp    - via Twenty Twenty-Five, CC0, https://www.rawpixel.com
 
 

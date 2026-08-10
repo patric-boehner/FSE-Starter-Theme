@@ -1,9 +1,9 @@
 <?php
 /**
  * Title: Services, three columns with images
- * Slug: pb-starter/lib-services-3-col
+ * Slug: pb-starter/services-3-col
  * Description: A heading followed by three columns of image, subheading and text.
- * Categories: services, columns
+ * Categories: columns
  * Keywords: services, features, columns, images
  * Viewport Width: 1400
  * Inserter: true
@@ -11,15 +11,15 @@
  * Adapted from the Twenty Twenty-Five theme (GPLv2 or later). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Services","categories":["services"],"patternName":"pb-starter/lib-services-3-col"},"align":"full","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Services","categories":["columns"],"patternName":"pb-starter/services-3-col"},"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull">
 
 	<!-- wp:heading {"align":"wide"} -->
 	<h2 class="wp-block-heading alignwide"><?php esc_html_e( 'Our services', 'pb-starter' ); ?></h2>
 	<!-- /wp:heading -->
 
-	<!-- wp:columns {"align":"wide","className":"is-style-large-gap"} -->
-	<div class="wp-block-columns alignwide is-style-large-gap">
+	<!-- wp:columns {"align":"wide","className":"is-style-loose"} -->
+	<div class="wp-block-columns alignwide is-style-loose">
 
 		<!-- wp:column -->
 		<div class="wp-block-column">

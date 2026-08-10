@@ -3,18 +3,18 @@
  * Title: Columns with image and text
  * Slug: pb-starter/columns-with-image-and-text
  * Description: A two column layout with text and an image.
- * Categories: about, columns
+ * Categories: columns
  * Keywords: columns, text, image
  * Viewport Width: 1700
  * Inserter: true
  */
 ?>
 
-<!-- wp:group {"metadata":{"name":"Columns with image and text","categories":["about"],"patternName":"pb-starter/columns-with-image-and-text"},"align":"full","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Columns with image and text","categories":["columns"],"patternName":"pb-starter/columns-with-image-and-text"},"align":"full","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull">
 
-    <!-- wp:columns {"align":"wide","className":"is-style-large-gap is-style-columns-reverse"} -->
-    <div class="wp-block-columns alignwide is-style-large-gap is-style-columns-reverse">
+    <!-- wp:columns {"align":"wide","className":"is-style-loose is-style-columns-reverse"} -->
+    <div class="wp-block-columns alignwide is-style-loose is-style-columns-reverse">
 
         <!-- wp:column {"verticalAlignment":"center"} -->
         <div class="wp-block-column is-vertically-aligned-center">

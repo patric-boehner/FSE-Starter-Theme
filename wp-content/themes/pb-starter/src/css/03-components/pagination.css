@@ -1,7 +1,8 @@
 /* -- Pagination -- */
 
+/* Flex layout, so this feeds the gap rule in 02-base/layout.css. */
 .pagination {
-    gap: var(--wp--custom--spacing--gap);
+    --space-between: var(--wp--custom--spacing--gap);
 }
 
 .wp-block-post-navigation-link:empty {

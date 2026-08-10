@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Call to action over an image
- * Slug: pb-starter/lib-cta-text
+ * Slug: pb-starter/cta-text
  * Description: A centered heading, paragraph and button over a tinted background image.
  * Categories: call-to-action, banner
  * Keywords: cta, call to action, button, heading, banner
@@ -11,7 +11,7 @@
  * Adapted from the Ollie theme (GPLv3). See readme.txt.
  */
 ?>
-<!-- wp:cover {"url":"<?php echo esc_url( get_theme_file_uri( 'build/images/patterns/landscape-2.webp' ) ); ?>","dimRatio":90,"overlayColor":"primary","isUserOverlayColor":true,"metadata":{"name":"Call to action","categories":["call-to-action"],"patternName":"pb-starter/lib-cta-text"},"align":"full","textColor":"base","layout":{"type":"constrained"}} -->
+<!-- wp:cover {"url":"<?php echo esc_url( get_theme_file_uri( 'build/images/patterns/landscape-2.webp' ) ); ?>","dimRatio":90,"overlayColor":"primary","isUserOverlayColor":true,"metadata":{"name":"Call to action","categories":["call-to-action"],"patternName":"pb-starter/cta-text"},"align":"full","textColor":"base","layout":{"type":"constrained"}} -->
 <div class="wp-block-cover alignfull has-base-color has-text-color">
 	<span aria-hidden="true" class="wp-block-cover__background has-primary-background-color has-background-dim-90 has-background-dim"></span>
 	<img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url( get_theme_file_uri( 'build/images/patterns/landscape-2.webp' ) ); ?>" data-object-fit="cover"/>

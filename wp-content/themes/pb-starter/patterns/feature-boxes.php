@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Feature boxes with buttons
- * Slug: pb-starter/lib-feature-boxes
+ * Slug: pb-starter/feature-boxes
  * Description: A centered introduction followed by a responsive grid of feature cards, each with a button.
  * Categories: pb-starter/features
  * Keywords: features, boxes, cards, benefits, services, grid
@@ -11,7 +11,7 @@
  * Adapted from the Ollie theme (GPLv3). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Feature boxes","categories":["pb-starter/features"],"patternName":"pb-starter/lib-feature-boxes"},"align":"full","backgroundColor":"tertiary","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Feature boxes","categories":["pb-starter/features"],"patternName":"pb-starter/feature-boxes"},"align":"full","backgroundColor":"tertiary","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull has-tertiary-background-color has-background">
 
 	<!-- wp:group {"metadata":{"name":"Titles"},"layout":{"type":"constrained"}} -->
@@ -30,8 +30,8 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"metadata":{"name":"Grid"},"align":"wide","className":"is-style-large-gap","layout":{"type":"grid","minimumColumnWidth":"18rem"}} -->
-	<div class="wp-block-group alignwide is-style-large-gap">
+	<!-- wp:group {"metadata":{"name":"Grid"},"align":"wide","className":"is-style-loose","layout":{"type":"grid","minimumColumnWidth":"18rem"}} -->
+	<div class="wp-block-group alignwide is-style-loose">
 
 		<!-- wp:group {"metadata":{"name":"Feature"},"className":"is-style-card","style":{"dimensions":{"minHeight":"100%"}},"layout":{"type":"flex","orientation":"vertical","verticalAlignment":"space-between"}} -->
 		<div class="wp-block-group is-style-card" style="min-height:100%">

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Call to action card
- * Slug: pb-starter/lib-cta-card
+ * Slug: pb-starter/cta-card
  * Description: A compact coloured card with a heading, short paragraph and buttons.
  * Categories: call-to-action
  * Keywords: cta, call to action, card, button, box, sidebar
@@ -12,7 +12,7 @@
  * Adapted from the Ollie theme (GPLv3). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Call to action card","categories":["call-to-action"],"patternName":"pb-starter/lib-cta-card"},"backgroundColor":"primary","textColor":"base","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Call to action card","categories":["call-to-action"],"patternName":"pb-starter/cta-card"},"backgroundColor":"primary","textColor":"base","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-base-color has-primary-background-color has-text-color has-background">
 
 	<!-- wp:heading {"textAlign":"center","level":3,"fontSize":"medium"} -->

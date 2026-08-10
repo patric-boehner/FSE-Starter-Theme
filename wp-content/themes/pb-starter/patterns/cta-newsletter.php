@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Lead magnet card
- * Slug: pb-starter/lib-cta-newsletter
+ * Slug: pb-starter/cta-newsletter
  * Description: A card with an image beside a heading, short paragraph and button, for a download or signup offer.
  * Categories: call-to-action
  * Keywords: cta, newsletter, signup, download, lead magnet, subscribe
@@ -13,11 +13,11 @@
  * Adapted from the Ollie theme (GPLv3). See readme.txt.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Lead magnet","categories":["call-to-action"],"patternName":"pb-starter/lib-cta-newsletter"},"backgroundColor":"tertiary","layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Lead magnet","categories":["call-to-action"],"patternName":"pb-starter/cta-newsletter"},"backgroundColor":"tertiary","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-tertiary-background-color has-background">
 
-	<!-- wp:columns {"verticalAlignment":"center","className":"is-style-large-gap"} -->
-	<div class="wp-block-columns are-vertically-aligned-center is-style-large-gap">
+	<!-- wp:columns {"verticalAlignment":"center","className":"is-style-loose"} -->
+	<div class="wp-block-columns are-vertically-aligned-center is-style-loose">
 
 		<!-- wp:column {"verticalAlignment":"center","width":"33.33%"} -->
 		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:33.33%">
