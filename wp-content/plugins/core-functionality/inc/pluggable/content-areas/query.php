@@ -109,14 +109,11 @@ function cf_build_content_index() {
  */
 function cf_build_index_item( $content_area ) {
 
-	$post_types = get_post_meta( $content_area->ID, '_cf_post_types', true );
-
 	return array(
 		'id'         => (int) $content_area->ID,
 		'title'      => $content_area->post_title,
 		'menu_order' => (int) $content_area->menu_order,
 		'date'       => $content_area->post_date_gmt,
-		'post_types' => array_filter( (array) $post_types ),
 		'terms'      => cf_collect_item_terms( $content_area->ID ),
 	);
 

@@ -98,6 +98,9 @@ function get_hidden_blocks() {
         'core/term-count',
         'core/term-name',
         'core/terms-query',
+
+        // Plugins - content slots are theme structure, placed in templates.
+        'cf/content-slot',
     ];
     
     $hidden_blocks = $universal_hidden;

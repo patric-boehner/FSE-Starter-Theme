@@ -12,7 +12,7 @@
  *
  * Files:
  *   slots.php     the slot registry (registration is optional - see the file)
- *   meta.php      _cf_slot (where) and _cf_post_types (a condition)
+ *   meta.php      _cf_slot - which slot a content area targets
  *   context.php   what page are we on, answered once
  *   query.php     one query for every slot, cached
  *   resolver.php  which content area wins
@@ -70,12 +70,10 @@ require_once CORE_DIR . 'inc/pluggable/content-areas/render.php';
 require_once CORE_DIR . 'inc/pluggable/content-areas/hooks.php';
 require_once CORE_DIR . 'inc/pluggable/content-areas/block.php';
 
-// Front end too - the admin bar node appears there.
-require_once CORE_DIR . 'inc/pluggable/content-areas/admin/cache.php';
-
 if ( is_admin() ) {
 	require_once CORE_DIR . 'inc/pluggable/content-areas/admin/fields.php';
 	require_once CORE_DIR . 'inc/pluggable/content-areas/admin/columns.php';
+	require_once CORE_DIR . 'inc/pluggable/content-areas/admin/cache.php';
 }
 
 

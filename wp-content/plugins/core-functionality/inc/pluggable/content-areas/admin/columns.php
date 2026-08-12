@@ -115,12 +115,6 @@ function cf_content_area_conditions_cell( $post_id ) {
 
 	}
 
-	$post_types = get_post_meta( $post_id, '_cf_post_types', true );
-
-	if ( ! empty( $post_types ) ) {
-		$parts[] = esc_html( implode( ', ', (array) $post_types ) );
-	}
-
 	if ( empty( $parts ) ) {
 		return '<em>' . esc_html__( 'Default (shows when nothing else matches)', 'core-functionality' ) . '</em>';
 	}

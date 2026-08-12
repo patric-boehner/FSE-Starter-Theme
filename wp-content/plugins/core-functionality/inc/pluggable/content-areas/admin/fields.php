@@ -55,40 +55,6 @@ function cf_load_slot_field_choices( $field ) {
 
 
 /**
- * Populate the post type dropdown.
- *
- * @param array $field ACF field.
- * @return array
- */
-add_filter( 'acf/load_field/key=field_cf_content_area_post_types', 'cf_load_post_type_field_choices' );
-function cf_load_post_type_field_choices( $field ) {
-
-	$field['choices'] = array();
-
-	$post_types = get_post_types(
-		array(
-			'public'  => true,
-			'show_ui' => true,
-		),
-		'objects'
-	);
-
-	foreach ( $post_types as $post_type ) {
-
-		if ( in_array( $post_type->name, array( 'attachment', 'content_area' ), true ) ) {
-			continue;
-		}
-
-		$field['choices'][ $post_type->name ] = $post_type->labels->singular_name;
-
-	}
-
-	return $field;
-
-}
-
-
-/**
  * Seed the picker from _cf_slot for areas saved before these fields existed.
  *
  * @param mixed $value   Stored value.

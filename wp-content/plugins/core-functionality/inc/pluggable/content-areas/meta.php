@@ -38,18 +38,6 @@ function cf_register_content_slot_meta() {
 		)
 	);
 
-	register_post_meta(
-		'content_area',
-		'_cf_post_types',
-		array(
-			'type'              => 'array',
-			'single'            => true,
-			'show_in_rest'      => false,
-			'sanitize_callback' => 'cf_sanitize_post_types_meta',
-			'auth_callback'     => 'cf_can_manage_slot_placement',
-		)
-	);
-
 }
 
 
@@ -64,22 +52,6 @@ function cf_can_manage_slot_placement() {
 
 }
 
-
-/**
- * Sanitize the post type condition, dropping anything not currently registered
- * so a removed CPT cannot leave a condition that silently never matches.
- *
- * @param mixed $value Raw meta value.
- * @return array
- */
-function cf_sanitize_post_types_meta( $value ) {
-
-	$value = array_map( 'sanitize_key', (array) $value );
-	$value = array_filter( $value, 'post_type_exists' );
-
-	return array_values( $value );
-
-}
 
 
 /**

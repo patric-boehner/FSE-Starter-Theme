@@ -89,7 +89,7 @@ function cf_count_slot_candidates( $slug ) {
  */
 function cf_item_is_specific( $item ) {
 
-	return ! empty( $item['terms'] ) || ! empty( $item['post_types'] );
+	return ! empty( $item['terms'] );
 
 }
 
@@ -103,39 +103,13 @@ function cf_item_is_specific( $item ) {
  */
 function cf_item_matches( $item, $context ) {
 
-	$matches = cf_item_matches_conditions( $item, $context );
+	// No terms means no conditions, which is what makes an item the default.
+	$matches = empty( $item['terms'] )
+		? true
+		: cf_item_matches_terms( $item['terms'], $context );
 
 	// Project-specific conditions hook in here, e.g. members-only areas.
 	return (bool) apply_filters( 'cf_item_matches', $matches, $item, $context );
-
-}
-
-
-/**
- * Evaluate the built-in conditions. AND across types, OR within a type.
- *
- * @param array $item    Index item.
- * @param array $context Request context.
- * @return bool
- */
-function cf_item_matches_conditions( $item, $context ) {
-
-	if ( ! empty( $item['post_types'] ) ) {
-
-		if ( empty( $context['post_type'] ) ) {
-			return false;
-		}
-
-		if ( ! in_array( $context['post_type'], (array) $item['post_types'], true ) ) {
-			return false;
-		}
-	}
-
-	if ( ! empty( $item['terms'] ) ) {
-		return cf_item_matches_terms( $item['terms'], $context );
-	}
-
-	return true;
 
 }
 
@@ -216,10 +190,6 @@ function cf_describe_item_match( $item, $context ) {
 				$reasons[] = $taxonomy . '=' . $term->slug;
 			}
 		}
-	}
-
-	if ( ! empty( $item['post_types'] ) ) {
-		$reasons[] = 'post_type=' . implode( '|', (array) $item['post_types'] );
 	}
 
 	return $reasons ? implode( ' ', $reasons ) : 'conditions met';

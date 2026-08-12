@@ -3,7 +3,8 @@
  * Content Slots - cache control
  *
  * The index invalidates itself on save, term and meta changes. This is the
- * escape hatch for anything those hooks miss.
+ * escape hatch for anything those hooks miss, and it lives on the Content Areas
+ * screen because that is where you would be standing when you noticed.
  *
  * @package    CoreFunctionality
  * @subpackage Content Slots
@@ -16,28 +17,45 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /**
- * Add the flush link to the admin bar.
+ * Are we on the Content Areas list screen?
  *
- * @param WP_Admin_Bar $wp_admin_bar Admin bar instance.
+ * @return bool
+ */
+function cf_is_content_area_list_screen() {
+
+	$screen = get_current_screen();
+
+	return $screen && 'edit-content_area' === $screen->id;
+
+}
+
+
+/**
+ * Add the button to the list table nav.
+ *
+ * manage_posts_extra_tablenav fires after core closes its own actions div, so
+ * this brings its own wrapper to sit on the same line.
+ *
+ * @param string $which 'top' or 'bottom'.
  * @return void
  */
-add_action( 'admin_bar_menu', 'cf_content_slot_admin_bar_node', 100 );
-function cf_content_slot_admin_bar_node( $wp_admin_bar ) {
+add_action( 'manage_posts_extra_tablenav', 'cf_render_flush_slots_button' );
+function cf_render_flush_slots_button( $which ) {
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( 'top' !== $which || ! cf_is_content_area_list_screen() ) {
 		return;
 	}
 
-	$wp_admin_bar->add_node(
-		array(
-			'id'     => 'cf-flush-content-slots',
-			'parent' => 'top-secondary',
-			'title'  => __( 'Clear slot cache', 'core-functionality' ),
-			'href'   => wp_nonce_url(
-				add_query_arg( 'cf_action', 'flush_slots' ),
-				'cf_flush_slots'
-			),
-		)
+	if ( ! cf_can_manage_slot_placement() ) {
+		return;
+	}
+
+	printf(
+		'<div class="alignleft actions"><a href="%s" class="button">%s</a></div>',
+		esc_url(
+			wp_nonce_url( add_query_arg( 'cf_action', 'flush_slots' ), 'cf_flush_slots' )
+		),
+		esc_html__( 'Clear slot cache', 'core-functionality' )
 	);
 
 }
@@ -48,7 +66,7 @@ function cf_content_slot_admin_bar_node( $wp_admin_bar ) {
  *
  * @return void
  */
-add_action( 'init', 'cf_maybe_flush_content_slots' );
+add_action( 'admin_init', 'cf_maybe_flush_content_slots' );
 function cf_maybe_flush_content_slots() {
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified below.
@@ -56,7 +74,7 @@ function cf_maybe_flush_content_slots() {
 		return;
 	}
 
-	if ( ! current_user_can( 'manage_options' ) ) {
+	if ( ! cf_can_manage_slot_placement() ) {
 		return;
 	}
 
@@ -68,7 +86,31 @@ function cf_maybe_flush_content_slots() {
 
 	cf_flush_content_index();
 
-	wp_safe_redirect( remove_query_arg( array( 'cf_action', '_wpnonce' ) ) );
+	wp_safe_redirect(
+		add_query_arg( 'cf_flushed', 1, remove_query_arg( array( 'cf_action', '_wpnonce' ) ) )
+	);
 	exit;
+
+}
+
+
+/**
+ * Confirm it happened. Without this the button looks like it did nothing,
+ * which is a poor result for a button whose whole job is reassurance.
+ *
+ * @return void
+ */
+add_action( 'admin_notices', 'cf_flushed_slots_notice' );
+function cf_flushed_slots_notice() {
+
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display only.
+	if ( empty( $_GET['cf_flushed'] ) || ! cf_is_content_area_list_screen() ) {
+		return;
+	}
+
+	printf(
+		'<div class="notice notice-success is-dismissible"><p>%s</p></div>',
+		esc_html__( 'Content slot cache cleared.', 'core-functionality' )
+	);
 
 }
